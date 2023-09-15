@@ -2,5 +2,9 @@
 
 ## Install Cellular Automata 
 ###
-‘’‘./Tumor_Synthesis/cellular’‘’
+‘’‘
+
+./Tumor_Synthesis/cellular
+
+’‘’
   
