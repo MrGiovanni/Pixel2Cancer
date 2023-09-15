@@ -1,0 +1,8 @@
+Metadata-Version: 2.1
+Name: Surface-Distance-Based-Measures
+Version: 0.1
+Summary: Library containing utilities to compute performance metrics for segmentation
+Home-page: https://github.com/deepmind/surface-distance
+Author: DeepMind
+License: Apache License, Version 2.0
+License-File: LICENSE
