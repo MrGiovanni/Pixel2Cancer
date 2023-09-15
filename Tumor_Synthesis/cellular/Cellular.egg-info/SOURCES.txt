@@ -1,6 +1,6 @@
 setup.py
-/home/ylai/code/Tumor_Growth/cellular/csrc/cellular.cu
-/home/ylai/code/Tumor_Growth/cellular/csrc/ext.cpp
+/scratch/zzhou82/2023_0915/Pixel2Cancer/Tumor_Synthesis/cellular/csrc/cellular.cu
+/scratch/zzhou82/2023_0915/Pixel2Cancer/Tumor_Synthesis/cellular/csrc/ext.cpp
 Cellular.egg-info/PKG-INFO
 Cellular.egg-info/SOURCES.txt
 Cellular.egg-info/dependency_links.txt

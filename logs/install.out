@@ -1,0 +1,166 @@
+
+=====================================================================
+This module is intended solely for building or source activating user
+python environments, i.e.,
+
+    mamba create -n myenv -c conda-forge <package_list>
+
+or
+
+    source activate myenv
+
+To list available environments, run:
+
+    mamba info --envs
+
+See our docs: https://links.asu.edu/solpy
+
+Any other use is NOT TESTED.
+=====================================================================
+
+  
+Looking in indexes: https://pypi.org/simple, https://download.pytorch.org/whl/cu113
+Collecting torch==1.11.0+cu113
+  Using cached https://download.pytorch.org/whl/cu113/torch-1.11.0%2Bcu113-cp39-cp39-linux_x86_64.whl (1637.0 MB)
+Collecting torchvision==0.12.0+cu113
+  Using cached https://download.pytorch.org/whl/cu113/torchvision-0.12.0%2Bcu113-cp39-cp39-linux_x86_64.whl (22.3 MB)
+Collecting torchaudio==0.11.0
+  Using cached https://download.pytorch.org/whl/cu113/torchaudio-0.11.0%2Bcu113-cp39-cp39-linux_x86_64.whl (2.9 MB)
+Collecting typing-extensions (from torch==1.11.0+cu113)
+  Obtaining dependency information for typing-extensions from https://files.pythonhosted.org/packages/ec/6b/63cc3df74987c36fe26157ee12e09e8f9db4de771e0f3404263117e75b95/typing_extensions-4.7.1-py3-none-any.whl.metadata
+  Using cached typing_extensions-4.7.1-py3-none-any.whl.metadata (3.1 kB)
+Collecting numpy (from torchvision==0.12.0+cu113)
+  Obtaining dependency information for numpy from https://files.pythonhosted.org/packages/69/1f/c95b1108a9972a52d7b1b63ed8ca70466b59b8c1811bd121f1e667cc45d8/numpy-1.25.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata
+  Using cached numpy-1.25.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.6 kB)
+Collecting requests (from torchvision==0.12.0+cu113)
+  Obtaining dependency information for requests from https://files.pythonhosted.org/packages/70/8e/0e2d847013cb52cd35b38c009bb167a1a26b2ce6cd6965bf26b47bc0bf44/requests-2.31.0-py3-none-any.whl.metadata
+  Using cached requests-2.31.0-py3-none-any.whl.metadata (4.6 kB)
+Collecting pillow!=8.3.*,>=5.3.0 (from torchvision==0.12.0+cu113)
+  Obtaining dependency information for pillow!=8.3.*,>=5.3.0 from https://files.pythonhosted.org/packages/0a/20/a94a0462495de73e248643fb24667270f2e67f44792456ab7207764e80cc/Pillow-10.0.1-cp39-cp39-manylinux_2_28_x86_64.whl.metadata
+  Downloading Pillow-10.0.1-cp39-cp39-manylinux_2_28_x86_64.whl.metadata (9.5 kB)
+Collecting charset-normalizer<4,>=2 (from requests->torchvision==0.12.0+cu113)
+  Obtaining dependency information for charset-normalizer<4,>=2 from https://files.pythonhosted.org/packages/f9/0d/514be8597d7a96243e5467a37d337b9399cec117a513fcf9328405d911c0/charset_normalizer-3.2.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata
+  Using cached charset_normalizer-3.2.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (31 kB)
+Collecting idna<4,>=2.5 (from requests->torchvision==0.12.0+cu113)
+  Using cached https://download.pytorch.org/whl/idna-3.4-py3-none-any.whl (61 kB)
+Collecting urllib3<3,>=1.21.1 (from requests->torchvision==0.12.0+cu113)
+  Obtaining dependency information for urllib3<3,>=1.21.1 from https://files.pythonhosted.org/packages/9b/81/62fd61001fa4b9d0df6e31d47ff49cfa9de4af03adecf339c7bc30656b37/urllib3-2.0.4-py3-none-any.whl.metadata
+  Using cached urllib3-2.0.4-py3-none-any.whl.metadata (6.6 kB)
+Collecting certifi>=2017.4.17 (from requests->torchvision==0.12.0+cu113)
+  Obtaining dependency information for certifi>=2017.4.17 from https://files.pythonhosted.org/packages/4c/dd/2234eab22353ffc7d94e8d13177aaa050113286e93e7b40eae01fbf7c3d9/certifi-2023.7.22-py3-none-any.whl.metadata
+  Using cached certifi-2023.7.22-py3-none-any.whl.metadata (2.2 kB)
+Downloading Pillow-10.0.1-cp39-cp39-manylinux_2_28_x86_64.whl (3.6 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.6/3.6 MB 34.0 MB/s eta 0:00:00
+Using cached numpy-1.25.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (18.3 MB)
+Using cached requests-2.31.0-py3-none-any.whl (62 kB)
+Using cached typing_extensions-4.7.1-py3-none-any.whl (33 kB)
+Using cached certifi-2023.7.22-py3-none-any.whl (158 kB)
+Using cached charset_normalizer-3.2.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (202 kB)
+Using cached urllib3-2.0.4-py3-none-any.whl (123 kB)
+Installing collected packages: urllib3, typing-extensions, pillow, numpy, idna, charset-normalizer, certifi, torch, requests, torchvision, torchaudio
+Successfully installed certifi-2023.7.22 charset-normalizer-3.2.0 idna-3.4 numpy-1.25.2 pillow-10.0.1 requests-2.31.0 torch-1.11.0+cu113 torchaudio-0.11.0+cu113 torchvision-0.12.0+cu113 typing-extensions-4.7.1 urllib3-2.0.4
+ERROR: Could not open requirements file: [Errno 2] No such file or directory: 'requirement.txt'
+running install
+/home/zzhou82/.conda/envs/pixel2cancer/lib/python3.9/site-packages/setuptools/_distutils/cmd.py:66: SetuptoolsDeprecationWarning: setup.py install is deprecated.
+!!
+
+        ********************************************************************************
+        Please avoid running ``setup.py`` directly.
+        Instead, use pypa/build, pypa/installer or other
+        standards-based tools.
+
+        See https://blog.ganssle.io/articles/2021/10/setup-py-deprecated.html for details.
+        ********************************************************************************
+
+!!
+  self.initialize_options()
+/home/zzhou82/.conda/envs/pixel2cancer/lib/python3.9/site-packages/setuptools/_distutils/cmd.py:66: EasyInstallDeprecationWarning: easy_install command is deprecated.
+!!
+
+        ********************************************************************************
+        Please avoid running ``setup.py`` and ``easy_install``.
+        Instead, use pypa/build, pypa/installer or other
+        standards-based tools.
+
+        See https://github.com/pypa/setuptools/issues/917 for details.
+        ********************************************************************************
+
+!!
+  self.initialize_options()
+running bdist_egg
+running egg_info
+writing Cellular.egg-info/PKG-INFO
+writing dependency_links to Cellular.egg-info/dependency_links.txt
+writing requirements to Cellular.egg-info/requires.txt
+writing top-level names to Cellular.egg-info/top_level.txt
+/home/zzhou82/.conda/envs/pixel2cancer/lib/python3.9/site-packages/torch/utils/cpp_extension.py:387: UserWarning: Attempted to use ninja as the BuildExtension backend but we could not find ninja.. Falling back to using the slow distutils backend.
+  warnings.warn(msg.format('we could not find ninja.'))
+reading manifest file 'Cellular.egg-info/SOURCES.txt'
+writing manifest file 'Cellular.egg-info/SOURCES.txt'
+installing library code to build/bdist.linux-x86_64/egg
+running install_lib
+running build_ext
+/home/zzhou82/.conda/envs/pixel2cancer/lib/python3.9/site-packages/torch/utils/cpp_extension.py:788: UserWarning: The detected CUDA version (11.8) has a minor version mismatch with the version that was used to compile PyTorch (11.3). Most likely this shouldn't be a problem.
+  warnings.warn(CUDA_MISMATCH_WARN.format(cuda_str_version, torch.version.cuda))
+building 'Cellular._C' extension
+creating build
+creating build/temp.linux-x86_64-cpython-39
+creating build/temp.linux-x86_64-cpython-39/scratch
+creating build/temp.linux-x86_64-cpython-39/scratch/zzhou82
+creating build/temp.linux-x86_64-cpython-39/scratch/zzhou82/2023_0915
+creating build/temp.linux-x86_64-cpython-39/scratch/zzhou82/2023_0915/Pixel2Cancer
+creating build/temp.linux-x86_64-cpython-39/scratch/zzhou82/2023_0915/Pixel2Cancer/Tumor_Synthesis
+creating build/temp.linux-x86_64-cpython-39/scratch/zzhou82/2023_0915/Pixel2Cancer/Tumor_Synthesis/cellular
+creating build/temp.linux-x86_64-cpython-39/scratch/zzhou82/2023_0915/Pixel2Cancer/Tumor_Synthesis/cellular/csrc
+/usr/local/cuda/bin/nvcc -DWITH_CUDA -I/scratch/zzhou82/2023_0915/Pixel2Cancer/Tumor_Synthesis/cellular/csrc -I/home/zzhou82/.conda/envs/pixel2cancer/lib/python3.9/site-packages/torch/include -I/home/zzhou82/.conda/envs/pixel2cancer/lib/python3.9/site-packages/torch/include/torch/csrc/api/include -I/home/zzhou82/.conda/envs/pixel2cancer/lib/python3.9/site-packages/torch/include/TH -I/home/zzhou82/.conda/envs/pixel2cancer/lib/python3.9/site-packages/torch/include/THC -I/usr/local/cuda/include -I/home/zzhou82/.conda/envs/pixel2cancer/include/python3.9 -c /scratch/zzhou82/2023_0915/Pixel2Cancer/Tumor_Synthesis/cellular/csrc/cellular.cu -o build/temp.linux-x86_64-cpython-39/scratch/zzhou82/2023_0915/Pixel2Cancer/Tumor_Synthesis/cellular/csrc/cellular.o -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr --compiler-options '-fPIC' -DCUDA_HAS_FP16=1 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ -DTORCH_API_INCLUDE_EXTENSION_H -DPYBIND11_COMPILER_TYPE=\"_gcc\" -DPYBIND11_STDLIB=\"_libstdcpp\" -DPYBIND11_BUILD_ABI=\"_cxxabi1011\" -DTORCH_EXTENSION_NAME=_C -D_GLIBCXX_USE_CXX11_ABI=0 -gencode=arch=compute_80,code=compute_80 -gencode=arch=compute_80,code=sm_80 -std=c++14
+gcc -pthread -B /home/zzhou82/.conda/envs/pixel2cancer/compiler_compat -Wno-unused-result -Wsign-compare -DNDEBUG -O2 -Wall -fPIC -O2 -isystem /home/zzhou82/.conda/envs/pixel2cancer/include -I/home/zzhou82/.conda/envs/pixel2cancer/include -fPIC -O2 -isystem /home/zzhou82/.conda/envs/pixel2cancer/include -fPIC -DWITH_CUDA -I/scratch/zzhou82/2023_0915/Pixel2Cancer/Tumor_Synthesis/cellular/csrc -I/home/zzhou82/.conda/envs/pixel2cancer/lib/python3.9/site-packages/torch/include -I/home/zzhou82/.conda/envs/pixel2cancer/lib/python3.9/site-packages/torch/include/torch/csrc/api/include -I/home/zzhou82/.conda/envs/pixel2cancer/lib/python3.9/site-packages/torch/include/TH -I/home/zzhou82/.conda/envs/pixel2cancer/lib/python3.9/site-packages/torch/include/THC -I/usr/local/cuda/include -I/home/zzhou82/.conda/envs/pixel2cancer/include/python3.9 -c /scratch/zzhou82/2023_0915/Pixel2Cancer/Tumor_Synthesis/cellular/csrc/ext.cpp -o build/temp.linux-x86_64-cpython-39/scratch/zzhou82/2023_0915/Pixel2Cancer/Tumor_Synthesis/cellular/csrc/ext.o -std=c++14 -DTORCH_API_INCLUDE_EXTENSION_H -DPYBIND11_COMPILER_TYPE=\"_gcc\" -DPYBIND11_STDLIB=\"_libstdcpp\" -DPYBIND11_BUILD_ABI=\"_cxxabi1011\" -DTORCH_EXTENSION_NAME=_C -D_GLIBCXX_USE_CXX11_ABI=0
+creating build/lib.linux-x86_64-cpython-39
+creating build/lib.linux-x86_64-cpython-39/Cellular
+g++ -pthread -B /home/zzhou82/.conda/envs/pixel2cancer/compiler_compat -shared -Wl,-rpath,/home/zzhou82/.conda/envs/pixel2cancer/lib -Wl,-rpath-link,/home/zzhou82/.conda/envs/pixel2cancer/lib -L/home/zzhou82/.conda/envs/pixel2cancer/lib -L/home/zzhou82/.conda/envs/pixel2cancer/lib -Wl,-rpath,/home/zzhou82/.conda/envs/pixel2cancer/lib -Wl,-rpath-link,/home/zzhou82/.conda/envs/pixel2cancer/lib -L/home/zzhou82/.conda/envs/pixel2cancer/lib build/temp.linux-x86_64-cpython-39/scratch/zzhou82/2023_0915/Pixel2Cancer/Tumor_Synthesis/cellular/csrc/cellular.o build/temp.linux-x86_64-cpython-39/scratch/zzhou82/2023_0915/Pixel2Cancer/Tumor_Synthesis/cellular/csrc/ext.o -L/home/zzhou82/.conda/envs/pixel2cancer/lib/python3.9/site-packages/torch/lib -L/usr/local/cuda/lib64 -lc10 -ltorch -ltorch_cpu -ltorch_python -lcudart -lc10_cuda -ltorch_cuda_cu -ltorch_cuda_cpp -o build/lib.linux-x86_64-cpython-39/Cellular/_C.cpython-39-x86_64-linux-gnu.so
+creating build/bdist.linux-x86_64
+creating build/bdist.linux-x86_64/egg
+creating build/bdist.linux-x86_64/egg/Cellular
+copying build/lib.linux-x86_64-cpython-39/Cellular/_C.cpython-39-x86_64-linux-gnu.so -> build/bdist.linux-x86_64/egg/Cellular
+creating stub loader for Cellular/_C.cpython-39-x86_64-linux-gnu.so
+byte-compiling build/bdist.linux-x86_64/egg/Cellular/_C.py to _C.cpython-39.pyc
+creating build/bdist.linux-x86_64/egg/EGG-INFO
+copying Cellular.egg-info/PKG-INFO -> build/bdist.linux-x86_64/egg/EGG-INFO
+copying Cellular.egg-info/SOURCES.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
+copying Cellular.egg-info/dependency_links.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
+copying Cellular.egg-info/requires.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
+copying Cellular.egg-info/top_level.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
+writing build/bdist.linux-x86_64/egg/EGG-INFO/native_libs.txt
+zip_safe flag not set; analyzing archive contents...
+Cellular.__pycache__._C.cpython-39: module references __file__
+creating 'dist/Cellular-0.1-py3.9-linux-x86_64.egg' and adding 'build/bdist.linux-x86_64/egg' to it
+removing 'build/bdist.linux-x86_64/egg' (and everything under it)
+Processing Cellular-0.1-py3.9-linux-x86_64.egg
+creating /home/zzhou82/.conda/envs/pixel2cancer/lib/python3.9/site-packages/Cellular-0.1-py3.9-linux-x86_64.egg
+Extracting Cellular-0.1-py3.9-linux-x86_64.egg to /home/zzhou82/.conda/envs/pixel2cancer/lib/python3.9/site-packages
+Adding Cellular 0.1 to easy-install.pth file
+
+Installed /home/zzhou82/.conda/envs/pixel2cancer/lib/python3.9/site-packages/Cellular-0.1-py3.9-linux-x86_64.egg
+Processing dependencies for Cellular==0.1
+Searching for torch==1.11.0+cu113
+Best match: torch 1.11.0+cu113
+Adding torch 1.11.0+cu113 to easy-install.pth file
+detected new path './Cellular-0.1-py3.9-linux-x86_64.egg'
+Installing convert-caffe2-to-onnx script to /home/zzhou82/.conda/envs/pixel2cancer/bin
+Installing convert-onnx-to-caffe2 script to /home/zzhou82/.conda/envs/pixel2cancer/bin
+Installing torchrun script to /home/zzhou82/.conda/envs/pixel2cancer/bin
+
+Using /home/zzhou82/.conda/envs/pixel2cancer/lib/python3.9/site-packages
+Searching for numpy==1.25.2
+Best match: numpy 1.25.2
+Adding numpy 1.25.2 to easy-install.pth file
+Installing f2py script to /home/zzhou82/.conda/envs/pixel2cancer/bin
+Installing f2py3 script to /home/zzhou82/.conda/envs/pixel2cancer/bin
+Installing f2py3.9 script to /home/zzhou82/.conda/envs/pixel2cancer/bin
+
+Using /home/zzhou82/.conda/envs/pixel2cancer/lib/python3.9/site-packages
+Searching for typing-extensions==4.7.1
+Best match: typing-extensions 4.7.1
+Adding typing-extensions 4.7.1 to easy-install.pth file
+
+Using /home/zzhou82/.conda/envs/pixel2cancer/lib/python3.9/site-packages
+Finished processing dependencies for Cellular==0.1
