@@ -1,6 +1,6 @@
 # Pixel2Cancer
 
-## Install Cellular Automata
-### Package Path
-,./Tumor_Synthesis/cellular,
+## Install Cellular Automata 
+###
+‘’‘./Tumor_Synthesis/cellular’‘’
   
