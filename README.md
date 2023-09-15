@@ -4,8 +4,9 @@
 ###
 ```
 
-./Tumor_Synthesis/cellular
+cd ./Tumor_Synthesis/cellular
+
+
 
 ```
 
-  
