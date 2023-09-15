@@ -1,6 +1,14 @@
 # Pixel2Cancer
 
-## 0.Installation
+## 0.Preliminary
+
+##### Create environment
+```bash
+module load mamba/latest # only for Sol
+mamba create -n pixel2cancer python=3.9
+```
+
+##### Installation
 ```
 git clone https://github.com/MrGiovanni/Pixel2Cancer.git
 
