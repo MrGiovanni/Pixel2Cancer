@@ -2,13 +2,10 @@ import numpy as np
 from random import choice
 from .cellular import update_cellular
 import torch
-import argparse
-import SimpleITK as sitk
 from skimage.measure import label, regionprops
 import cv2
 import math
-import datafolds.datafold_read as datafold_read
-import os
+
 
 Organ_List = {'liver': [1]}
 Organ_HU = {'liver': [100, 160]}
