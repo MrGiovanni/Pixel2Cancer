@@ -20,6 +20,8 @@ pip install -r requirements.txt
 cd ./Tumor_Synthesis/cellular
 python setup.py install 
 
+# download pre-trained models
+wget https://github.com/Project-MONAI/MONAI-extra-test-data/releases/download/0.8.1/model_swinvit.pt
 ```
 
 ## 1.Train segmentation models using synthetic tumors
