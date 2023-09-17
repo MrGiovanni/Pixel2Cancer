@@ -1,28 +1,20 @@
 # Pixel2Cancer
 
-## 0.Preliminary
+## Paper
 
-##### Create environment
-```bash
-module load mamba/latest # only for Sol
-mamba create -n pixel2cancer python=3.9
-```
+<b>From Pixel to Cancer: Cellular Automata in Computed Tomography</b> <br/>
+Yuxiang Lai<sup>1,2</sup>, Xiaoxi Chen<sup>2</sup>, Angtian Wang<sup>2</sup>, Alan Yuille<sup>2</sup>, and [Zongwei Zhou](https://www.zongweiz.com/)<sup>2,*</sup> <br/>
+<sup>1 </sup>Southeast University,  <br/>
+<sup>2 </sup>Johns Hopkins University  <br/>
+paper | [code](https://github.com/MrGiovanni/Pixel2Cancer/tree/main)
 
-##### Installation
+## 0.Installation
+
 ```
 git clone https://github.com/MrGiovanni/Pixel2Cancer.git
-
-# install requirements
-pip install torch==1.11.0+cu113 torchvision==0.12.0+cu113 torchaudio==0.11.0 --extra-index-url https://download.pytorch.org/whl/cu113
-pip install -r requirements.txt
-
-# install cellular automata
-cd ./Tumor_Synthesis/cellular
-python setup.py install 
-
-# download pre-trained models
-wget https://github.com/Project-MONAI/MONAI-extra-test-data/releases/download/0.8.1/model_swinvit.pt
 ```
+
+See [installation instructions](INSTALL.md) to create an environment and obtain requirements.
 
 ## 1.Train segmentation models using synthetic tumors
 
