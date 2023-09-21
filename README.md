@@ -8,7 +8,7 @@ Yuxiang Lai<sup>1,2</sup>, Xiaoxi Chen<sup>2</sup>, Angtian Wang<sup>2</sup>, [A
 <sup>2 </sup>Johns Hopkins University  <br/>
 paper | [code](https://github.com/MrGiovanni/Pixel2Cancer/tree/main)
 
-## 0.Installation
+## 0. Installation
 
 ```bash
 git clone https://github.com/MrGiovanni/Pixel2Cancer.git
