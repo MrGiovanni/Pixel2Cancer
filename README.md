@@ -12,6 +12,8 @@ paper | [code](https://github.com/MrGiovanni/Pixel2Cancer/tree/main)
 
 ```bash
 git clone https://github.com/MrGiovanni/Pixel2Cancer.git
+# download pre-trained models
+wget https://github.com/Project-MONAI/MONAI-extra-test-data/releases/download/0.8.1/model_swinvit.pt
 ```
 
 See [installation instructions](INSTALL.md) to create an environment and obtain requirements.
