@@ -2,7 +2,7 @@
 #SBATCH --job-name=pixel2cancer
 
 #SBATCH -N 1
-#SBATCH -n 1
+#SBATCH -n 8
 #SBATCH -G a100:1
 ##SBATCH --exclusive
 #SBATCH --mem=150G
