@@ -8,6 +8,7 @@ from functools import partial
 from surface_distance import compute_surface_distances,compute_surface_dice_at_tolerance
 import monai
 from monai.inferers import sliding_window_inference
+from monai.data import load_decathlon_datalist
 from monai.transforms import AsDiscrete,AsDiscreted,Compose,Invertd,SaveImaged
 from monai import transforms, data
 from networks.swin3d_unetrv2 import SwinUNETR as SwinUNETR_v2
@@ -20,21 +21,18 @@ import argparse
 parser = argparse.ArgumentParser(description='liver tumor validation')
 
 # file dir
-parser.add_argument('--data_root', default=None, type=str)
-parser.add_argument('--datafold_dir', default=None, type=str)
-parser.add_argument('--tumor_type', default='early', type=str)
-parser.add_argument('--organ_type', default='liver', type=str)
-parser.add_argument('--fold', default=0, type=int)
-
+parser.add_argument('--val_dir', default=None, type=str)
+parser.add_argument('--json_dir', default=None, type=str)
 parser.add_argument('--save_dir', default='out', type=str)
 parser.add_argument('--checkpoint', action='store_true')
 
 parser.add_argument('--log_dir', default=None, type=str)
-parser.add_argument('--val_overlap', default=0.75, type=float)
+parser.add_argument('--feature_size', default=16, type=int)
+parser.add_argument('--val_overlap', default=0.5, type=float)
 parser.add_argument('--num_classes', default=3, type=int)
 
 parser.add_argument('--model', default='unet', type=str)
-parser.add_argument('--swin_type', default='base', type=str)
+parser.add_argument('--swin_type', default='tiny', type=str)
 
 def denoise_pred(pred: np.ndarray):
     """
@@ -55,6 +53,7 @@ def denoise_pred(pred: np.ndarray):
     component = (labels == choice_idx)
     denoise_pred[1, ...] = component
 
+    # 膨胀然后覆盖掉liver以外的tumor
     liver_dilation = ndimage.binary_dilation(denoise_pred[1, ...], iterations=30).astype(bool)
     denoise_pred[2,...] = pred[2,...].astype(bool) * liver_dilation
 
@@ -107,24 +106,6 @@ def _get_model(args):
                     num_res_units=2,
                 )
     
-    elif args.model == 'dynunet':
-        from monai.networks.nets import DynUNet
-        from dynunet_pipeline.create_network import get_kernels_strides
-        from dynunet_pipeline.task_params import deep_supr_num
-        task_id = '03'
-        kernels, strides = get_kernels_strides(task_id)
-        model = DynUNet(
-            spatial_dims=3,
-            in_channels=1,
-            out_channels=3,
-            kernel_size=kernels,
-            strides=strides,
-            upsample_kernel_size=strides[1:],
-            norm_name="instance",
-            deep_supervision=False,
-            deep_supr_num=deep_supr_num[task_id],
-        )
-        
     else:
         raise ValueError('Unsupported model ' + str(args.model))
 
@@ -152,6 +133,8 @@ def _get_model(args):
     return model, model_inferer
 
 def _get_loader(args):
+    val_data_dir = args.val_dir
+    datalist_json = args.json_dir 
     val_org_transform = transforms.Compose(
         [
             transforms.LoadImaged(keys=["image", "label"]),
@@ -163,19 +146,8 @@ def _get_loader(args):
             transforms.ToTensord(keys=["image", "label"]),
         ]
     )
-    val_img=[]
-    val_lbl=[]
-    val_name=[]
-    for line in open(os.path.join(args.datafold_dir, 'real_{}_val_{}.txt'.format(args.tumor_type, args.fold))):
-        name = line.strip().split()[1].split('.')[0]
-        val_img.append(args.data_root + line.strip().split()[0])
-        val_lbl.append(args.data_root + line.strip().split()[1])
-        val_name.append(name)
-    data_dicts_val = [{'image': image, 'label': label, 'name': name}
-                for image, label, name in zip(val_img, val_lbl, val_name)]
-    print('val len {}'.format(len(data_dicts_val)))
-
-    val_org_ds = data.Dataset(data_dicts_val, transform=val_org_transform)
+    val_files = load_decathlon_datalist(datalist_json, True, "validation", base_dir=val_data_dir)
+    val_org_ds = data.Dataset(val_files, transform=val_org_transform)
     val_org_loader = data.DataLoader(val_org_ds, batch_size=1, shuffle=False, num_workers=4, sampler=None, pin_memory=True)
 
     post_transforms = Compose([
@@ -189,8 +161,10 @@ def _get_loader(args):
             nearest_interp=False,
             to_tensor=True,
         ),
+        # AsDiscreted(keys="pred", argmax=True, to_onehot=3),
         AsDiscreted(keys="pred", argmax=True, to_onehot=3),
         AsDiscreted(keys="label", to_onehot=3),
+        # SaveImaged(keys="pred", meta_keys="pred_meta_dict", output_dir=output_dir, output_postfix="seg", resample=False,output_dtype=np.uint8,separate_folder=False),
     ])
     
     return val_org_loader, post_transforms
@@ -232,6 +206,7 @@ def main():
 
             val_data["pred"] = model_inferer(val_inputs)
             val_data = [post_transforms(i) for i in data.decollate_batch(val_data)]
+            # val_outputs, val_labels = from_engine(["pred", "label"])(val_data)
             val_outputs, val_labels = val_data[0]['pred'], val_data[0]['label'] 
             
             # val_outpus.shape == val_labels.shape  (3, H, W, Z)
@@ -282,5 +257,6 @@ def main():
             writer.writerow(header)
             writer.writerows(rows)
 
+# save path: save_dir/log_dir_name/str(args.val_overlap)/pred/
 if __name__ == "__main__":
     main()
