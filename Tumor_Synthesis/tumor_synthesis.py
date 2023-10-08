@@ -4,7 +4,7 @@ from monai.config import KeysCollection
 from monai.config.type_definitions import NdarrayOrTensor
 from monai.transforms.transform import MapTransform, RandomizableTransform
 
-from .utils import generate_tumor
+from .utils import generate_tumor,get_predefined_texture
 import numpy as np
 
 Organ_List = {'liver': [1,2]}
@@ -22,7 +22,7 @@ class TumorSysthesis(RandomizableTransform, MapTransform):
         random.seed(0)
         np.random.seed(0)
         
-        self.steps = 100  # step
+        self.steps = 150  # step
         self.kernel_size = (3, 3, 3)  # Receptive Field
         self.organ_hu_lowerbound = Organ_HU['liver'][0]  # organ hu lowerbound
         self.outrange_standard_val = Organ_HU['liver'][1]  # outrange standard value
@@ -30,6 +30,15 @@ class TumorSysthesis(RandomizableTransform, MapTransform):
         self.threshold = 10  # threshold
         self.organ_name = 'liver'  # organ name
         self.args = args
+        self.textures = []
+        sigma_as = [3, 6, 9, 12, 15]
+        sigma_bs = [4, 7]
+        predefined_texture_shape = (420, 300, 320)
+        for sigma_a in sigma_as:
+            for sigma_b in sigma_bs:
+                texture = get_predefined_texture(predefined_texture_shape, sigma_a, sigma_b)
+                self.textures.append(texture)
+        print("All predefined texture have generated.")
 
 
 
@@ -38,6 +47,7 @@ class TumorSysthesis(RandomizableTransform, MapTransform):
         self.randomize(None)
 
         if self._do_transform and (np.max(d['label']) <= 1):
-            d['image'][0], d['label'][0] = generate_tumor(d['image'][0], d['label'][0], self.steps, self.kernel_size, self.organ_standard_val, self.organ_hu_lowerbound, self.outrange_standard_val, self.threshold, self.organ_name, self.args)
+            texture = random.choice(self.textures)
+            d['image'][0], d['label'][0] = generate_tumor(d['image'][0], d['label'][0],texture, self.steps, self.kernel_size, self.organ_standard_val, self.organ_hu_lowerbound, self.outrange_standard_val, self.threshold, self.organ_name, self.args)
         
         return d
