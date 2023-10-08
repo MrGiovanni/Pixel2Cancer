@@ -5,29 +5,53 @@ import torch
 from skimage.measure import label, regionprops
 import cv2
 import math
-
-
+import os
+from scipy.ndimage import gaussian_filter
+import random
 Organ_List = {'liver': [1]}
 Organ_HU = {'liver': [100, 160]}
 
+def get_predefined_texture(mask_shape, sigma_a, sigma_b):
+    # uniform noise generate
+    a = np.random.uniform(0, 1, size=(mask_shape[0],mask_shape[1],mask_shape[2]))
+    a_2 = gaussian_filter(a, sigma=sigma_a)
+    scale = np.random.uniform(0.19, 0.21)
+    base = np.random.uniform(0.04, 0.06)
+    a =  scale * (a_2 - np.min(a_2)) / (np.max(a_2) - np.min(a_2)) + base
+
+    # sample once
+    random_sample = np.random.uniform(0, 1, size=(mask_shape[0],mask_shape[1],mask_shape[2]))
+    b = (a > random_sample).astype(float)  # int type can't do Gaussian filter
+    b = gaussian_filter(b, sigma_b)
+
+    # Scaling and clipping
+    u_0 = np.random.uniform(0.5, 0.55)
+    threshold_mask = b > 0.12    # this is for calculte the mean_0.2(b2)
+    beta = u_0 / (np.sum(b * threshold_mask) / threshold_mask.sum())
+    Bj = np.clip(beta*b, 0, 1) # 目前是0-1区间
+
+    return Bj
 
 def grow_tumor(current_state, density_organ_state, kernel_size, steps, all_states, organ_hu_lowerbound, organ_standard_val, outrange_standard_val, threshold, density_organ_map):
     # process
     for i in range(steps+1):
         current_state = update_cellular(current_state, density_organ_state, (kernel_size[0], kernel_size[1], kernel_size[2]), (
             organ_hu_lowerbound, organ_standard_val, outrange_standard_val, threshold)).clamp(max=(outrange_standard_val + 2))
-        temp = current_state.cpu().numpy().copy()
-        # print(np.sum(temp==0))
-        all_states.append(temp)
+    
+    temp = current_state.cpu().numpy().copy()
+    
 
-    all_states = np.array(all_states)
-
+    state = temp.copy()
+    state = np.array(state)
+   
+    
+    
     # postprocess
-    all_states[all_states >= outrange_standard_val] = 0
-    all_states[all_states >= threshold] = threshold
+    state[state >= outrange_standard_val] = 0
+    state[state >= threshold] = threshold
 
     # Blur the tumor map
-    temp = all_states[steps].astype(np.int16)
+    temp = state.astype(np.int16)
     kernel = (3, 3)
 
     for z in range(temp.shape[0]):
@@ -35,10 +59,10 @@ def grow_tumor(current_state, density_organ_state, kernel_size, steps, all_state
         # temp[z] = cv2.filter2D(temp[z], -1, sharpen_kernel)
 
     # save the tumor map
-    all_states[steps] = temp
+    state = temp
+ 
 
-
-    return all_states
+    return state
 
     # for i in range(steps):
     #     cpl3d.plot3d(all_states, timestep=i)
@@ -131,25 +155,8 @@ def Quantify(processed_organ_region, organ_hu_lowerbound, organ_standard_val, ou
     processed_organ_region[processed_organ_region <
                            outrange_standard_val] = organ_standard_val
     processed_organ_region[processed_organ_region == outrange_standard_val] = 1
-    binary_array = processed_organ_region.copy()
-
-    # size
-    k = 20000
-    # Unicom domain
-    labeled_array, num_features = label(
-        binary_array, connectivity=3, return_num=True)
-    regions = regionprops(labeled_array)
-    new_array = np.zeros_like(binary_array)
-
-    # add the region
-    for region in regions:
-        if region.area > k:
-            label_value = region.label
-            new_array[labeled_array == label_value] = 1
-
-    processed_organ_region = new_array.copy()
-
     
+
 
     processed_organ_region[processed_organ_region == 1] = outrange_standard_val
 
@@ -161,10 +168,10 @@ def Quantify(processed_organ_region, organ_hu_lowerbound, organ_standard_val, ou
     return processed_organ_region, density_organ_map
 
 
-def map_to_CT_value(img, tumor, density_organ_map, steps, threshold, outrange_standard_val, organ_hu_lowerbound, organ_standard_val, start_point):
+def map_to_CT_value(img, tumor, texture, density_organ_map, threshold, outrange_standard_val, organ_hu_lowerbound, organ_standard_val, start_point):
 
     img = img.astype(np.float32)
-    tumor = tumor[steps].astype(np.float32)
+    tumor = tumor.astype(np.float32)
     density_organ_map = density_organ_map.astype(np.float32)
 
 
@@ -172,66 +179,33 @@ def map_to_CT_value(img, tumor, density_organ_map, steps, threshold, outrange_st
     # deal with the conflict vessel
     interval = (outrange_standard_val - organ_hu_lowerbound) / 3
     vessel_condition = (density_organ_map == outrange_standard_val) & (tumor >= threshold/2)
-    vessel_value = np.random.randint(40, 50, tumor.shape, dtype=np.int16)
 
     # deal with the high intensity tissue
     high_tissue_condition = (density_organ_map == (organ_hu_lowerbound + 2 * interval)) & (tumor != 0)
-    high_tissue_value = np.random.randint(20, 30, tumor.shape, dtype=np.int16)
-
-    kernel = (3, 3)
-    for z in range(vessel_value.shape[0]):
-        vessel_value[z] = cv2.GaussianBlur(vessel_value[z], kernel, 0)
-        high_tissue_value[z] = cv2.GaussianBlur(high_tissue_value[z], kernel, 0)
 
     img[vessel_condition] *= (organ_hu_lowerbound + interval/2) / outrange_standard_val
     img[high_tissue_condition] *= (organ_hu_lowerbound + 2 * interval) / outrange_standard_val
 
-    
-
-    # random tumor value
-    tumor_value = np.random.randint(5, 15, tumor.shape, dtype=np.int16)
-    tumor_value[tumor == 0] = 0
-
-    # blur the tumor value
-    kernel = (3, 3)
-    for z in range(tumor_value.shape[0]):
-        tumor_value[z] = cv2.GaussianBlur(tumor_value[z], kernel, 0)
-
-    # CT mapping function
-    # map_img = img * -(tumor/40 - 1) + tumor/50 * tumor_value
-
-    bias = np.random.uniform(1,4)
-
-    map_img = img * - (tumor / (threshold + bias * threshold) - 1) - (1 - tumor/(threshold + 0)) * tumor_value
-
-    # postprocess
-    tumor_region = map_img.copy()
-    tumor_region[tumor == 0] = 0
-    for z in range(tumor_region.shape[0]):
-        tumor_region[z] = cv2.GaussianBlur(tumor_region[z], kernel, 0)
-    map_img[(tumor >= threshold/2) & (density_organ_map >= (organ_hu_lowerbound + 2 * interval))] = tumor_region[(tumor >= threshold/2) & (density_organ_map >= (organ_hu_lowerbound + 2 * interval))]
-
+    difference = np.random.uniform(65, 145)
+    map_img = img - texture*difference*tumor/threshold
     map_img = map_img.astype(np.int16)
-
+    
     
 
     return map_img
 
 
 
-def generate_tumor(img, mask, steps, kernel_size, organ_standard_val, organ_hu_lowerbound, outrange_standard_val, threshold, organ_name, args):
+def generate_tumor(img, mask, texture,steps, kernel_size, organ_standard_val, organ_hu_lowerbound, outrange_standard_val, threshold, organ_name, args):
  
-    steps = np.random.randint(10, steps)
-
+    steps = np.random.randint(5, steps)
+    
     # load organ and quantify
     # get the organ region
     organ_region = np.where(np.isin(mask, Organ_List[organ_name]))
-    min_x = min(organ_region[0])
-    max_x = max(organ_region[0])
-    min_y = min(organ_region[1])
-    max_y = max(organ_region[1])
-    min_z = min(organ_region[2])
-    max_z = max(organ_region[2])
+    min_x, max_x = np.min(organ_region[0]), np.max(organ_region[0])
+    min_y, max_y = np.min(organ_region[1]), np.max(organ_region[1])
+    min_z, max_z = np.min(organ_region[2]), np.max(organ_region[2])
 
 
     # random select a start point
@@ -240,7 +214,13 @@ def generate_tumor(img, mask, steps, kernel_size, organ_standard_val, organ_hu_l
     cropped_organ_region = mask[min_x:max_x+1, min_y:max_y+1, min_z:max_z+1]
     cropped_img = img[min_x:max_x+1, min_y:max_y+1, min_z:max_z+1].copy()
 
+    x_length, y_length, z_length = max_x - min_x + 1, max_y - min_y + 1, max_z - min_z + 1
+    start_x = random.randint(0, texture.shape[0] - x_length - 1) # random select the start point, -1 is to avoid boundary check
+    start_y = random.randint(0, texture.shape[1] - y_length - 1) 
+    start_z = random.randint(0, texture.shape[2] - z_length - 1) 
+    cropped_texture = texture[start_x:start_x+x_length, start_y:start_y+y_length, start_z:start_z+z_length]
 
+    
     # Quantify the density of the organ
     select_organ_region = np.isin(cropped_organ_region, Organ_List[organ_name])
     processed_organ_region = cropped_img.copy()
@@ -259,7 +239,7 @@ def generate_tumor(img, mask, steps, kernel_size, organ_standard_val, organ_hu_l
         density_organ_map, dtype=torch.int32).cuda(args.gpu)
     
     try_time = 0
-    try_max = np.random.randint(1, 6)
+    try_max = np.random.randint(1, 10)
 
     while try_time < try_max:
         try_time += 1
@@ -269,31 +249,28 @@ def generate_tumor(img, mask, steps, kernel_size, organ_standard_val, organ_hu_l
             random_index = np.random.choice(matching_indices.shape[0])
             start_point = matching_indices[random_index]
             large = np.random.randint(0,3)
-        
-            processed_organ_region[start_point[0], start_point[1], start_point[2]] = threshold/2  # start point initialize
-            current_state[start_point[0], start_point[1], start_point[2]] = threshold/2
+            idx_x, idx_y, idx_z = start_point
+            
+            processed_organ_region[idx_x, idx_y, idx_z] = threshold/2  # start point initialize
+            current_state[idx_x, idx_y, idx_z] = threshold/2
             if large == 0:
-                x_offset = np.random.randint(-10,10)
-                y_offset = np.random.randint(-10,10)
-                z_offset = np.random.randint(-10,10)
-                try:
-                    if processed_organ_region[start_point[0] + x_offset, start_point[1] + y_offset, start_point[2] + z_offset] == organ_standard_val:
-                        processed_organ_region[start_point[0] + x_offset, start_point[1] + y_offset, start_point[2] + z_offset] = threshold/2
-                        current_state[start_point[0] + x_offset, start_point[1] + y_offset, start_point[2] + z_offset] = threshold/2
-                except:
-                    pass
+                num_expend = np.random.randint(3,10)
+
+                for i in range(num_expend):
+                    x_offset = np.random.randint(-10,10)
+                    y_offset = np.random.randint(-10,10)
+                    z_offset = np.random.randint(-10,10)
+                    try:
+                        if processed_organ_region[idx_x + x_offset, idx_y + y_offset, idx_z + z_offset] == organ_standard_val:
+                            processed_organ_region[idx_x + x_offset, idx_y + y_offset, idx_z + z_offset] = threshold/2
+                            current_state[idx_x + x_offset, idx_y + y_offset, idx_z + z_offset] = threshold/2
+                    except:
+                        pass
                         
-                x_offset = np.random.randint(-10,10)
-                y_offset = np.random.randint(-10,10)
-                z_offset = np.random.randint(-10,10)
-                try:
-                    if  processed_organ_region[start_point[0] + x_offset, start_point[1] + y_offset, start_point[2] + z_offset] == organ_standard_val:
-                        processed_organ_region[start_point[0] + x_offset, start_point[1] + y_offset, start_point[2] + z_offset] = threshold/2
-                        current_state[start_point[0] + x_offset, start_point[1] + y_offset, start_point[2] + z_offset] = threshold/2
-                except:
-                    pass
-        current_state[start_point[0], start_point[1], start_point[2]] = threshold/2  # start point initialize
+          
         
+        current_state[idx_x, idx_y, idx_z] = threshold/2  # start point initialize
+
     all_states = []  # states of each step
 
     # simulate tumor growth
@@ -302,21 +279,22 @@ def generate_tumor(img, mask, steps, kernel_size, organ_standard_val, organ_hu_l
 
     # map to CT value
 
-    step = steps
+    tumor_out[cropped_organ_region==0] = 0
 
-    img_out = map_to_CT_value(cropped_img, tumor_out, density_organ_map,
-                            step, threshold, outrange_standard_val, organ_hu_lowerbound, organ_standard_val, start_point)
+    img_out = map_to_CT_value(cropped_img, tumor_out, cropped_texture, density_organ_map, threshold, outrange_standard_val, organ_hu_lowerbound, organ_standard_val, start_point)
 
     # save the result
     img[min_x:max_x+1, min_y:max_y+1, min_z:max_z+1] = img_out
 
     mask_tumor = np.zeros_like(mask)
-    mask_tumor[min_x:max_x+1, min_y:max_y+1, min_z:max_z+1] = tumor_out[step]
+    mask_tumor[min_x:max_x+1, min_y:max_y+1, min_z:max_z+1] = tumor_out
     mask_tumor[mask_tumor > 0] = 1
     mask_tumor[mask==0] = 0
     mask_out = mask + mask_tumor
     
     return img, mask_out
+
+    
 
  
 
