@@ -188,8 +188,16 @@ def map_to_CT_value(img, tumor, texture, density_organ_map, threshold, outrange_
 
     difference = np.random.uniform(65, 145)
     map_img = img - texture*difference*tumor/threshold
-    map_img = map_img.astype(np.int16)
     
+    tumor_region = map_img.copy()
+    tumor_region[tumor == 0] = 0
+    kernel = (3, 3)
+    for z in range(tumor_region.shape[0]):
+        tumor_region[z] = cv2.GaussianBlur(tumor_region[z], kernel, 0)
+    map_img[(tumor >= threshold/2) & (density_organ_map >= (organ_hu_lowerbound + 2 * interval))] = tumor_region[(tumor >= threshold/2) & (density_organ_map >= (organ_hu_lowerbound + 2 * interval))]
+
+    map_img = map_img.astype(np.int16)
+    tumor   = tumor.astype(np.int16)
     
 
     return map_img
