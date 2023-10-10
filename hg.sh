@@ -2,10 +2,10 @@
 #SBATCH --job-name=pixel2cancer
 
 #SBATCH -N 1
-#SBATCH -n 8
-#SBATCH -G a100:1
+#SBATCH -n 12
+#SBATCH -G a100:2
 ##SBATCH --exclusive
-#SBATCH --mem=150G
+#SBATCH --mem=100G
 #SBATCH -p general
 #SBATCH -t 7-00:00:00
 #SBATCH -q public
@@ -27,46 +27,44 @@ source activate pixel2cancer
 dist=$((RANDOM % 99999 + 10000))
 datapath=/data/jliang12/zzhou82/datasets/PublicAbdominalData/
 
-## 1. Train segmentation models using synthetic tumors
+if [ $1 == 'synt.no_pretrain.unet' ]; then
 
-# UNET (no.pretrain)
-python -W ignore main.py --optim_lr=4e-4 --batch_size=8 --lrschedule=warmup_cosine --optim_name=adamw --model_name=unet --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs/synt.no_pretrain.unet" --train_dir $datapath --val_dir $datapath --json_dir datafolds/healthy.json
-# sbatch --error=logs/synt.no_pretrain.unet.out --output=logs/synt.no_pretrain.unet.out hg.sh
+    python -W ignore -m torch.distributed.launch --nproc_per_node=2 main.py --optim_lr=4e-4 --batch_size=8 --lrschedule=warmup_cosine --optim_name=adamw --model_name=unet --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs/$1" --train_dir $datapath --val_dir $datapath --json_dir datafolds/healthy.json
 
-# Swin-UNETR-Base (pretrain)
-python -W ignore main.py --optim_lr=4e-4 --batch_size=8 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=base --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs/synt.pretrain.swin_unetrv2_base" --train_dir $datapath --val_dir $datapath --json_dir datafolds/healthy.json --use_pretrained
-# sbatch --error=logs/synt.pretrain.swin_unetrv2_base.out --output=logs/synt.pretrain.swin_unetrv2_base.out hg.sh
+elif [ $1 == 'synt.pretrain.swin_unetrv2_base' ]; then
 
-# Swin-UNETR-Base (no.pretrain)
-python -W ignore main.py --optim_lr=4e-4 --batch_size=8 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=base --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs/synt.no_pretrain.swin_unetrv2_base" --train_dir $datapath --val_dir $datapath --json_dir datafolds/healthy.json
-# sbatch --error=logs/synt.no_pretrain.swin_unetrv2_base.out --output=logs/synt.no_pretrain.swin_unetrv2_base.out hg.sh
+    python -W ignore main.py --optim_lr=4e-4 --batch_size=8 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=base --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs/$1" --train_dir $datapath --val_dir $datapath --json_dir datafolds/healthy.json --use_pretrained
 
-# Swin-UNETR-Small (no.pretrain)
-python -W ignore main.py --optim_lr=4e-4 --batch_size=8 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=small --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs/synt.no_pretrain.swin_unetrv2_small" --train_dir $datapath --val_dir $datapath --json_dir datafolds/healthy.json
-# sbatch --error=logs/synt.no_pretrain.swin_unetrv2_small.out --output=logs/synt.no_pretrain.swin_unetrv2_small.out hg.sh
+elif [ $1 == 'synt.no_pretrain.swin_unetrv2_base' ]; then
 
-# Swin-UNETR-Tiny (no.pretrain)
-python -W ignore main.py --optim_lr=4e-4 --batch_size=8 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=tiny --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs/synt.no_pretrain.swin_unetrv2_tiny" --train_dir $datapath --val_dir $datapath --json_dir datafolds/healthy.json
-# sbatch --error=logs/synt.no_pretrain.swin_unetrv2_tiny.out --output=logs/synt.no_pretrain.swin_unetrv2_tiny.out hg.sh
+    python -W ignore main.py --optim_lr=4e-4 --batch_size=8 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=base --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs/$1" --train_dir $datapath --val_dir $datapath --json_dir datafolds/healthy.json
 
-## 2. Train segmentation models using real tumors (for comparison)
+elif [ $1 == 'synt.no_pretrain.swin_unetrv2_small' ]; then
 
-# UNET (no.pretrain)
-python -W ignore main.py --optim_lr=4e-4 --batch_size=8 --lrschedule=warmup_cosine --optim_name=adamw --model_name=unet --val_every=200 --val_overlap=0.5 --max_epochs=2000 --save_checkpoint --workers=2 --noamp --distributed --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --logdir="runs/real.no_pretrain.unet" --train_dir $datapath --val_dir $datapath --json_dir datafolds/lits.json
-# sbatch --error=logs/real.no_pretrain.unet.out --output=logs/real.no_pretrain.unet.out hg.sh
+    python -W ignore main.py --optim_lr=4e-4 --batch_size=8 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=small --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs/$1" --train_dir $datapath --val_dir $datapath --json_dir datafolds/healthy.json
 
-# Swin-UNETR-Base (pretrain)
-python -W ignore main.py --optim_lr=4e-4 --batch_size=8 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=base --val_every=200 --val_overlap=0.5 --max_epochs=2000 --save_checkpoint --workers=2 --noamp --distributed --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --logdir="runs/real.pretrain.swin_unetrv2_base" --train_dir $datapath --val_dir $datapath --json_dir datafolds/lits.json --use_pretrained
-# sbatch --error=logs/real.pretrain.swin_unetrv2_base.out --output=logs/real.pretrain.swin_unetrv2_base.out hg.sh
+elif [ $1 == 'synt.no_pretrain.swin_unetrv2_tiny' ]; then
 
-# Swin-UNETR-Base (no.pretrain)
-python -W ignore main.py --optim_lr=4e-4 --batch_size=8 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=base --val_every=200 --val_overlap=0.5 --max_epochs=2000 --save_checkpoint --workers=2 --noamp --distributed --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --logdir="runs/real.no_pretrain.swin_unetrv2_base" --train_dir $datapath --val_dir $datapath --json_dir datafolds/lits.json
-# sbatch --error=logs/real.no_pretrain.swin_unetrv2_base.out --output=logs/real.no_pretrain.swin_unetrv2_base.out hg.sh
+    python -W ignore main.py --optim_lr=4e-4 --batch_size=8 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=tiny --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs/$1" --train_dir $datapath --val_dir $datapath --json_dir datafolds/healthy.json
 
-# Swin-UNETR-Small (no.pretrain)
-python -W ignore main.py --optim_lr=4e-4 --batch_size=8 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=small --val_every=200 --val_overlap=0.5 --max_epochs=2000 --save_checkpoint --workers=2 --noamp --distributed --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --logdir="runs/real.no_pretrain.swin_unetrv2_small" --train_dir $datapath --val_dir $datapath --json_dir datafolds/lits.json
-# sbatch --error=logs/real.no_pretrain.swin_unetrv2_small.out --output=logs/real.no_pretrain.swin_unetrv2_small.out hg.sh
+elif [ $1 == 'real.no_pretrain.unet' ]; then
 
-# Swin-UNETR-Tiny (no.pretrain)
-python -W ignore main.py --optim_lr=4e-4 --batch_size=8 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=tiny --val_every=200 --val_overlap=0.5 --max_epochs=2000 --save_checkpoint --workers=2 --noamp --distributed --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --logdir="runs/real.no_pretrain.swin_unetrv2_tiny" --train_dir $datapath --val_dir $datapath --json_dir datafolds/lits.json
-# sbatch --error=logs/real.no_pretrain.swin_unetrv2_tiny.out --output=logs/real.no_pretrain.swin_unetrv2_tiny.out hg.sh
+    python -W ignore main.py --optim_lr=4e-4 --batch_size=8 --lrschedule=warmup_cosine --optim_name=adamw --model_name=unet --val_every=200 --val_overlap=0.5 --max_epochs=2000 --save_checkpoint --workers=2 --noamp --distributed --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --logdir="runs/$1" --train_dir $datapath --val_dir $datapath --json_dir datafolds/lits.json
+
+elif [ $1 == 'real.pretrain.swin_unetrv2_base' ]; then
+
+    python -W ignore main.py --optim_lr=4e-4 --batch_size=8 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=base --val_every=200 --val_overlap=0.5 --max_epochs=2000 --save_checkpoint --workers=2 --noamp --distributed --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --logdir="runs/$1" --train_dir $datapath --val_dir $datapath --json_dir datafolds/lits.json --use_pretrained
+
+elif [ $1 == 'real.no_pretrain.swin_unetrv2_base' ]; then
+
+    python -W ignore main.py --optim_lr=4e-4 --batch_size=8 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=base --val_every=200 --val_overlap=0.5 --max_epochs=2000 --save_checkpoint --workers=2 --noamp --distributed --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --logdir="runs/$1" --train_dir $datapath --val_dir $datapath --json_dir datafolds/lits.json
+
+elif [ $1 == 'real.no_pretrain.swin_unetrv2_small' ]; then
+
+    python -W ignore main.py --optim_lr=4e-4 --batch_size=8 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=small --val_every=200 --val_overlap=0.5 --max_epochs=2000 --save_checkpoint --workers=2 --noamp --distributed --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --logdir="runs/$1" --train_dir $datapath --val_dir $datapath --json_dir datafolds/lits.json
+
+elif [ $1 == 'real.no_pretrain.swin_unetrv2_tiny' ]; then
+
+    python -W ignore main.py --optim_lr=4e-4 --batch_size=8 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=tiny --val_every=200 --val_overlap=0.5 --max_epochs=2000 --save_checkpoint --workers=2 --noamp --distributed --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --logdir="runs/$1" --train_dir $datapath --val_dir $datapath --json_dir datafolds/lits.json
+
+fi
