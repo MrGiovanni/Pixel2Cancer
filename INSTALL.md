@@ -13,4 +13,8 @@ pip install -r requirements.txt
 # install cellular automata
 cd ./Tumor_Synthesis/cellular
 python setup.py install 
+
+# install evaluation package
+cd ./surface-distance
+pip install .
 ```
