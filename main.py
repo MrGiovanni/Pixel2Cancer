@@ -128,6 +128,7 @@ parser.add_argument('--json_dir', default=None, type=str)
 parser.add_argument('--cache_num', default=500, type=int)
 
 parser.add_argument('--use_pretrained', action='store_true')
+parser.add_argument('--ngpus_per_node', default=4, type=int)
 
 def optuna_objective(trial, args):
 
@@ -355,7 +356,7 @@ def main():
         optuna_run(args)
     else:
         if args.distributed:
-            args.ngpus_per_node = torch.cuda.device_count()
+            # args.ngpus_per_node = torch.cuda.device_count()
             print('Found total gpus', args.ngpus_per_node)
 
             args.world_size = args.ngpus_per_node * args.world_size
@@ -607,3 +608,4 @@ def main_worker(gpu, args):
 
 if __name__ == '__main__':
     main()
+
