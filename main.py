@@ -128,7 +128,7 @@ parser.add_argument('--json_dir', default=None, type=str)
 parser.add_argument('--cache_num', default=500, type=int)
 
 parser.add_argument('--use_pretrained', action='store_true')
-parser.add_argument('--ngpus_per_node', default=4, type=int)
+parser.add_argument('--ngpus_per_node', default=1, type=int)
 
 def optuna_objective(trial, args):
 
