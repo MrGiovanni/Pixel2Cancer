@@ -5,7 +5,7 @@
 #SBATCH -n 12
 #SBATCH -G a100:2
 ##SBATCH --exclusive
-#SBATCH --mem=100G
+#SBATCH --mem=150G
 #SBATCH -p general
 #SBATCH -t 7-00:00:00
 #SBATCH -q public
