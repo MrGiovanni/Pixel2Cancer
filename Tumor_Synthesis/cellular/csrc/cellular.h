@@ -19,6 +19,7 @@ at::Tensor UpdateCellular(
     const int organ_standard_val,
     const int outrange_standard_val,
     const int threshold,
+    const bool flag,
     at::Tensor& state_tensor // (H, W, D)
 );
 
