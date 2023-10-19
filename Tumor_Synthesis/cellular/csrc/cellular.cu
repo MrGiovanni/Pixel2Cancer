@@ -82,6 +82,7 @@ __global__ void UpdateCellularKernel(
     const int organ_standard_val,
     const int outrange_standard_val,
     const int threshold,
+    const bool flag,
     int* state_tensor // (H, W, D)
 ){
     const int num_threads = gridDim.x * blockDim.x;
@@ -89,106 +90,158 @@ __global__ void UpdateCellularKernel(
     const int interval = (outrange_standard_val - organ_hu_lowerbound) / 3;
     
     
-
-    for (int pid = tid; pid < H * W * D; pid += num_threads) {
-        const int curr_val = state_tensor_prev[pid];
-        if (curr_val == organ_standard_val || curr_val >= outrange_standard_val){
-            continue;
-        }
-        
-        // calculate current position
-        curandState state;
-        const int y = pid / (W * D);
-        const int x = (pid % (W * D)) / D;
-        const int z = pid % D;
-
-        // proliferative cell 
-        if (curr_val < threshold * 5/10){
-
-            atomicAdd(state_tensor + (y) * (W * D) + (x) * D + (z), 1);
-            continue;
-        }
-
-        //extend cell and proliferative itself
-        if (curr_val < threshold){
-            atomicAdd(state_tensor + (y) * (W * D) + (x) * D + (z), 1);
-        }
-        
-        int current_select = 0;
-        int y_shift, x_shift, z_shift;
-        float density_probability = 0;
-        int finished = 0;
-        int n_try = 0;
-
-        while (finished < grow_per_cell && n_try < max_try){
-            // state += n_try * 7;
-            curand_init(clock64(), tid, 0, &state);
-            current_select = curand_uniform(&state) * (Y_range * X_range * Z_range + 0.9999);
-            
-            // current select to y x z shift
-            y_shift = current_select / (X_range * Z_range);
-            x_shift = current_select % (X_range * Z_range) / Z_range;
-            z_shift = current_select % Z_range;
-
-            y_shift -= (int)(Y_range / 2);
-            x_shift -= (int)(X_range / 2);
-            z_shift -= (int)(Z_range / 2);
-
-            n_try ++;
-
-            // check out of range
-            if (check_valid(H, W, D, y + y_shift, x + x_shift, z + z_shift) == 0){
+    if (flag == false){
+        for (int pid = tid; pid < H * W * D; pid += num_threads) {
+            const int curr_val = state_tensor_prev[pid];
+            if (curr_val == organ_standard_val || curr_val >= outrange_standard_val){
                 continue;
             }
-            // if you want to add more rule to avoid cellular grown in certain area:
-            // if (...condition...) {
-            // continue;   
-            // }
+            
+            // calculate current position
+            curandState state;
+            const int y = pid / (W * D);
+            const int x = (pid % (W * D)) / D;
+            const int z = pid % D;
 
-           
-            // mass effect
-            if (mass_effect(curr_val, state_tensor[(y + y_shift) * (W * D) + (x + x_shift) * D + (z + z_shift)], outrange_standard_val, organ_standard_val, threshold) == 0){
-                // Get target value
-                if (state_tensor[(y + y_shift) * (W * D) + (x + x_shift) * D + (z + z_shift)] > (outrange_standard_val + 2)){
-                    state_tensor[(y + y_shift) * (W * D) + (x + x_shift) * D + (z + z_shift)] = organ_standard_val;
-                    density_state_tensor[(y + y_shift) * (W * D) + (x + x_shift) * D + (z + z_shift)] = organ_hu_lowerbound;
-                }
-                else if (state_tensor[(y + y_shift) * (W * D) + (x + x_shift) * D + (z + z_shift)] >= (outrange_standard_val)){
-                    atomicAdd(state_tensor + (y + y_shift) * (W * D) + (x + x_shift) * D + (z + z_shift), 1);
-                    // finished ++;
+            // proliferative cell 
+            if (curr_val < threshold * 5/10){
+
+                atomicAdd(state_tensor + (y) * (W * D) + (x) * D + (z), 1);
+                continue;
+            }
+
+            //extend cell and proliferative itself
+            if (curr_val < threshold){
+                atomicAdd(state_tensor + (y) * (W * D) + (x) * D + (z), 1);
+            }
+            
+            int current_select = 0;
+            int y_shift, x_shift, z_shift;
+            float density_probability = 0;
+            int finished = 0;
+            int n_try = 0;
+
+            while (finished < grow_per_cell && n_try < max_try){
+                // state += n_try * 7;
+                curand_init(clock64(), tid, 0, &state);
+                current_select = curand_uniform(&state) * (Y_range * X_range * Z_range + 0.9999);
+                
+                // current select to y x z shift
+                y_shift = current_select / (X_range * Z_range);
+                x_shift = current_select % (X_range * Z_range) / Z_range;
+                z_shift = current_select % Z_range;
+
+                y_shift -= (int)(Y_range / 2);
+                x_shift -= (int)(X_range / 2);
+                z_shift -= (int)(Z_range / 2);
+
+                n_try ++;
+
+                // check out of range
+                if (check_valid(H, W, D, y + y_shift, x + x_shift, z + z_shift) == 0){
                     continue;
                 }
-            }
+                // if you want to add more rule to avoid cellular grown in certain area:
+                // if (...condition...) {
+                // continue;   
+                // }
+
+            
+                // mass effect
+                if (mass_effect(curr_val, state_tensor[(y + y_shift) * (W * D) + (x + x_shift) * D + (z + z_shift)], outrange_standard_val, organ_standard_val, threshold) == 0){
+                    // Get target value
+                    if (state_tensor[(y + y_shift) * (W * D) + (x + x_shift) * D + (z + z_shift)] > (outrange_standard_val + 2)){
+                        state_tensor[(y + y_shift) * (W * D) + (x + x_shift) * D + (z + z_shift)] = organ_standard_val;
+                        density_state_tensor[(y + y_shift) * (W * D) + (x + x_shift) * D + (z + z_shift)] = organ_hu_lowerbound;
+                    }
+                    else if (state_tensor[(y + y_shift) * (W * D) + (x + x_shift) * D + (z + z_shift)] >= (outrange_standard_val)){
+                        atomicAdd(state_tensor + (y + y_shift) * (W * D) + (x + x_shift) * D + (z + z_shift), 1);
+                        // finished ++;
+                        continue;
+                    }
+                }
 
 
-            // detect tissue area
-            // interaction with tissue
-            curand_init(clock64(), tid, 0, &state);
-            density_probability = curand_uniform(&state);
-            if (check_tissue(density_state_tensor[(y + y_shift) * (W * D) + (x + x_shift) * D + (z + z_shift)], organ_hu_lowerbound, interval, density_probability) == 0){
-                continue;
-            }
+                // detect tissue area
+                // interaction with tissue
+                curand_init(clock64(), tid, 0, &state);
+                density_probability = curand_uniform(&state);
+                if (check_tissue(density_state_tensor[(y + y_shift) * (W * D) + (x + x_shift) * D + (z + z_shift)], organ_hu_lowerbound, interval, density_probability) == 0){
+                    continue;
+                }
+                
+
+
+                // // connot grow in the max value area
+                // if (state_tensor[(y + y_shift) * (W * D) + (x + x_shift) * D + (z + z_shift)] >= threshold){
+                //     continue;
+                // }
+
             
 
+                // connot grow in the max value area
+                if (state_tensor[(y + y_shift) * (W * D) + (x + x_shift) * D + (z + z_shift)] >= threshold){
+                    continue;
+                }
 
-            // // connot grow in the max value area
-            // if (state_tensor[(y + y_shift) * (W * D) + (x + x_shift) * D + (z + z_shift)] >= threshold){
-            //     continue;
-            // }
 
-           
+                // grow
+                atomicAdd(state_tensor + (y + y_shift) * (W * D) + (x + x_shift) * D + (z + z_shift), 1);
+                finished ++;
+            }
+        }
 
-            // connot grow in the max value area
-            if (state_tensor[(y + y_shift) * (W * D) + (x + x_shift) * D + (z + z_shift)] >= threshold){
+    }
+    else if(flag == true){
+        for (int pid = tid; pid < H * W * D; pid += num_threads) {
+            const int curr_val = state_tensor_prev[pid];
+            if (curr_val == -1){
+                // calculate current position
+                curandState state;
+                const int y = pid / (W * D);
+                const int x = (pid % (W * D)) / D;
+                const int z = pid % D;
+
+
+
+                int current_select = 0;
+                int y_shift, x_shift, z_shift;
+                float density_probability = 0;
+                int finished = 0;
+                int n_try = 0;
+                while (finished < grow_per_cell && n_try < max_try){
+                    // state += n_try * 7;
+                    curand_init(clock64(), tid, 0, &state);
+                    current_select = curand_uniform(&state) * (Y_range * X_range * Z_range + 0.9999);
+                    
+                    // current select to y x z shift
+                    y_shift = current_select / (X_range * Z_range);
+                    x_shift = current_select % (X_range * Z_range) / Z_range;
+                    z_shift = current_select % Z_range;
+
+                    y_shift -= (int)(Y_range / 2);
+                    x_shift -= (int)(X_range / 2);
+                    z_shift -= (int)(Z_range / 2);
+
+                    n_try ++;
+
+                    if (check_valid(H, W, D, y + y_shift, x + x_shift, z + z_shift) == 0){
+                        continue;
+                    }
+
+                    if (state_tensor[(y + y_shift) * (W * D) + (x + x_shift) * D + (z + z_shift)] != threshold){
+                        continue;
+                    }
+                    state_tensor[(y + y_shift) * (W * D) + (x + x_shift) * D + (z + z_shift)] = -1;
+                    finished ++;
+                }
+            }
+            else{
                 continue;
             }
-
-
-            // grow
-            atomicAdd(state_tensor + (y + y_shift) * (W * D) + (x + x_shift) * D + (z + z_shift), 1);
-            finished ++;
         }
     }
+    
 }
 
 
@@ -204,6 +257,7 @@ at::Tensor UpdateCellular(
     const int organ_standard_val,
     const int outrange_standard_val,
     const int threshold,
+    const bool flag,
     at::Tensor& state_tensor // (H, W, D)
     
 ){
@@ -235,6 +289,7 @@ at::Tensor UpdateCellular(
         organ_standard_val,
         outrange_standard_val,
         threshold,
+        flag,
         state_tensor.contiguous().data_ptr<int>() // (H, W, D)
     );
     return state_tensor;
