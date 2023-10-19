@@ -32,37 +32,78 @@ def get_predefined_texture(mask_shape, sigma_a, sigma_b):
 
     return Bj
 
-def grow_tumor(current_state, density_organ_state, kernel_size, steps, all_states, organ_hu_lowerbound, organ_standard_val, outrange_standard_val, threshold, density_organ_map):
+def grow_tumor(current_state, density_organ_state, kernel_size, steps, all_states, organ_hu_lowerbound, organ_standard_val, outrange_standard_val, threshold, density_organ_map, core_point, args):
     # process
+
+    death_flag = False
     for i in range(steps+1):
         current_state = update_cellular(current_state, density_organ_state, (kernel_size[0], kernel_size[1], kernel_size[2]), (
-            organ_hu_lowerbound, organ_standard_val, outrange_standard_val, threshold)).clamp(max=(outrange_standard_val + 2))
+            organ_hu_lowerbound, organ_standard_val, outrange_standard_val, threshold), death_flag).clamp(max=(outrange_standard_val + 2))
     
-    temp = current_state.cpu().numpy().copy()
+    #When tumor larger than 2cm process Death: if tumor surpasses the threshold, it may die.
+    death = np.random.randint(0, 2) 
+
+    if death == 0:
+        if steps > 50:
+            death_flag = True
+            current_state = current_state.cpu().numpy().copy()
+            current_state[current_state >= outrange_standard_val] = 0
+            current_state[current_state >= threshold] = threshold
+            core_point = np.array(core_point)
+            num_death_point = np.random.randint(1, core_point.shape[0]+1)
+            
+            random_index = np.random.choice(core_point.shape[0],size=core_point.shape[0], replace=False)
+            death_point = core_point[random_index]
+            current_state[death_point[:, 0], death_point[:, 1], death_point[:, 2]] = -1
+            for point in death_point:
+                idx_x, idx_y, idx_z = point
+                num_expend = np.random.randint(5,20)
+                
+                bias = steps/10 - 2
+                for i in range(num_expend):
+                    x_offset = np.random.randint(-bias,bias)
+                    y_offset = np.random.randint(-bias,bias)
+                    z_offset = np.random.randint(-bias,bias)
+                    
+                    try:
+                        if current_state[idx_x + x_offset, idx_y + y_offset, idx_z + z_offset] == threshold:
+                            current_state[idx_x + x_offset, idx_y + y_offset, idx_z + z_offset] = -1
+                    except:
+                        pass
+                
+
+            current_state = torch.tensor(current_state, dtype=torch.int32).cuda(args.gpu)
+            for i in range(int(steps/7 + 1)):
+                current_state = update_cellular(current_state, density_organ_state, (kernel_size[0], kernel_size[1], kernel_size[2]), (
+                    organ_hu_lowerbound, organ_standard_val, outrange_standard_val, threshold), death_flag).clamp(max=(outrange_standard_val + 2))
+
+        
+
+
     
 
-    state = temp.copy()
+    state = current_state.cpu().numpy().copy()
     state = np.array(state)
    
     
     
     # postprocess
-    state[state >= outrange_standard_val] = 0
-    state[state >= threshold] = threshold
+    if death_flag == False:
+        state[state >= outrange_standard_val] = 0
+        state[state >= threshold] = threshold
 
     # Blur the tumor map
     temp = state.astype(np.int16)
-    kernel = (3, 3)
+    # kernel = (3, 3)
 
-    for z in range(temp.shape[0]):
-        temp[z] = cv2.GaussianBlur(temp[z], kernel, 0)
-        # temp[z] = cv2.filter2D(temp[z], -1, sharpen_kernel)
+    # for z in range(temp.shape[0]):
+    #     temp[z] = cv2.GaussianBlur(temp[z], kernel, 0)
+    #     # temp[z] = cv2.filter2D(temp[z], -1, sharpen_kernel)
 
     # save the tumor map
     state = temp
- 
 
-    return state
+    return state, death_flag
 
     # for i in range(steps):
     #     cpl3d.plot3d(all_states, timestep=i)
@@ -168,33 +209,55 @@ def Quantify(processed_organ_region, organ_hu_lowerbound, organ_standard_val, ou
     return processed_organ_region, density_organ_map
 
 
-def map_to_CT_value(img, tumor, texture, density_organ_map, threshold, outrange_standard_val, organ_hu_lowerbound, organ_standard_val, start_point):
+def map_to_CT_value(img, tumor, texture, density_organ_map, threshold, outrange_standard_val, organ_hu_lowerbound, organ_standard_val, start_point, death_flag):
 
     img = img.astype(np.float32)
     tumor = tumor.astype(np.float32)
     density_organ_map = density_organ_map.astype(np.float32)
 
+    tumor_1 = tumor.copy()
+    tumor_1[tumor_1 == -1] = threshold
+    kernel = (3, 3)
 
+    for z in range(tumor_1.shape[0]):
+        tumor_1[z] = cv2.GaussianBlur(tumor_1[z], kernel, 0)
 
     # deal with the conflict vessel
     interval = (outrange_standard_val - organ_hu_lowerbound) / 3
-    vessel_condition = (density_organ_map == outrange_standard_val) & (tumor >= threshold/2)
+    vessel_condition = (density_organ_map == outrange_standard_val) & (tumor_1 >= threshold/2)
 
     # deal with the high intensity tissue
-    high_tissue_condition = (density_organ_map == (organ_hu_lowerbound + 2 * interval)) & (tumor != 0)
+    high_tissue_condition = (density_organ_map == (organ_hu_lowerbound + 2 * interval)) & (tumor_1 != 0)
+
+
 
     img[vessel_condition] *= (organ_hu_lowerbound + interval/2) / outrange_standard_val
     img[high_tissue_condition] *= (organ_hu_lowerbound + 2 * interval) / outrange_standard_val
 
-    difference = np.random.uniform(65, 145)
-    map_img = img - texture*difference*tumor/threshold
+   
+
+    difference_1 = np.random.uniform(65, 145)
+
+    map_img = img - texture*difference_1*tumor_1/threshold
     
+    if death_flag == True:
+        tumor_2 = tumor.copy()
+        tumor_2[tumor_2 > -1] = 0
+        kernel = (3, 3)
+        for z in range(tumor_2.shape[0]):
+            tumor_2[z] = cv2.GaussianBlur(tumor_2[z], kernel, 0)
+
+        difference_2 = np.random.uniform(90, 110)
+        map_img = map_img + texture*difference_2*tumor_2
+        
+
+    # # postprocess
     tumor_region = map_img.copy()
-    tumor_region[tumor == 0] = 0
-    kernel = (3, 3)
+    tumor_region[tumor_1 == 0] = 0
+
     for z in range(tumor_region.shape[0]):
         tumor_region[z] = cv2.GaussianBlur(tumor_region[z], kernel, 0)
-    map_img[(tumor >= threshold/2) & (density_organ_map >= (organ_hu_lowerbound + 2 * interval))] = tumor_region[(tumor >= threshold/2) & (density_organ_map >= (organ_hu_lowerbound + 2 * interval))]
+    map_img[(tumor_1 >= threshold/2) & (density_organ_map >= (organ_hu_lowerbound + 2 * interval))] = tumor_region[(tumor_1 >= threshold/2) & (density_organ_map >= (organ_hu_lowerbound + 2 * interval))]
 
     map_img = map_img.astype(np.int16)
     tumor   = tumor.astype(np.int16)
@@ -248,7 +311,7 @@ def generate_tumor(img, mask, texture,steps, kernel_size, organ_standard_val, or
     
     try_time = 0
     try_max = np.random.randint(1, 10)
-
+    core_point = []
     while try_time < try_max:
         try_time += 1
         matching_indices = np.argwhere(
@@ -258,7 +321,7 @@ def generate_tumor(img, mask, texture,steps, kernel_size, organ_standard_val, or
             start_point = matching_indices[random_index]
             large = np.random.randint(0,3)
             idx_x, idx_y, idx_z = start_point
-            
+            core_point.append(start_point)
             processed_organ_region[idx_x, idx_y, idx_z] = threshold/2  # start point initialize
             current_state[idx_x, idx_y, idx_z] = threshold/2
             if large == 0:
@@ -272,6 +335,7 @@ def generate_tumor(img, mask, texture,steps, kernel_size, organ_standard_val, or
                         if processed_organ_region[idx_x + x_offset, idx_y + y_offset, idx_z + z_offset] == organ_standard_val:
                             processed_organ_region[idx_x + x_offset, idx_y + y_offset, idx_z + z_offset] = threshold/2
                             current_state[idx_x + x_offset, idx_y + y_offset, idx_z + z_offset] = threshold/2
+                            core_point.append([idx_x + x_offset, idx_y + y_offset, idx_z + z_offset])
                     except:
                         pass
                         
@@ -282,14 +346,14 @@ def generate_tumor(img, mask, texture,steps, kernel_size, organ_standard_val, or
     all_states = []  # states of each step
 
     # simulate tumor growth
-    tumor_out = grow_tumor(current_state, density_organ_state, kernel_size, steps, all_states,
-                        organ_hu_lowerbound, organ_standard_val, outrange_standard_val, threshold, density_organ_map)
+    tumor_out,death_flag = grow_tumor(current_state, density_organ_state, kernel_size, steps, all_states,
+                        organ_hu_lowerbound, organ_standard_val, outrange_standard_val, threshold, density_organ_map, core_point, args)
 
     # map to CT value
 
     tumor_out[cropped_organ_region==0] = 0
 
-    img_out = map_to_CT_value(cropped_img, tumor_out, cropped_texture, density_organ_map, threshold, outrange_standard_val, organ_hu_lowerbound, organ_standard_val, start_point)
+    img_out = map_to_CT_value(cropped_img, tumor_out, cropped_texture, density_organ_map, threshold, outrange_standard_val, organ_hu_lowerbound, organ_standard_val, start_point, death_flag)
 
     # save the result
     img[min_x:max_x+1, min_y:max_y+1, min_z:max_z+1] = img_out
