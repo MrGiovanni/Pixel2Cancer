@@ -5,7 +5,7 @@ from sklearn.metrics import confusion_matrix
 from scipy import ndimage
 from scipy.ndimage import label
 from functools import partial
-from surface_distance import compute_surface_distances,compute_surface_dice_at_tolerance
+from surface_distance import compute_surface_distances,compute_surface_dice_at_tolerance, compute_average_surface_distance, compute_robust_hausdorff, compute_surface_overlap_at_tolerance
 import monai
 from monai.inferers import sliding_window_inference
 from monai.data import load_decathlon_datalist
@@ -13,7 +13,7 @@ from monai.transforms import AsDiscrete,AsDiscreted,Compose,Invertd,SaveImaged
 from monai import transforms, data
 from networks.swin3d_unetrv2 import SwinUNETR as SwinUNETR_v2
 import nibabel as nib
-
+import math
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -66,13 +66,14 @@ def cal_dice(pred, true):
     dice = intersection / (np.sum(pred) + np.sum(true))
     return dice
 
-def cal_dice_nsd(pred, truth, spacing_mm=(1,1,1), tolerance=2):
+def cal_dice_nsd(pred, truth, spacing_mm=(1,1,1), tolerance=2, percent = 95):
     dice = cal_dice(pred, truth)
     # cal nsd
     surface_distances = compute_surface_distances(truth.astype(bool), pred.astype(bool), spacing_mm=spacing_mm)
     nsd = compute_surface_dice_at_tolerance(surface_distances, tolerance)
-
-    return (dice, nsd)
+    rhd = compute_robust_hausdorff(surface_distances, percent)
+    sd = max(compute_average_surface_distance(surface_distances))
+    return (dice, nsd, sd, rhd)
 
 
 def _get_model(args):
@@ -189,9 +190,13 @@ def main():
 
     liver_dice = []
     liver_nsd  = []
+    liver_sd = []
+    liver_rhd = []
     tumor_dice = []
     tumor_nsd  = []
-    header = ['name', 'liver_dice', 'liver_nsd', 'tumor_dice', 'tumor_nsd']
+    tumor_sd = []
+    tumor_rhd = []
+    header = ['name', 'liver_dice', 'liver_nsd', 'liver_sd', 'liver_rhd', 'tumor_dice', 'tumor_nsd', 'tumor_sd', 'tumor_rhd']
     rows = []
 
     model.eval()
@@ -215,20 +220,34 @@ def main():
             # denoise the ouputs 
             val_outputs = denoise_pred(val_outputs)
 
-            current_liver_dice, current_liver_nsd = cal_dice_nsd(val_outputs[1,...], val_labels[1,...], spacing_mm=spacing_mm)
-            current_tumor_dice, current_tumor_nsd = cal_dice_nsd(val_outputs[2,...], val_labels[2,...], spacing_mm=spacing_mm)
+            current_liver_dice, current_liver_nsd, current_liver_sd, current_liver_rhd = cal_dice_nsd(val_outputs[1,...], val_labels[1,...], spacing_mm=spacing_mm)
+            current_tumor_dice, current_tumor_nsd, current_tumor_sd, current_tumor_rhd = cal_dice_nsd(val_outputs[2,...], val_labels[2,...], spacing_mm=spacing_mm)
             
-
+            # print(current_liver_dice, current_liver_nsd, current_liver_sd, current_liver_rhd)
+            # print(current_tumor_dice, current_tumor_nsd, current_tumor_sd, current_tumor_rhd)
+            if math.isinf(current_tumor_sd):
+                current_tumor_sd = 100
+                print('inf')
+            
+            if math.isinf(current_tumor_rhd):
+                current_tumor_rhd = 200
+                print('inf')
+            
+            
             liver_dice.append(current_liver_dice)
             liver_nsd.append(current_liver_nsd)
+            liver_sd.append(current_liver_sd)
+            liver_rhd.append(current_liver_rhd)
             tumor_dice.append(current_tumor_dice)
             tumor_nsd.append(current_tumor_nsd)
-
-            row = [name, current_liver_dice, current_liver_nsd, current_tumor_dice, current_tumor_nsd]
+            tumor_sd.append(current_tumor_sd)
+            tumor_rhd.append(current_tumor_rhd)
+            row = [name, current_liver_dice, current_liver_nsd, current_liver_sd, current_liver_rhd, current_tumor_dice, current_tumor_nsd, current_tumor_sd, current_tumor_rhd]
             rows.append(row)
 
             print(name, val_outputs[0].shape, \
                 'dice: [{:.3f}  {:.3f}]; nsd: [{:.3f}  {:.3f}]'.format(current_liver_dice, current_tumor_dice, current_liver_nsd, current_tumor_nsd), \
+                'sd: [{:.3f}  {:.3f}]; rhd: [{:.3f}  {:.3f}]'.format(current_liver_sd, current_tumor_sd, current_liver_rhd, current_tumor_rhd), \
                 'time {:.2f}s'.format(time.time() - start_time))
 
             # save the prediction
@@ -244,8 +263,12 @@ def main():
 
         print("liver dice:", np.mean(liver_dice))
         print("liver nsd:", np.mean(liver_nsd))
+        print("liver sd:", np.mean(liver_sd))
+        print("liver rhd:", np.mean(liver_rhd))
         print("tumor dice:", np.mean(tumor_dice))
         print("tumor nsd",np.mean(tumor_nsd))
+        print("tumor sd:", np.mean(tumor_sd))
+        print("tumor rhd:", np.mean(tumor_rhd))
 
         # save metrics to cvs file
         csv_save = os.path.join(args.save_dir, args.model_name, str(args.val_overlap))
@@ -260,3 +283,4 @@ def main():
 # save path: save_dir/log_dir_name/str(args.val_overlap)/pred/
 if __name__ == "__main__":
     main()
+
