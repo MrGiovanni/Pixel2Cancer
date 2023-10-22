@@ -90,7 +90,7 @@ elif [ $1 == 'eval.synt.no_pretrain.swin_unetrv2_tiny' ]; then
 
     python -W ignore validation.py --model=swin_unetrv2 --swin_type=tiny --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/lits.json --log_dir runs/synt.no_pretrain.swin_unetrv2_tiny --save_dir out
 
-elif [ $1 == 'eval.real.no_pretrain.unet']; then
+elif [ $1 == 'eval.real.no_pretrain.unet' ]; then
 
     python -W ignore validation.py --model=unet --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/lits.json --log_dir runs/real.no_pretrain.unet --save_dir out
 
