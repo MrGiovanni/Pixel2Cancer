@@ -196,7 +196,7 @@ def main():
     tumor_nsd  = []
     tumor_sd = []
     tumor_rhd = []
-    header = ['name', 'liver_dice', 'liver_nsd', 'liver_sd', 'liver_rhd', 'tumor_dice', 'tumor_nsd', 'tumor_sd', 'tumor_rhd']
+    header = ['name', 'organ_dice', 'organ_nsd', 'organ_sd', 'organ_rhd', 'tumor_dice', 'tumor_nsd', 'tumor_sd', 'tumor_rhd']
     rows = []
 
     model.eval()
@@ -261,10 +261,10 @@ def main():
             )
 
 
-        print("liver dice:", np.mean(liver_dice))
-        print("liver nsd:", np.mean(liver_nsd))
-        print("liver sd:", np.mean(liver_sd))
-        print("liver rhd:", np.mean(liver_rhd))
+        print("organ dice:", np.mean(liver_dice))
+        print("organ nsd:", np.mean(liver_nsd))
+        print("organ sd:", np.mean(liver_sd))
+        print("organ rhd:", np.mean(liver_rhd))
         print("tumor dice:", np.mean(tumor_dice))
         print("tumor nsd",np.mean(tumor_nsd))
         print("tumor sd:", np.mean(tumor_sd))
