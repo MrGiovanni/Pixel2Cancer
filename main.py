@@ -464,15 +464,16 @@ def main_worker(gpu, args):
     new_datalist = []
     for item in datalist:
         new_item = {}
-        new_item['image'] = item['image'].replace('.npy', '')
-        new_item['label'] = item['label'].replace('.npy', '')
+        new_item['image'] = item['image']
+        new_item['label'] = item['label'].replace(data_dir+'datafolds', './datafolds')
         new_datalist.append(new_item)
+
 
     new_val_files = []
     for item in val_files:
         new_item = {}
-        new_item['image'] = item['image'].replace('.npy', '.gz')
-        new_item['label'] = item['label'].replace('.npy', '.gz')
+        new_item['image'] = item['image']
+        new_item['label'] = item['label'].replace(val_data_dir+'datafolds', './datafolds')
         new_val_files.append(new_item)
 
     
