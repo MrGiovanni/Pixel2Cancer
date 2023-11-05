@@ -503,7 +503,7 @@ def main_worker(gpu, args):
     #             num_workers=args.workers,
     #         )
     train_ds = data.SmartCacheDataset(
-                data=datalist,
+                data=new_datalist,
                 transform=train_transform,
                 cache_num=args.cache_num,
                 cache_rate=1.0,
