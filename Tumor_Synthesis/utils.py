@@ -8,9 +8,10 @@ import math
 import os
 from scipy.ndimage import gaussian_filter
 import random
-Organ_List = {'liver': [1,2], 'pancreas': [1,2]}
-Organ_HU = {'liver': [100, 160]}
-Tumor_size = {'liver': 50, 'pancreas': 30}
+
+Organ_List = {'liver': [1,2], 'pancreas': [1,2], 'kidney': [1,2]}
+Organ_HU = {'liver': [100, 160],'pancreas': [100, 160], 'kidney': [100, 160]}
+Tumor_size = {'liver': 50, 'pancreas': 30, 'kidney': 30}
 
 def get_predefined_texture(mask_shape, sigma_a, sigma_b):
     # uniform noise generate
@@ -225,7 +226,7 @@ def map_to_CT_value(img, tumor, texture, density_organ_map, threshold, outrange_
 
     # deal with the conflict vessel
     interval = (outrange_standard_val - organ_hu_lowerbound) / 3
-    if organ == 'liver':
+    if organ == 'liver' or organ == 'kidney':
         # deal with the conflict vessel
         vessel_condition = (density_organ_map == outrange_standard_val) & (tumor_1 >= threshold/2)
 
@@ -234,7 +235,7 @@ def map_to_CT_value(img, tumor, texture, density_organ_map, threshold, outrange_
 
         img[vessel_condition] *= (organ_hu_lowerbound + interval/2) / outrange_standard_val
         img[high_tissue_condition] *= (organ_hu_lowerbound + 2 * interval) / outrange_standard_val
-        print('end change CT value')
+        # print('end change CT value')
     elif organ == 'pancreas':
         
         # deal with the conflict vessel
@@ -293,7 +294,7 @@ def map_to_CT_value(img, tumor, texture, density_organ_map, threshold, outrange_
 
 
 def generate_tumor(img, mask, texture,steps, kernel_size, organ_standard_val, organ_hu_lowerbound, outrange_standard_val, threshold, organ_name, args):
- 
+    
     steps = np.random.randint(5, steps)
     
     # load organ and quantify
@@ -328,7 +329,7 @@ def generate_tumor(img, mask, texture,steps, kernel_size, organ_standard_val, or
 
 
     processed_organ_region, density_organ_map = Quantify(processed_organ_region, organ_hu_lowerbound, organ_standard_val, outrange_standard_val)
- 
+
 
     current_state = torch.tensor(
         processed_organ_region, dtype=torch.int32).cuda(args.gpu)
@@ -365,7 +366,7 @@ def generate_tumor(img, mask, texture,steps, kernel_size, organ_standard_val, or
                     except:
                         pass
                         
-          
+        
         
         current_state[idx_x, idx_y, idx_z] = threshold/2  # start point initialize
 
@@ -389,6 +390,8 @@ def generate_tumor(img, mask, texture,steps, kernel_size, organ_standard_val, or
     mask_tumor[mask_tumor > 0] = 1
     mask_tumor[mask==0] = 0
     mask_out = mask + mask_tumor
+    
+    mask_out[mask_out > 2] = 2
 
     return img, mask_out
 
