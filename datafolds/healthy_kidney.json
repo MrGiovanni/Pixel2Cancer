@@ -1,0 +1,598 @@
+{
+    "description": "all healthy data",
+    "labels": {
+        "0": "background",
+        "1": "kidney",
+        "2": "tumor"
+    },
+    "licence": "yt",
+    "modality": {
+        "0": "CT"
+    },
+    "name": "small",
+    "numTraining": 120,
+    "numValid": 24,
+    "reference": "xxxx",
+    "release": "2023/10/23",
+    "tensorImageSize": "3D",
+    "training": [
+        {
+            "image": "01_Multi-Atlas_Labeling/img/img0002.nii.gz",
+            "label": "datafolds/post_label/kidney_label/01_Multi-Atlas_Labeling/label0002.nii.gz"
+        },
+        {
+            "image": "01_Multi-Atlas_Labeling/img/img0004.nii.gz",
+            "label": "datafolds/post_label/kidney_label/01_Multi-Atlas_Labeling/label0004.nii.gz"
+        },
+        {
+            "image": "01_Multi-Atlas_Labeling/img/img0006.nii.gz",
+            "label": "datafolds/post_label/kidney_label/01_Multi-Atlas_Labeling/label0006.nii.gz"
+        },
+        {
+            "image": "01_Multi-Atlas_Labeling/img/img0022.nii.gz",
+            "label": "datafolds/post_label/kidney_label/01_Multi-Atlas_Labeling/label0022.nii.gz"
+        },
+        {
+            "image": "01_Multi-Atlas_Labeling/img/img0026.nii.gz",
+            "label": "datafolds/post_label/kidney_label/01_Multi-Atlas_Labeling/label0026.nii.gz"
+        },
+        {
+            "image": "01_Multi-Atlas_Labeling/img/img0028.nii.gz",
+            "label": "datafolds/post_label/kidney_label/01_Multi-Atlas_Labeling/label0028.nii.gz"
+        },
+        {
+            "image": "01_Multi-Atlas_Labeling/img/img0035.nii.gz",
+            "label": "datafolds/post_label/kidney_label/01_Multi-Atlas_Labeling/label0035.nii.gz"
+        },
+        {
+            "image": "01_Multi-Atlas_Labeling/img/img0061.nii.gz",
+            "label": "datafolds/post_label/kidney_label/01_Multi-Atlas_Labeling/label0061.nii.gz"
+        },
+        {
+            "image": "01_Multi-Atlas_Labeling/img/img0062.nii.gz",
+            "label": "datafolds/post_label/kidney_label/01_Multi-Atlas_Labeling/label0062.nii.gz"
+        },
+        {
+            "image": "01_Multi-Atlas_Labeling/img/img0078.nii.gz",
+            "label": "datafolds/post_label/kidney_label/01_Multi-Atlas_Labeling/label0078.nii.gz"
+        },
+        {
+            "image": "01_Multi-Atlas_Labeling/img/img0079.nii.gz",
+            "label": "datafolds/post_label/kidney_label/01_Multi-Atlas_Labeling/label0079.nii.gz"
+        },
+        {
+            "image": "07_WORD/img/word_0015.nii.gz",
+            "label": "datafolds/post_label/kidney_label/07_WORD/word_0015.nii.gz"
+        },
+        {
+            "image": "07_WORD/img/word_0025.nii.gz",
+            "label": "datafolds/post_label/kidney_label/07_WORD/word_0025.nii.gz"
+        },
+        {
+            "image": "07_WORD/img/word_0028.nii.gz",
+            "label": "datafolds/post_label/kidney_label/07_WORD/word_0028.nii.gz"
+        },
+        {
+            "image": "07_WORD/img/word_0035.nii.gz",
+            "label": "datafolds/post_label/kidney_label/07_WORD/word_0035.nii.gz"
+        },
+        {
+            "image": "07_WORD/img/word_0039.nii.gz",
+            "label": "datafolds/post_label/kidney_label/07_WORD/word_0039.nii.gz"
+        },
+        {
+            "image": "07_WORD/img/word_0047.nii.gz",
+            "label": "datafolds/post_label/kidney_label/07_WORD/word_0047.nii.gz"
+        },
+        {
+            "image": "07_WORD/img/word_0056.nii.gz",
+            "label": "datafolds/post_label/kidney_label/07_WORD/word_0056.nii.gz"
+        },
+        {
+            "image": "07_WORD/img/word_0062.nii.gz",
+            "label": "datafolds/post_label/kidney_label/07_WORD/word_0062.nii.gz"
+        },
+        {
+            "image": "07_WORD/img/word_0063.nii.gz",
+            "label": "datafolds/post_label/kidney_label/07_WORD/word_0063.nii.gz"
+        },
+        {
+            "image": "07_WORD/img/word_0087.nii.gz",
+            "label": "datafolds/post_label/kidney_label/07_WORD/word_0087.nii.gz"
+        },
+        {
+            "image": "07_WORD/img/word_0091.nii.gz",
+            "label": "datafolds/post_label/kidney_label/07_WORD/word_0091.nii.gz"
+        },
+        {
+            "image": "07_WORD/img/word_0096.nii.gz",
+            "label": "datafolds/post_label/kidney_label/07_WORD/word_0096.nii.gz"
+        },
+        {
+            "image": "07_WORD/img/word_0098.nii.gz",
+            "label": "datafolds/post_label/kidney_label/07_WORD/word_0098.nii.gz"
+        },
+        {
+            "image": "07_WORD/img/word_0113.nii.gz",
+            "label": "datafolds/post_label/kidney_label/07_WORD/word_0113.nii.gz"
+        },
+        {
+            "image": "07_WORD/img/word_0117.nii.gz",
+            "label": "datafolds/post_label/kidney_label/07_WORD/word_0117.nii.gz"
+        },
+        {
+            "image": "07_WORD/img/word_0132.nii.gz",
+            "label": "datafolds/post_label/kidney_label/07_WORD/word_0132.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00070_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00070.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00085_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00085.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00090_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00090.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00092_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00092.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00094_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00094.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00102_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00102.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00104_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00104.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00107_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00107.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00110_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00110.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00114_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00114.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00117_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00117.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00121_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00121.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00126_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00126.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00128_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00128.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00135_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00135.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00142_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00142.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00145_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00145.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00148_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00148.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00151_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00151.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00152_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00152.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00158_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00158.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00183_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00183.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00184_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00184.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00185_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00185.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00194_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00194.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00195_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00195.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00257_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00257.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00259_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00259.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00284_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00284.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00291_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00291.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00323_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00323.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00327_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00327.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00329_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00329.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00331_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00331.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00333_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00333.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00340_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00340.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00342_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00342.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00356_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00356.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00357_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00357.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00362_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00362.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00368_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00368.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00370_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00370.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00379_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00379.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00380_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00380.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00381_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00381.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00385_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00385.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00389_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00389.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00453_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00453.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00455_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00455.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00464_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00464.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00469_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00469.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00484_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00484.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00485_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00485.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00494_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00494.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00496_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00496.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00507_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00507.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00515_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00515.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00516_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00516.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00519_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00519.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00591_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00591.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00598_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00598.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00599_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00599.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00602_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00602.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00604_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00604.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00608_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00608.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00620_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00620.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00624_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00624.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00627_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00627.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00629_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00629.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00634_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00634.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00636_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00636.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00640_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00640.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00644_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00644.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00650_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00650.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00652_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00652.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00653_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00653.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00654_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00654.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00660_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00660.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00661_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00661.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00663_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00663.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00713_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00713.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00716_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00716.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00717_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00717.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00718_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00718.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00719_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00719.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00722_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00722.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00723_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00723.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00770_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00770.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00773_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00773.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00775_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00775.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00779_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00779.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00785_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00785.nii.gz"
+        },
+        {
+            "image": "08_AbdomenCT-1K/img/Case_00793_0000.nii.gz",
+            "label": "datafolds/post_label/kidney_label/08_AbdomenCT-1K/Case_00793.nii.gz"
+        }
+    ],
+    "validation": [
+        {
+            "image": "05_KiTS/img/img0081.nii.gz",
+            "label": "datafolds/post_label/kidney_label/05_KiTS/label0081.nii.gz"
+        },
+        {
+            "image": "05_KiTS/img/img0005.nii.gz",
+            "label": "datafolds/post_label/kidney_label/05_KiTS/label0005.nii.gz"
+        },
+        {
+            "image": "05_KiTS/img/img0009.nii.gz",
+            "label": "datafolds/post_label/kidney_label/05_KiTS/label0009.nii.gz"
+        },
+        {
+            "image": "05_KiTS/img/img0015.nii.gz",
+            "label": "datafolds/post_label/kidney_label/05_KiTS/label0015.nii.gz"
+        },
+        {
+            "image": "05_KiTS/img/img0104.nii.gz",
+            "label": "datafolds/post_label/kidney_label/05_KiTS/label0104.nii.gz"
+        },
+        {
+            "image": "05_KiTS/img/img0065.nii.gz",
+            "label": "datafolds/post_label/kidney_label/05_KiTS/label0065.nii.gz"
+        },
+        {
+            "image": "05_KiTS/img/img0031.nii.gz",
+            "label": "datafolds/post_label/kidney_label/05_KiTS/label0031.nii.gz"
+        },
+        {
+            "image": "05_KiTS/img/img0108.nii.gz",
+            "label": "datafolds/post_label/kidney_label/05_KiTS/label0108.nii.gz"
+        },
+        {
+            "image": "05_KiTS/img/img0068.nii.gz",
+            "label": "datafolds/post_label/kidney_label/05_KiTS/label0068.nii.gz"
+        },
+        {
+            "image": "05_KiTS/img/img0032.nii.gz",
+            "label": "datafolds/post_label/kidney_label/05_KiTS/label0032.nii.gz"
+        },
+        {
+            "image": "05_KiTS/img/img0096.nii.gz",
+            "label": "datafolds/post_label/kidney_label/05_KiTS/label0096.nii.gz"
+        },
+        {
+            "image": "05_KiTS/img/img0060.nii.gz",
+            "label": "datafolds/post_label/kidney_label/05_KiTS/label0060.nii.gz"
+        },
+        {
+            "image": "05_KiTS/img/img0113.nii.gz",
+            "label": "datafolds/post_label/kidney_label/05_KiTS/label0113.nii.gz"
+        },
+        {
+            "image": "05_KiTS/img/img0025.nii.gz",
+            "label": "datafolds/post_label/kidney_label/05_KiTS/label0025.nii.gz"
+        },
+        {
+            "image": "05_KiTS/img/img0076.nii.gz",
+            "label": "datafolds/post_label/kidney_label/05_KiTS/label0076.nii.gz"
+        },
+        {
+            "image": "05_KiTS/img/img0067.nii.gz",
+            "label": "datafolds/post_label/kidney_label/05_KiTS/label0067.nii.gz"
+        },
+        {
+            "image": "05_KiTS/img/img0061.nii.gz",
+            "label": "datafolds/post_label/kidney_label/05_KiTS/label0061.nii.gz"
+        },
+        {
+            "image": "05_KiTS/img/img0100.nii.gz",
+            "label": "datafolds/post_label/kidney_label/05_KiTS/label0100.nii.gz"
+        },
+        {
+            "image": "05_KiTS/img/img0053.nii.gz",
+            "label": "datafolds/post_label/kidney_label/05_KiTS/label0053.nii.gz"
+        },
+        {
+            "image": "05_KiTS/img/img0029.nii.gz",
+            "label": "datafolds/post_label/kidney_label/05_KiTS/label0029.nii.gz"
+        },
+        {
+            "image": "05_KiTS/img/img0016.nii.gz",
+            "label": "datafolds/post_label/kidney_label/05_KiTS/label0016.nii.gz"
+        },
+        {
+            "image": "05_KiTS/img/img0050.nii.gz",
+            "label": "datafolds/post_label/kidney_label/05_KiTS/label0050.nii.gz"
+        },
+        {
+            "image": "05_KiTS/img/img0048.nii.gz",
+            "label": "datafolds/post_label/kidney_label/05_KiTS/label0048.nii.gz"
+        },
+        {
+            "image": "05_KiTS/img/img0057.nii.gz",
+            "label": "datafolds/post_label/kidney_label/05_KiTS/label0057.nii.gz"
+        }
+    ]
+}
