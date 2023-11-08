@@ -129,7 +129,7 @@ parser.add_argument('--cache_num', default=500, type=int)
 
 parser.add_argument('--use_pretrained', action='store_true')
 parser.add_argument('--ngpus_per_node', default=1, type=int)
-parser.add_argument('--organ', default='pancreas', type=str)
+parser.add_argument('--organ', default='kidney', type=str)
 
 def optuna_objective(trial, args):
 
