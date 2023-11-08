@@ -258,7 +258,7 @@ def _get_transform(args):
             transforms.LoadImaged(keys=["image", "label"]),
             transforms.AddChanneld(keys=["image", "label"]),
             transforms.Orientationd(keys=["image", "label"], axcodes="RAS"),
-            transforms.Spacingd(keys=["image", "label"], pixdim=(1.0, 1.0, 1.0), mode=("bilinear", "nearest")),
+            # transforms.Spacingd(keys=["image", "label"], pixdim=(1.0, 1.0, 1.0), mode=("bilinear", "nearest")),
             TumorSysthesis(keys=["image", "label"], prob=0.9, args= args), # here we use online 
             transforms.ScaleIntensityRanged(
                 keys=["image"], a_min=-21, a_max=189,
@@ -292,8 +292,8 @@ def _get_transform(args):
         [
             transforms.LoadImaged(keys=["image", "label"]),
             transforms.AddChanneld(keys=["image", "label"]),
-            transforms.Orientationd(keys=["image", "label"], axcodes="RAS"),
-            transforms.Spacingd(keys=["image", "label"], pixdim=(1.0, 1.0, 1.0), mode=("bilinear", "nearest")),
+            # transforms.Orientationd(keys=["image", "label"], axcodes="RAS"),
+            # transforms.Spacingd(keys=["image", "label"], pixdim=(1.0, 1.0, 1.0), mode=("bilinear", "nearest")),
             transforms.ScaleIntensityRanged(
                 keys=["image"], a_min=-21, a_max=189,
                 b_min=0.0, b_max=1.0, clip=True,
@@ -328,8 +328,8 @@ def _get_transform(args):
 #             transforms.ConvertToMultiChannelBasedOnBratsClassesd(keys="label"),
 #             transforms.NormalizeIntensityd(keys="image", nonzero=True, channel_wise=True),
             transforms.AddChanneld(keys=["image", "label"]),
-            transforms.Orientationd(keys=["image", "label"], axcodes="RAS"),
-            transforms.Spacingd(keys=["image", "label"], pixdim=(1.0, 1.0, 1.0), mode=("bilinear", "nearest")),
+            # transforms.Orientationd(keys=["image", "label"], axcodes="RAS"),
+            # transforms.Spacingd(keys=["image", "label"], pixdim=(1.0, 1.0, 1.0), mode=("bilinear", "nearest")),
             transforms.ScaleIntensityRanged(keys=["image"], a_min=-21, a_max=189, b_min=0.0, b_max=1.0, clip=True),
             transforms.SpatialPadd(keys=["image", "label"], mode=["minimum", "constant"], spatial_size=[96, 96, 96]),
             transforms.ToTensord(keys=["image", "label"]),
