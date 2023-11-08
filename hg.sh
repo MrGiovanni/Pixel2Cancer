@@ -34,43 +34,43 @@ datapath=/data/jliang12/zzhou82/datasets/PublicAbdominalData/
 
 if [ $1 == 'synt.no_pretrain.unet' ]; then
 
-    python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=unet --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs/$1" --train_dir $datapath --val_dir $datapath --organ=pancreas --json_dir datafolds/healthy_kidney.json
+    python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=unet --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/healthy_kidney.json
 
 elif [ $1 == 'synt.pretrain.swin_unetrv2_base' ]; then
 
-    python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=base --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs/$1" --train_dir $datapath --val_dir $datapath --organ=pancreas --json_dir datafolds/healthy_kidney.json --use_pretrained
+    python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=base --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/healthy_kidney.json --use_pretrained
 
 elif [ $1 == 'synt.no_pretrain.swin_unetrv2_base' ]; then
 
-    python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=base --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs/$1" --train_dir $datapath --val_dir $datapath --organ=pancreas --json_dir datafolds/healthy_kidney.json
+    python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=base --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/healthy_kidney.json
 
 elif [ $1 == 'synt.no_pretrain.swin_unetrv2_small' ]; then
 
-    python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=small --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs/$1" --train_dir $datapath --val_dir $datapath --organ=pancreas --json_dir datafolds/healthy_kidney.json
+    python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=small --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/healthy_kidney.json
 
 elif [ $1 == 'synt.no_pretrain.swin_unetrv2_tiny' ]; then
 
-    python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=tiny --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs/$1" --train_dir $datapath --val_dir $datapath --organ=pancreas --json_dir datafolds/real_kidney.json
+    python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=tiny --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/real_kidney.json
 
 elif [ $1 == 'real.no_pretrain.unet' ]; then
 
-    python -W ignore main.py --optim_lr=4e-4 --batch_size=8 --lrschedule=warmup_cosine --optim_name=adamw --model_name=unet --val_every=200 --val_overlap=0.5 --max_epochs=2000 --save_checkpoint --workers=2 --noamp --distributed --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --logdir="runs/$1" --train_dir $datapath --val_dir $datapath --organ=pancreas --json_dir datafolds/real_kidney.json
+    python -W ignore main.py --optim_lr=4e-4 --batch_size=8 --lrschedule=warmup_cosine --optim_name=adamw --model_name=unet --val_every=200 --val_overlap=0.5 --max_epochs=2000 --save_checkpoint --workers=2 --noamp --distributed --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --logdir="runs/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/real_kidney.json
 
 elif [ $1 == 'real.pretrain.swin_unetrv2_base' ]; then
 
-    python -W ignore main.py --optim_lr=4e-4 --batch_size=8 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=base --val_every=200 --val_overlap=0.5 --max_epochs=2000 --save_checkpoint --workers=2 --noamp --distributed --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --logdir="runs/$1" --train_dir $datapath --val_dir $datapath --organ=pancreas --json_dir datafolds/real_kidney.json --use_pretrained
+    python -W ignore main.py --optim_lr=4e-4 --batch_size=8 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=base --val_every=200 --val_overlap=0.5 --max_epochs=2000 --save_checkpoint --workers=2 --noamp --distributed --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --logdir="runs/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/real_kidney.json --use_pretrained
 
 elif [ $1 == 'real.no_pretrain.swin_unetrv2_base' ]; then
 
-    python -W ignore main.py --optim_lr=4e-4 --batch_size=8 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=base --val_every=200 --val_overlap=0.5 --max_epochs=2000 --save_checkpoint --workers=2 --noamp --distributed --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --logdir="runs/$1" --train_dir $datapath --val_dir $datapath --organ=pancreas --json_dir datafolds/real_kidney.json
+    python -W ignore main.py --optim_lr=4e-4 --batch_size=8 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=base --val_every=200 --val_overlap=0.5 --max_epochs=2000 --save_checkpoint --workers=2 --noamp --distributed --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --logdir="runs/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/real_kidney.json
 
 elif [ $1 == 'real.no_pretrain.swin_unetrv2_small' ]; then
 
-    python -W ignore main.py --optim_lr=4e-4 --batch_size=8 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=small --val_every=200 --val_overlap=0.5 --max_epochs=2000 --save_checkpoint --workers=2 --noamp --distributed --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --logdir="runs/$1" --train_dir $datapath --val_dir $datapath --organ=pancreas --json_dir datafolds/real_kidney.json
+    python -W ignore main.py --optim_lr=4e-4 --batch_size=8 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=small --val_every=200 --val_overlap=0.5 --max_epochs=2000 --save_checkpoint --workers=2 --noamp --distributed --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --logdir="runs/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/real_kidney.json
 
 elif [ $1 == 'real.no_pretrain.swin_unetrv2_tiny' ]; then
 
-    python -W ignore main.py --optim_lr=4e-4 --batch_size=8 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=tiny --val_every=200 --val_overlap=0.5 --max_epochs=2000 --save_checkpoint --workers=2 --noamp --distributed --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --logdir="runs/$1" --train_dir $datapath --val_dir $datapath --organ=pancreas --json_dir datafolds/real_kidney.json
+    python -W ignore main.py --optim_lr=4e-4 --batch_size=8 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=tiny --val_every=200 --val_overlap=0.5 --max_epochs=2000 --save_checkpoint --workers=2 --noamp --distributed --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --logdir="runs/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/real_kidney.json
 
 elif [ $1 == 'eval.synt.no_pretrain.unet' ]; then
 
