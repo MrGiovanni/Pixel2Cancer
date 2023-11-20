@@ -252,89 +252,174 @@ def optuna_run(args):
 
 
 def _get_transform(args):
-    if args.syn:
-        train_transform = transforms.Compose(
-        [
-            transforms.LoadImaged(keys=["image", "label"]),
-            transforms.AddChanneld(keys=["image", "label"]),
-            transforms.Orientationd(keys=["image", "label"], axcodes="RAS"),
-            # transforms.Spacingd(keys=["image", "label"], pixdim=(1.0, 1.0, 1.0), mode=("bilinear", "nearest")),
-            TumorSysthesis(keys=["image", "label"], prob=0.9, args= args), # here we use online 
-            transforms.ScaleIntensityRanged(
-                keys=["image"], a_min=-21, a_max=189,
-                b_min=0.0, b_max=1.0, clip=True,
-            ),
-            transforms.SpatialPadd(keys=["image", "label"], mode=["minimum", "constant"], spatial_size=[96, 96, 96]),
-    #             transforms.CropForegroundd(keys=["image", "label"], source_key="image", k_divisible=roi_size),
-    #             transforms.RandSpatialCropd(keys=["image", "label"], roi_size=roi_size, random_size=False),
-            transforms.RandCropByPosNegLabeld(
-                keys=["image", "label"],
-                label_key="label",
-                spatial_size=(96, 96, 96),
-                pos=1,
-                neg=1,
-                num_samples=1,
-                image_key="image",
-                image_threshold=0,
-            ),
-            transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=0),
-            transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=1),
-            transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=2),
-            transforms.RandRotate90d(keys=["image", "label"], prob=0.2, max_k=3),
-    #             transforms.NormalizeIntensityd(keys="image", nonzero=True, channel_wise=True),
-            transforms.RandScaleIntensityd(keys="image", factors=0.1, prob=0.15),
-            transforms.RandShiftIntensityd(keys="image", offsets=0.1, prob=0.15),
-            transforms.ToTensord(keys=["image", "label"]),
-        ]
+    if args.organ == 'kidney':
+        if args.syn:
+            train_transform = transforms.Compose(
+            [
+                transforms.LoadImaged(keys=["image", "label"]),
+                transforms.AddChanneld(keys=["image", "label"]),
+                # transforms.Orientationd(keys=["image", "label"], axcodes="RAS"),
+                # transforms.Spacingd(keys=["image", "label"], pixdim=(1.0, 1.0, 1.0), mode=("bilinear", "nearest")),
+                TumorSysthesis(keys=["image", "label"], prob=0.9, args= args), # here we use online 
+                transforms.ScaleIntensityRanged(
+                    keys=["image"], a_min=-21, a_max=189,
+                    b_min=0.0, b_max=1.0, clip=True,
+                ),
+                transforms.SpatialPadd(keys=["image", "label"], mode=["minimum", "constant"], spatial_size=[96, 96, args.roi_z]),
+                    # transforms.CropForegroundd(keys=["image", "label"], source_key="image", k_divisible=roi_size),
+                    # transforms.RandSpatialCropd(keys=["image", "label"], roi_size=roi_size, random_size=False),
+                transforms.RandCropByPosNegLabeld(
+                    keys=["image", "label"],
+                    label_key="label",
+                    spatial_size=(96, 96, args.roi_z),
+                    pos=1,
+                    neg=1,
+                    num_samples=1,
+                    image_key="image",
+                    image_threshold=0,
+                ),
+                transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=0),
+                transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=1),
+                transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=2),
+                transforms.RandRotate90d(keys=["image", "label"], prob=0.2, max_k=3),
+                    # transforms.NormalizeIntensityd(keys="image", nonzero=True, channel_wise=True),
+                transforms.RandScaleIntensityd(keys="image", factors=0.1, prob=0.15),
+                transforms.RandShiftIntensityd(keys="image", offsets=0.1, prob=0.15),
+                transforms.ToTensord(keys=["image", "label"]),
+            ]
+            )
+        else:
+            train_transform = transforms.Compose(
+            [
+                transforms.LoadImaged(keys=["image", "label"]),
+                transforms.AddChanneld(keys=["image", "label"]),
+                # transforms.Orientationd(keys=["image", "label"], axcodes="RAS"),
+                # transforms.Spacingd(keys=["image", "label"], pixdim=(1.0, 1.0, 1.0), mode=("bilinear", "nearest")),
+                transforms.ScaleIntensityRanged(
+                    keys=["image"], a_min=-21, a_max=189,
+                    b_min=0.0, b_max=1.0, clip=True,
+                ),
+                transforms.SpatialPadd(keys=["image", "label"], mode=["minimum", "constant"], spatial_size=[96, 96, args.roi_z]),
+                    # transforms.CropForegroundd(keys=["image", "label"], source_key="image", k_divisible=roi_size),
+                    # transforms.RandSpatialCropd(keys=["image", "label"], roi_size=roi_size, random_size=False),
+                transforms.RandCropByPosNegLabeld(
+                    keys=["image", "label"],
+                    label_key="label",
+                    spatial_size=(96, 96, args.roi_z),
+                    pos=1,
+                    neg=1,
+                    num_samples=1,
+                    image_key="image",
+                    image_threshold=0,
+                ),
+                transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=0),
+                transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=1),
+                transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=2),
+                transforms.RandRotate90d(keys=["image", "label"], prob=0.2, max_k=3),
+                    # transforms.NormalizeIntensityd(keys="image", nonzero=True, channel_wise=True),
+                transforms.RandScaleIntensityd(keys="image", factors=0.1, prob=0.15),
+                transforms.RandShiftIntensityd(keys="image", offsets=0.1, prob=0.15),
+                transforms.ToTensord(keys=["image", "label"]),
+            ]
+            )
+
+        val_transform = transforms.Compose(
+            [
+                transforms.LoadImaged(keys=["image", "label"]),
+                # transforms.ConvertToMultiChannelBasedOnBratsClassesd(keys="label"),
+                # transforms.NormalizeIntensityd(keys="image", nonzero=True, channel_wise=True),
+                transforms.AddChanneld(keys=["image", "label"]),
+                # transforms.Orientationd(keys=["image", "label"], axcodes="RAS"),
+                # transforms.Spacingd(keys=["image", "label"], pixdim=(1.0, 1.0, 1.0), mode=("bilinear", "nearest")),
+                transforms.ScaleIntensityRanged(keys=["image"], a_min=-21, a_max=189, b_min=0.0, b_max=1.0, clip=True),
+                transforms.SpatialPadd(keys=["image", "label"], mode=["minimum", "constant"], spatial_size=[96, 96, args.roi_z]),
+                transforms.ToTensord(keys=["image", "label"]),
+            ]
         )
     else:
-        train_transform = transforms.Compose(
-        [
-            transforms.LoadImaged(keys=["image", "label"]),
-            transforms.AddChanneld(keys=["image", "label"]),
-            # transforms.Orientationd(keys=["image", "label"], axcodes="RAS"),
-            # transforms.Spacingd(keys=["image", "label"], pixdim=(1.0, 1.0, 1.0), mode=("bilinear", "nearest")),
-            transforms.ScaleIntensityRanged(
-                keys=["image"], a_min=-21, a_max=189,
-                b_min=0.0, b_max=1.0, clip=True,
-            ),
-            transforms.SpatialPadd(keys=["image", "label"], mode=["minimum", "constant"], spatial_size=[96, 96, 96]),
-    #             transforms.CropForegroundd(keys=["image", "label"], source_key="image", k_divisible=roi_size),
-    #             transforms.RandSpatialCropd(keys=["image", "label"], roi_size=roi_size, random_size=False),
-            transforms.RandCropByPosNegLabeld(
-                keys=["image", "label"],
-                label_key="label",
-                spatial_size=(96, 96, 96),
-                pos=1,
-                neg=1,
-                num_samples=1,
-                image_key="image",
-                image_threshold=0,
-            ),
-            transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=0),
-            transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=1),
-            transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=2),
-            transforms.RandRotate90d(keys=["image", "label"], prob=0.2, max_k=3),
-    #             transforms.NormalizeIntensityd(keys="image", nonzero=True, channel_wise=True),
-            transforms.RandScaleIntensityd(keys="image", factors=0.1, prob=0.15),
-            transforms.RandShiftIntensityd(keys="image", offsets=0.1, prob=0.15),
-            transforms.ToTensord(keys=["image", "label"]),
-        ]
-        )
+        if args.syn:
+            train_transform = transforms.Compose(
+            [
+                transforms.LoadImaged(keys=["image", "label"]),
+                transforms.AddChanneld(keys=["image", "label"]),
+                transforms.Orientationd(keys=["image", "label"], axcodes="RAS"),
+                transforms.Spacingd(keys=["image", "label"], pixdim=(1.0, 1.0, 1.0), mode=("bilinear", "nearest")),
+                TumorSysthesis(keys=["image", "label"], prob=0.9, args= args), # here we use online 
+                transforms.ScaleIntensityRanged(
+                    keys=["image"], a_min=-21, a_max=189,
+                    b_min=0.0, b_max=1.0, clip=True,
+                ),
+                transforms.SpatialPadd(keys=["image", "label"], mode=["minimum", "constant"], spatial_size=[96, 96, args.roi_z]),
+                    # transforms.CropForegroundd(keys=["image", "label"], source_key="image", k_divisible=roi_size),
+                    # transforms.RandSpatialCropd(keys=["image", "label"], roi_size=roi_size, random_size=False),
+                transforms.RandCropByPosNegLabeld(
+                    keys=["image", "label"],
+                    label_key="label",
+                    spatial_size=(96, 96, args.roi_z),
+                    pos=1,
+                    neg=1,
+                    num_samples=1,
+                    image_key="image",
+                    image_threshold=0,
+                ),
+                transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=0),
+                transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=1),
+                transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=2),
+                transforms.RandRotate90d(keys=["image", "label"], prob=0.2, max_k=3),
+                    # transforms.NormalizeIntensityd(keys="image", nonzero=True, channel_wise=True),
+                transforms.RandScaleIntensityd(keys="image", factors=0.1, prob=0.15),
+                transforms.RandShiftIntensityd(keys="image", offsets=0.1, prob=0.15),
+                transforms.ToTensord(keys=["image", "label"]),
+            ]
+            )
+        else:
+            train_transform = transforms.Compose(
+            [
+                transforms.LoadImaged(keys=["image", "label"]),
+                transforms.AddChanneld(keys=["image", "label"]),
+                transforms.Orientationd(keys=["image", "label"], axcodes="RAS"),
+                transforms.Spacingd(keys=["image", "label"], pixdim=(1.0, 1.0, 1.0), mode=("bilinear", "nearest")),
+                transforms.ScaleIntensityRanged(
+                    keys=["image"], a_min=-21, a_max=189,
+                    b_min=0.0, b_max=1.0, clip=True,
+                ),
+                transforms.SpatialPadd(keys=["image", "label"], mode=["minimum", "constant"], spatial_size=[96, 96, args.roi_z]),
+                    # transforms.CropForegroundd(keys=["image", "label"], source_key="image", k_divisible=roi_size),
+                    # transforms.RandSpatialCropd(keys=["image", "label"], roi_size=roi_size, random_size=False),
+                transforms.RandCropByPosNegLabeld(
+                    keys=["image", "label"],
+                    label_key="label",
+                    spatial_size=(96, 96, args.roi_z),
+                    pos=1,
+                    neg=1,
+                    num_samples=1,
+                    image_key="image",
+                    image_threshold=0,
+                ),
+                transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=0),
+                transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=1),
+                transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=2),
+                transforms.RandRotate90d(keys=["image", "label"], prob=0.2, max_k=3),
+                    # transforms.NormalizeIntensityd(keys="image", nonzero=True, channel_wise=True),
+                transforms.RandScaleIntensityd(keys="image", factors=0.1, prob=0.15),
+                transforms.RandShiftIntensityd(keys="image", offsets=0.1, prob=0.15),
+                transforms.ToTensord(keys=["image", "label"]),
+            ]
+            )
 
-    val_transform = transforms.Compose(
-        [
-            transforms.LoadImaged(keys=["image", "label"]),
-#             transforms.ConvertToMultiChannelBasedOnBratsClassesd(keys="label"),
-#             transforms.NormalizeIntensityd(keys="image", nonzero=True, channel_wise=True),
-            transforms.AddChanneld(keys=["image", "label"]),
-            # transforms.Orientationd(keys=["image", "label"], axcodes="RAS"),
-            # transforms.Spacingd(keys=["image", "label"], pixdim=(1.0, 1.0, 1.0), mode=("bilinear", "nearest")),
-            transforms.ScaleIntensityRanged(keys=["image"], a_min=-21, a_max=189, b_min=0.0, b_max=1.0, clip=True),
-            transforms.SpatialPadd(keys=["image", "label"], mode=["minimum", "constant"], spatial_size=[96, 96, 96]),
-            transforms.ToTensord(keys=["image", "label"]),
-        ]
-    )
+        val_transform = transforms.Compose(
+            [
+                transforms.LoadImaged(keys=["image", "label"]),
+                # transforms.ConvertToMultiChannelBasedOnBratsClassesd(keys="label"),
+                # transforms.NormalizeIntensityd(keys="image", nonzero=True, channel_wise=True),
+                transforms.AddChanneld(keys=["image", "label"]),
+                transforms.Orientationd(keys=["image", "label"], axcodes="RAS"),
+                transforms.Spacingd(keys=["image", "label"], pixdim=(1.0, 1.0, 1.0), mode=("bilinear", "nearest")),
+                transforms.ScaleIntensityRanged(keys=["image"], a_min=-21, a_max=189, b_min=0.0, b_max=1.0, clip=True),
+                transforms.SpatialPadd(keys=["image", "label"], mode=["minimum", "constant"], spatial_size=[96, 96, args.roi_z]),
+                transforms.ToTensord(keys=["image", "label"]),
+            ]
+        )
     
     return train_transform, val_transform
 
