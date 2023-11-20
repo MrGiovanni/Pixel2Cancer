@@ -9,7 +9,7 @@ import numpy as np
 
 
 Organ_List = {'liver': [1,2], 'pancreas': [1,2], 'kidney': [1,2]}
-Organ_HU = {'liver': [100, 160],'pancreas': [100, 160], 'kidney': [100, 160]}
+Organ_HU = {'liver': [100, 160],'pancreas': [100, 160], 'kidney': [140, 200]}
 steps = {'liver': 150, 'pancreas': 80, 'kidney': 80}
 class TumorSysthesis(RandomizableTransform, MapTransform):
     def __init__(self, 
