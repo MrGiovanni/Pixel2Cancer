@@ -10,7 +10,7 @@ from scipy.ndimage import gaussian_filter
 import random
 
 Organ_List = {'liver': [1,2], 'pancreas': [1,2], 'kidney': [1,2]}
-Organ_HU = {'liver': [100, 160],'pancreas': [100, 160], 'kidney': [100, 160]}
+Organ_HU = {'liver': [100, 160],'pancreas': [100, 160], 'kidney': [140, 200]}
 Tumor_size = {'liver': 50, 'pancreas': 30, 'kidney': 30}
 
 def get_predefined_texture(mask_shape, sigma_a, sigma_b):
