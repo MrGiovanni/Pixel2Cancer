@@ -32,43 +32,43 @@ datapath=/data/jliang12/zzhou82/datasets/PublicAbdominalData/
 
 #Liver Augmentation
 
-if [ $1 == 'synt.no_pretrain.unet' ]; then
+if [ $1 == 'mix_liver.no_pretrain.unet' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=unet --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_liver/$1" --train_dir $datapath --val_dir $datapath --organ=liver --json_dir datafolds/mix_liver.json
 
-elif [ $1 == 'synt.pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'mix_liver.pretrain.swin_unetrv2_base' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=base --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_liver/$1" --train_dir $datapath --val_dir $datapath --organ=liver --json_dir datafolds/mix_liver.json --use_pretrained
 
-elif [ $1 == 'synt.no_pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'mix_liver.no_pretrain.swin_unetrv2_base' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=base --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_liver/$1" --train_dir $datapath --val_dir $datapath --organ=liver --json_dir datafolds/mix_liver.json
 
-elif [ $1 == 'synt.no_pretrain.swin_unetrv2_small' ]; then
+elif [ $1 == 'mix_liver.no_pretrain.swin_unetrv2_small' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=small --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_liver/$1" --train_dir $datapath --val_dir $datapath --organ=liver --json_dir datafolds/mix_liver.json
 
-elif [ $1 == 'synt.no_pretrain.swin_unetrv2_tiny' ]; then
+elif [ $1 == 'mix_liver.no_pretrain.swin_unetrv2_tiny' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=tiny --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_liver/$1" --train_dir $datapath --val_dir $datapath --organ=liver --json_dir datafolds/mix_liver.json
 
-elif [ $1 == 'eval.synt.no_pretrain.unet' ]; then
+elif [ $1 == 'eval.mix_liver.no_pretrain.unet' ]; then
 
     python -W ignore validation.py --model=unet --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/mix_liver.json --log_dir runs_liver/synt.no_pretrain.unet --save_dir out
 
-elif [ $1 == 'eval.synt.pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'eval.mix_liver.pretrain.swin_unetrv2_base' ]; then
 
     python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/mix_liver.json --log_dir runs_liver/synt.pretrain.swin_unetrv2_base --save_dir out
 
-elif [ $1 == 'eval.synt.no_pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'eval.mix_liver.no_pretrain.swin_unetrv2_base' ]; then
 
     python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/mix_liver.json --log_dir runs_liver/synt.no_pretrain.swin_unetrv2_base --save_dir out
 
-elif [ $1 == 'eval.synt.no_pretrain.swin_unetrv2_small' ]; then
+elif [ $1 == 'eval.mix_liver.no_pretrain.swin_unetrv2_small' ]; then
 
     python -W ignore validation.py --model=swin_unetrv2 --swin_type=small --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/mix_liver.json --log_dir runs_liver/synt.no_pretrain.swin_unetrv2_small --save_dir out
 
-elif [ $1 == 'eval.synt.no_pretrain.swin_unetrv2_tiny' ]; then
+elif [ $1 == 'eval.mix_liver.no_pretrain.swin_unetrv2_tiny' ]; then
 
     python -W ignore validation.py --model=swin_unetrv2 --swin_type=tiny --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/mix_liver.json --log_dir runs_liver/synt.no_pretrain.swin_unetrv2_tiny --save_dir out
 
@@ -76,43 +76,43 @@ fi
 
 #Pancreas Augmentation
 
-if [ $1 == 'synt.no_pretrain.unet' ]; then
+if [ $1 == 'mix_pancreas.no_pretrain.unet' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=unet --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_pancreas/$1" --train_dir $datapath --val_dir $datapath --organ=pancreas --json_dir datafolds/mix_pancreas.json
 
-elif [ $1 == 'synt.pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'mix_pancreas.pretrain.swin_unetrv2_base' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=base --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_pancreas/$1" --train_dir $datapath --val_dir $datapath --organ=pancreas --json_dir datafolds/mix_pancreas.json --use_pretrained
 
-elif [ $1 == 'synt.no_pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'mix_pancreas.no_pretrain.swin_unetrv2_base' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=base --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_pancreas/$1" --train_dir $datapath --val_dir $datapath --organ=pancreas --json_dir datafolds/mix_pancreas.json
 
-elif [ $1 == 'synt.no_pretrain.swin_unetrv2_small' ]; then
+elif [ $1 == 'mix_pancreas.no_pretrain.swin_unetrv2_small' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=small --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_pancreas/$1" --train_dir $datapath --val_dir $datapath --organ=pancreas --json_dir datafolds/mix_pancreas.json
 
-elif [ $1 == 'synt.no_pretrain.swin_unetrv2_tiny' ]; then
+elif [ $1 == 'mix_pancreas.no_pretrain.swin_unetrv2_tiny' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=tiny --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_pancreas/$1" --train_dir $datapath --val_dir $datapath --organ=pancreas --json_dir datafolds/mix_pancreas.json
 
-elif [ $1 == 'eval.synt.no_pretrain.unet' ]; then
+elif [ $1 == 'eval.mix_pancreas.no_pretrain.unet' ]; then
 
     python -W ignore validation.py --model=unet --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/mix_pancreas.json --log_dir runs_pancreas/synt.no_pretrain.unet --save_dir out
 
-elif [ $1 == 'eval.synt.pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'eval.mix_pancreas.pretrain.swin_unetrv2_base' ]; then
 
     python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/mix_pancreas.json --log_dir runs_pancreas/synt.pretrain.swin_unetrv2_base --save_dir out
 
-elif [ $1 == 'eval.synt.no_pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'eval.mix_pancreas.no_pretrain.swin_unetrv2_base' ]; then
 
     python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/mix_pancreas.json --log_dir runs_pancreas/synt.no_pretrain.swin_unetrv2_base --save_dir out
 
-elif [ $1 == 'eval.synt.no_pretrain.swin_unetrv2_small' ]; then
+elif [ $1 == 'eval.mix_pancreas.no_pretrain.swin_unetrv2_small' ]; then
 
     python -W ignore validation.py --model=swin_unetrv2 --swin_type=small --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/mix_pancreas.json --log_dir runs_pancreas/synt.no_pretrain.swin_unetrv2_small --save_dir out
 
-elif [ $1 == 'eval.synt.no_pretrain.swin_unetrv2_tiny' ]; then
+elif [ $1 == 'eval.mix_pancreas.no_pretrain.swin_unetrv2_tiny' ]; then
 
     python -W ignore validation.py --model=swin_unetrv2 --swin_type=tiny --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/mix_pancreas.json --log_dir runs_pancreas/synt.no_pretrain.swin_unetrv2_tiny --save_dir out
 
@@ -120,11 +120,11 @@ fi
 
 #Kidney Augmentation
 
-if [ $1 == 'synt.no_pretrain.unet' ]; then
+if [ $1 == 'mix_kidney.no_pretrain.unet' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=unet --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_kidney/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/mix_kidney.json
 
-elif [ $1 == 'synt.pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'mix_kidney.pretrain.swin_unetrv2_base' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=base --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_kidney/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/mix_kidney.json --use_pretrained
 
@@ -132,31 +132,31 @@ elif [ $1 == 'synt.no_pretrain.swin_unetrv2_base' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=base --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_kidney/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/mix_kidney.json
 
-elif [ $1 == 'synt.no_pretrain.swin_unetrv2_small' ]; then
+elif [ $1 == 'mix_kidney.no_pretrain.swin_unetrv2_small' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=small --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_kidney/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/mix_kidney.json
 
-elif [ $1 == 'synt.no_pretrain.swin_unetrv2_tiny' ]; then
+elif [ $1 == 'mix_kidney.no_pretrain.swin_unetrv2_tiny' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=tiny --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_kidney/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/mix_kidney.json
 
-elif [ $1 == 'eval.synt.no_pretrain.unet' ]; then
+elif [ $1 == 'eval.mix_kidney.no_pretrain.unet' ]; then
 
     python -W ignore validation.py --model=unet --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/mix_kidney.json --log_dir runs_kidney/synt.no_pretrain.unet --save_dir out
 
-elif [ $1 == 'eval.synt.pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'eval.mix_kidney.pretrain.swin_unetrv2_base' ]; then
 
     python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/mix_kidney.json --log_dir runs_kidney/synt.pretrain.swin_unetrv2_base --save_dir out
 
-elif [ $1 == 'eval.synt.no_pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'eval.mix_kidney.no_pretrain.swin_unetrv2_base' ]; then
 
     python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/mix_kidney.json --log_dir runs_kidney/synt.no_pretrain.swin_unetrv2_base --save_dir out
 
-elif [ $1 == 'eval.synt.no_pretrain.swin_unetrv2_small' ]; then
+elif [ $1 == 'eval.mix_kidney.no_pretrain.swin_unetrv2_small' ]; then
 
     python -W ignore validation.py --model=swin_unetrv2 --swin_type=small --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/mix_kidney.json --log_dir runs_kidney/synt.no_pretrain.swin_unetrv2_small --save_dir out
 
-elif [ $1 == 'eval.synt.no_pretrain.swin_unetrv2_tiny' ]; then
+elif [ $1 == 'eval.mix_kidney.no_pretrain.swin_unetrv2_tiny' ]; then
 
     python -W ignore validation.py --model=swin_unetrv2 --swin_type=tiny --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/mix_kidney.json --log_dir runs_kidney/synt.no_pretrain.swin_unetrv2_tiny --save_dir out
 
