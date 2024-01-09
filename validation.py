@@ -32,7 +32,8 @@ parser.add_argument('--val_overlap', default=0.5, type=float)
 parser.add_argument('--num_classes', default=3, type=int)
 
 parser.add_argument('--model', default='unet', type=str)
-parser.add_argument('--swin_type', default='tiny', type=str)
+parser.add_argument('--swin_type', default='base', type=str)
+
 
 def denoise_pred(pred: np.ndarray):
     """
@@ -41,21 +42,25 @@ def denoise_pred(pred: np.ndarray):
     """
     denoise_pred = np.zeros_like(pred)
 
-    live_channel = pred[1, ...]
-    labels, nb = label(live_channel)
-    max_sum = -1
-    choice_idx = -1
-    for idx in range(1, nb+1):
-        component = (labels == idx)
-        if np.sum(component) > max_sum:
-            choice_idx = idx
-            max_sum = np.sum(component)
-    component = (labels == choice_idx)
-    denoise_pred[1, ...] = component
+    # live_channel = pred[1, ...]
+    # labels, nb = label(live_channel)
+    # max_sum = -1
+    # choice_idx = -1
+    # for idx in range(1, nb+1):
+    #     component = (labels == idx)
+    #     if np.sum(component) > max_sum:
+    #         choice_idx = idx
+    #         max_sum = np.sum(component)
+    # component = (labels == choice_idx)
+    # denoise_pred[1, ...] = component
+    denoise_pred[1, ...] = pred[1, ...]
 
     # 膨胀然后覆盖掉liver以外的tumor
-    liver_dilation = ndimage.binary_dilation(denoise_pred[1, ...], iterations=30).astype(bool)
-    denoise_pred[2,...] = pred[2,...].astype(bool) * liver_dilation
+    # liver_dilation = ndimage.binary_dilation(denoise_pred[1, ...], iterations=30).astype(bool)
+    # denoise_pred[2,...] = pred[2,...].astype(bool) * liver_dilation
+    # denoise_pred[2, ...] = pred[2,...]
+    # denoise_pred[2, ...] = organ_region_filter_out(pred[1, ...], pred[2,...])
+    denoise_pred[2, ...] = pred[1, ...] * pred[2,...]
 
     denoise_pred[0,...] = 1 - np.logical_or(denoise_pred[1,...], denoise_pred[2,...])
 
@@ -133,22 +138,46 @@ def _get_model(args):
 
     return model, model_inferer
 
+class LoadImage_val(transforms.LoadImaged):
+    def __init__(self, keys, *args,**kwargs, ):
+        super().__init__(keys)
+
+    def __call__(self, data):
+        d = dict(data)
+        data_name = d['name']
+
+        d = super().__call__(d)
+        if '05_KiTS' in data_name:
+            d['label'][d['label']==3] = 1
+
+        return d
+
 def _get_loader(args):
     val_data_dir = args.val_dir
     datalist_json = args.json_dir 
     val_org_transform = transforms.Compose(
-        [
-            transforms.LoadImaged(keys=["image", "label"]),
-            transforms.AddChanneld(keys=["image", "label"]),
-            transforms.Orientationd(keys=["image"], axcodes="RAS"),
-            transforms.Spacingd(keys=["image"], pixdim=(1.0, 1.0, 1.0), mode=("bilinear")),
-            transforms.ScaleIntensityRanged(keys=["image"], a_min=-21, a_max=189, b_min=0.0, b_max=1.0, clip=True),
-            transforms.SpatialPadd(keys=["image"], mode="minimum", spatial_size=[96, 96, 96]),
-            transforms.ToTensord(keys=["image", "label"]),
-        ]
-    )
+            [
+                transforms.LoadImaged(keys=["image", "label"]),
+                transforms.AddChanneld(keys=["image", "label"]),
+                transforms.Orientationd(keys=["image"], axcodes="RAS"),
+                transforms.Spacingd(keys=["image"], pixdim=(1.0, 1.0, 1.0), mode=("bilinear")),
+                transforms.ScaleIntensityRanged(keys=["image"], a_min=-175, a_max=250, b_min=0.0, b_max=1.0, clip=True),
+                transforms.SpatialPadd(keys=["image"], mode="minimum", spatial_size=[96, 96, 96]),
+                transforms.ToTensord(keys=["image", "label"]),
+            ]
+        )
     val_files = load_decathlon_datalist(datalist_json, True, "validation", base_dir=val_data_dir)
-    val_org_ds = data.Dataset(val_files, transform=val_org_transform)
+    new_val_files = []
+    for item in val_files:
+        new_item = {}
+        new_item['name'] = item['image']
+        new_item['image'] = item['image']
+        new_item['label'] = item['label'].replace(val_data_dir+'datafolds', './datafolds')
+        new_val_files.append(new_item)
+        print(new_item['image'], new_item['label'])
+
+    
+    val_org_ds = data.Dataset(new_val_files, transform=val_org_transform)
     val_org_loader = data.DataLoader(val_org_ds, batch_size=1, shuffle=False, num_workers=4, sampler=None, pin_memory=True)
 
     post_transforms = Compose([
@@ -208,7 +237,7 @@ def main():
             original_affine = val_data["label_meta_dict"]["affine"][0].numpy()
             pixdim = val_data['label_meta_dict']['pixdim'].cpu().numpy()
             spacing_mm = tuple(pixdim[0][1:4])
-
+            val_data['label'][val_data['label']==3] = 1
             val_data["pred"] = model_inferer(val_inputs)
             val_data = [post_transforms(i) for i in data.decollate_batch(val_data)]
             # val_outputs, val_labels = from_engine(["pred", "label"])(val_data)
@@ -218,7 +247,9 @@ def main():
             val_outputs, val_labels = val_outputs.detach().cpu().numpy(), val_labels.detach().cpu().numpy()
 
             # denoise the ouputs 
-            val_outputs = denoise_pred(val_outputs)
+            # val_outputs = denoise_pred(val_outputs)
+            
+            # print(val_outputs.shape, val_labels.shape)
 
             current_liver_dice, current_liver_nsd, current_liver_sd, current_liver_rhd = cal_dice_nsd(val_outputs[1,...], val_labels[1,...], spacing_mm=spacing_mm)
             current_tumor_dice, current_tumor_nsd, current_tumor_sd, current_tumor_rhd = cal_dice_nsd(val_outputs[2,...], val_labels[2,...], spacing_mm=spacing_mm)
@@ -269,6 +300,17 @@ def main():
         print("tumor nsd",np.mean(tumor_nsd))
         print("tumor sd:", np.mean(tumor_sd))
         print("tumor rhd:", np.mean(tumor_rhd))
+        
+        results = [
+                ["organ dice", np.mean(liver_dice)],
+                ["organ nsd", np.mean(liver_nsd)],
+                ["organ sd", np.mean(liver_sd)],
+                ["organ rhd", np.mean(liver_rhd)],
+                ["tumor dice", np.mean(tumor_dice)],
+                ["tumor nsd", np.mean(tumor_nsd)],
+                ["tumor sd", np.mean(tumor_sd)],
+                ["tumor rhd", np.mean(tumor_rhd)]
+            ]
 
         # save metrics to cvs file
         csv_save = os.path.join(args.save_dir, args.model_name, str(args.val_overlap))
@@ -279,6 +321,7 @@ def main():
             writer = csv.writer(f)
             writer.writerow(header)
             writer.writerows(rows)
+            writer.writerows(results)
 
 # save path: save_dir/log_dir_name/str(args.val_overlap)/pred/
 if __name__ == "__main__":
