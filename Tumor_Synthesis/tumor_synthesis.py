@@ -47,8 +47,8 @@ class TumorSysthesis(RandomizableTransform, MapTransform):
     def __call__(self, data: Mapping[Hashable, NdarrayOrTensor]) -> Dict[Hashable, NdarrayOrTensor]:
         d = dict(data)
         self.randomize(None)
-        if self._do_transform and (np.max(d['label']) <= 1):
-            
+        if self._do_transform and (np.max(d['label']) <= 2):
+    
             texture = random.choice(self.textures)
             d['image'][0], d['label'][0] = generate_tumor(d['image'][0], d['label'][0],texture, self.steps, self.kernel_size, self.organ_standard_val, self.organ_hu_lowerbound, self.outrange_standard_val, self.threshold, self.organ_name, self.args)
             
