@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=pixel2cancer
+#SBATCH --job-name=pixel2cancer_kidney
 
 #SBATCH -N 1
 #SBATCH -n 12
