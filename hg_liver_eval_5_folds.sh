@@ -37,105 +37,105 @@ datapath=/data/jliang12/zzhou82/datasets/PublicAbdominalData/
 
 #liver Synthesis
 
-if [ $1 == 'eval.aug_liver_0.no_pretrain.unet' ]; then
+if [ $1 == 'eval.synt.liver.fold0.no_pretrain.unet' ]; then
 
-    python -W ignore validation.py --model=unet --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_0.json --log_dir runs_liver/aug_liver_0.no_pretrain.unet --save_dir out/liver
+    python -W ignore validation.py --model=unet --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_0.json --log_dir runs_liver/synt.liver.fold0.no_pretrain.unet --save_dir out/liver
 
-elif [ $1 == 'eval.aug_liver_0.pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'eval.synt.liver.fold0.pretrain.swin_unetrv2_base' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_0.json --log_dir runs_liver/aug_liver_0.pretrain.swin_unetrv2_base --save_dir out/liver
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_0.json --log_dir runs_liver/synt.liver.fold0.pretrain.swin_unetrv2_base --save_dir out/liver
 
-elif [ $1 == 'eval.aug_liver_0.no_pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'eval.synt.liver.fold0.no_pretrain.swin_unetrv2_base' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_0.json --log_dir runs_liver/aug_liver_0.no_pretrain.swin_unetrv2_base --save_dir out/liver
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_0.json --log_dir runs_liver/synt.liver.fold0.no_pretrain.swin_unetrv2_base --save_dir out/liver
 
-elif [ $1 == 'eval.aug_liver_0.no_pretrain.swin_unetrv2_small' ]; then
+elif [ $1 == 'eval.synt.liver.fold0.no_pretrain.swin_unetrv2_small' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=small --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_0.json --log_dir runs_liver/aug_liver_0.no_pretrain.swin_unetrv2_small --save_dir out/liver
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=small --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_0.json --log_dir runs_liver/synt.liver.fold0.no_pretrain.swin_unetrv2_small --save_dir out/liver
 
-elif [ $1 == 'eval.aug_liver_0.no_pretrain.swin_unetrv2_tiny' ]; then
+elif [ $1 == 'eval.synt.liver.fold0.no_pretrain.swin_unetrv2_tiny' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=tiny --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_0.json --log_dir runs_liver/aug_liver_0.no_pretrain.swin_unetrv2_tiny --save_dir out/liver
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=tiny --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_0.json --log_dir runs_liver/synt.liver.fold0.no_pretrain.swin_unetrv2_tiny --save_dir out/liver
 
-elif [ $1 == 'eval.aug_liver_1.no_pretrain.unet' ]; then
+elif [ $1 == 'eval.synt.liver.fold1.no_pretrain.unet' ]; then
 
-    python -W ignore validation.py --model=unet --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_1.json --log_dir runs_liver/aug_liver_1.no_pretrain.unet --save_dir out/liver
+    python -W ignore validation.py --model=unet --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_1.json --log_dir runs_liver/synt.liver.fold1.no_pretrain.unet --save_dir out/liver
 
-elif [ $1 == 'eval.aug_liver_1.pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'eval.synt.liver.fold1.pretrain.swin_unetrv2_base' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_1.json --log_dir runs_liver/aug_liver_1.pretrain.swin_unetrv2_base --save_dir out/liver
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_1.json --log_dir runs_liver/synt.liver.fold1.pretrain.swin_unetrv2_base --save_dir out/liver
 
-elif [ $1 == 'eval.aug_liver_1.no_pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'eval.synt.liver.fold1.no_pretrain.swin_unetrv2_base' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_1.json --log_dir runs_liver/aug_liver_1.no_pretrain.swin_unetrv2_base --save_dir out/liver
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_1.json --log_dir runs_liver/synt.liver.fold1.no_pretrain.swin_unetrv2_base --save_dir out/liver
 
-elif [ $1 == 'eval.aug_liver_1.no_pretrain.swin_unetrv2_small' ]; then
+elif [ $1 == 'eval.synt.liver.fold1.no_pretrain.swin_unetrv2_small' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=small --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_1.json --log_dir runs_liver/aug_liver_1.no_pretrain.swin_unetrv2_small --save_dir out/liver
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=small --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_1.json --log_dir runs_liver/synt.liver.fold1.no_pretrain.swin_unetrv2_small --save_dir out/liver
 
-elif [ $1 == 'eval.aug_liver_1.no_pretrain.swin_unetrv2_tiny' ]; then
+elif [ $1 == 'eval.synt.liver.fold1.no_pretrain.swin_unetrv2_tiny' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=tiny --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_1.json --log_dir runs_liver/aug_liver_1.no_pretrain.swin_unetrv2_tiny --save_dir out/liver
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=tiny --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_1.json --log_dir runs_liver/synt.liver.fold1.no_pretrain.swin_unetrv2_tiny --save_dir out/liver
 
-elif [ $1 == 'eval.aug_liver_2.no_pretrain.unet' ]; then
+elif [ $1 == 'eval.synt.liver.fold2.no_pretrain.unet' ]; then
 
-    python -W ignore validation.py --model=unet --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_2.json --log_dir runs_liver/aug_liver_2.no_pretrain.unet --save_dir out/liver
+    python -W ignore validation.py --model=unet --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_2.json --log_dir runs_liver/synt.liver.fold2.no_pretrain.unet --save_dir out/liver
 
-elif [ $1 == 'eval.aug_liver_2.pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'eval.synt.liver.fold2.pretrain.swin_unetrv2_base' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_2.json --log_dir runs_liver/aug_liver_2.pretrain.swin_unetrv2_base --save_dir out/liver
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_2.json --log_dir runs_liver/synt.liver.fold2.pretrain.swin_unetrv2_base --save_dir out/liver
 
-elif [ $1 == 'eval.aug_liver_2.no_pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'eval.synt.liver.fold2.no_pretrain.swin_unetrv2_base' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_2.json --log_dir runs_liver/aug_liver_2.no_pretrain.swin_unetrv2_base --save_dir out/liver
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_2.json --log_dir runs_liver/synt.liver.fold2.no_pretrain.swin_unetrv2_base --save_dir out/liver
 
-elif [ $1 == 'eval.aug_liver_2.no_pretrain.swin_unetrv2_small' ]; then
+elif [ $1 == 'eval.synt.liver.fold2.no_pretrain.swin_unetrv2_small' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=small --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_2.json --log_dir runs_liver/aug_liver_2.no_pretrain.swin_unetrv2_small --save_dir out/liver
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=small --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_2.json --log_dir runs_liver/synt.liver.fold2.no_pretrain.swin_unetrv2_small --save_dir out/liver
 
-elif [ $1 == 'eval.aug_liver_2.no_pretrain.swin_unetrv2_tiny' ]; then
+elif [ $1 == 'eval.synt.liver.fold2.no_pretrain.swin_unetrv2_tiny' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=tiny --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_2.json --log_dir runs_liver/aug_liver_2.no_pretrain.swin_unetrv2_tiny --save_dir out/liver
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=tiny --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_2.json --log_dir runs_liver/synt.liver.fold2.no_pretrain.swin_unetrv2_tiny --save_dir out/liver
 
-elif [ $1 == 'eval.aug_liver_3.no_pretrain.unet' ]; then
+elif [ $1 == 'eval.synt.liver.fold3.no_pretrain.unet' ]; then
 
-    python -W ignore validation.py --model=unet --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_3.json --log_dir runs_liver/aug_liver_3.no_pretrain.unet --save_dir out/liver
+    python -W ignore validation.py --model=unet --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_3.json --log_dir runs_liver/synt.liver.fold3.no_pretrain.unet --save_dir out/liver
 
-elif [ $1 == 'eval.aug_liver_3.pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'eval.synt.liver.fold3.pretrain.swin_unetrv2_base' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_3.json --log_dir runs_liver/aug_liver_3.pretrain.swin_unetrv2_base --save_dir out/liver
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_3.json --log_dir runs_liver/synt.liver.fold3.pretrain.swin_unetrv2_base --save_dir out/liver
 
-elif [ $1 == 'eval.aug_liver_3.no_pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'eval.synt.liver.fold3.no_pretrain.swin_unetrv2_base' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_3.json --log_dir runs_liver/aug_liver_3.no_pretrain.swin_unetrv2_base --save_dir out/liver
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_3.json --log_dir runs_liver/synt.liver.fold3.no_pretrain.swin_unetrv2_base --save_dir out/liver
 
-elif [ $1 == 'eval.aug_liver_3.no_pretrain.swin_unetrv2_small' ]; then
+elif [ $1 == 'eval.synt.liver.fold3.no_pretrain.swin_unetrv2_small' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=small --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_3.json --log_dir runs_liver/aug_liver_3.no_pretrain.swin_unetrv2_small --save_dir out/liver
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=small --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_3.json --log_dir runs_liver/synt.liver.fold3.no_pretrain.swin_unetrv2_small --save_dir out/liver
 
-elif [ $1 == 'eval.aug_liver_3.no_pretrain.swin_unetrv2_tiny' ]; then
+elif [ $1 == 'eval.synt.liver.fold3.no_pretrain.swin_unetrv2_tiny' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=tiny --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_3.json --log_dir runs_liver/aug_liver_3.no_pretrain.swin_unetrv2_tiny --save_dir out/liver
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=tiny --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_3.json --log_dir runs_liver/synt.liver.fold3.no_pretrain.swin_unetrv2_tiny --save_dir out/liver
 
-elif [ $1 == 'eval.aug_liver_4.no_pretrain.unet' ]; then
+elif [ $1 == 'eval.synt.liver.fold4.no_pretrain.unet' ]; then
 
-    python -W ignore validation.py --model=unet --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_4.json --log_dir runs_liver/aug_liver_4.no_pretrain.unet --save_dir out/liver
+    python -W ignore validation.py --model=unet --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_4.json --log_dir runs_liver/synt.liver.fold4.no_pretrain.unet --save_dir out/liver
 
-elif [ $1 == 'eval.aug_liver_4.pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'eval.synt.liver.fold4.pretrain.swin_unetrv2_base' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_4.json --log_dir runs_liver/aug_liver_4.pretrain.swin_unetrv2_base --save_dir out/liver
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_4.json --log_dir runs_liver/synt.liver.fold4.pretrain.swin_unetrv2_base --save_dir out/liver
 
-elif [ $1 == 'eval.aug_liver_4.no_pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'eval.synt.liver.fold4.no_pretrain.swin_unetrv2_base' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_4.json --log_dir runs_liver/aug_liver_4.no_pretrain.swin_unetrv2_base --save_dir out/liver
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_4.json --log_dir runs_liver/synt.liver.fold4.no_pretrain.swin_unetrv2_base --save_dir out/liver
 
-elif [ $1 == 'eval.aug_liver_4.no_pretrain.swin_unetrv2_small' ]; then
+elif [ $1 == 'eval.synt.liver.fold4.no_pretrain.swin_unetrv2_small' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=small --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_4.json --log_dir runs_liver/aug_liver_4.no_pretrain.swin_unetrv2_small --save_dir out/liver
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=small --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_4.json --log_dir runs_liver/synt.liver.fold4.no_pretrain.swin_unetrv2_small --save_dir out/liver
 
-elif [ $1 == 'eval.aug_liver_4.no_pretrain.swin_unetrv2_tiny' ]; then
+elif [ $1 == 'eval.synt.liver.fold4.no_pretrain.swin_unetrv2_tiny' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=tiny --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_4.json --log_dir runs_liver/aug_liver_4.no_pretrain.swin_unetrv2_tiny --save_dir out/liver   
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=tiny --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/liver/liver_tumor_4.json --log_dir runs_liver/synt.liver.fold4.no_pretrain.swin_unetrv2_tiny --save_dir out/liver   
 
 fi
 
@@ -144,104 +144,104 @@ fi
 # real
 
 
-if [ $1 == 'eval.real_kidney_0.no_pretrain.unet' ]; then
+if [ $1 == 'eval.real.liver.fold0.no_pretrain.unet' ]; then
 
-    python -W ignore validation.py --model=unet --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_0.json --log_dir runs_kidney/real_kidney_0.no_pretrain.unet --save_dir out/kidney
+    python -W ignore validation.py --model=unet --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_0.json --log_dir runs_kidney/real.liver.fold0.no_pretrain.unet --save_dir out/kidney
 
-elif [ $1 == 'eval.real_kidney_0.pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'eval.real.liver.fold0.pretrain.swin_unetrv2_base' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_0.json --log_dir runs_kidney/real_kidney_0.pretrain.swin_unetrv2_base --save_dir out/kidney
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_0.json --log_dir runs_kidney/real.liver.fold0.pretrain.swin_unetrv2_base --save_dir out/kidney
 
-elif [ $1 == 'eval.real_kidney_0.no_pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'eval.real.liver.fold0.no_pretrain.swin_unetrv2_base' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_0.json --log_dir runs_kidney/real_kidney_0.no_pretrain.swin_unetrv2_base --save_dir out/kidney
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_0.json --log_dir runs_kidney/real.liver.fold0.no_pretrain.swin_unetrv2_base --save_dir out/kidney
 
-elif [ $1 == 'eval.real_kidney_0.no_pretrain.swin_unetrv2_small' ]; then
+elif [ $1 == 'eval.real.liver.fold0.no_pretrain.swin_unetrv2_small' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=small --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_0.json --log_dir runs_kidney/real_kidney_0.no_pretrain.swin_unetrv2_small --save_dir out/kidney
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=small --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_0.json --log_dir runs_kidney/real.liver.fold0.no_pretrain.swin_unetrv2_small --save_dir out/kidney
 
-elif [ $1 == 'eval.real_kidney_0.no_pretrain.swin_unetrv2_tiny' ]; then
+elif [ $1 == 'eval.real.liver.fold0.no_pretrain.swin_unetrv2_tiny' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=tiny --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_0.json --log_dir runs_kidney/real_kidney_0.no_pretrain.swin_unetrv2_tiny --save_dir out/kidney
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=tiny --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_0.json --log_dir runs_kidney/real.liver.fold0.no_pretrain.swin_unetrv2_tiny --save_dir out/kidney
 
-elif [ $1 == 'eval.real_kidney_1.no_pretrain.unet' ]; then
+elif [ $1 == 'eval.real.liver.fold1.no_pretrain.unet' ]; then
 
-    python -W ignore validation.py --model=unet --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_1.json --log_dir runs_kidney/real_kidney_1.no_pretrain.unet --save_dir out/kidney
+    python -W ignore validation.py --model=unet --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_1.json --log_dir runs_kidney/real.liver.fold1.no_pretrain.unet --save_dir out/kidney
 
-elif [ $1 == 'eval.real_kidney_1.pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'eval.real.liver.fold1.pretrain.swin_unetrv2_base' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_1.json --log_dir runs_kidney/real_kidney_1.pretrain.swin_unetrv2_base --save_dir out/kidney
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_1.json --log_dir runs_kidney/real.liver.fold1.pretrain.swin_unetrv2_base --save_dir out/kidney
 
-elif [ $1 == 'eval.real_kidney_1.no_pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'eval.real.liver.fold1.no_pretrain.swin_unetrv2_base' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_1.json --log_dir runs_kidney/real_kidney_1.no_pretrain.swin_unetrv2_base --save_dir out/kidney
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_1.json --log_dir runs_kidney/real.liver.fold1.no_pretrain.swin_unetrv2_base --save_dir out/kidney
 
-elif [ $1 == 'eval.real_kidney_1.no_pretrain.swin_unetrv2_small' ]; then
+elif [ $1 == 'eval.real.liver.fold1.no_pretrain.swin_unetrv2_small' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=small --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_1.json --log_dir runs_kidney/real_kidney_1.no_pretrain.swin_unetrv2_small --save_dir out/kidney
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=small --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_1.json --log_dir runs_kidney/real.liver.fold1.no_pretrain.swin_unetrv2_small --save_dir out/kidney
 
-elif [ $1 == 'eval.real_kidney_1.no_pretrain.swin_unetrv2_tiny' ]; then
+elif [ $1 == 'eval.real.liver.fold1.no_pretrain.swin_unetrv2_tiny' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=tiny --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_1.json --log_dir runs_kidney/real_kidney_1.no_pretrain.swin_unetrv2_tiny --save_dir out/kidney
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=tiny --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_1.json --log_dir runs_kidney/real.liver.fold1.no_pretrain.swin_unetrv2_tiny --save_dir out/kidney
 
-elif [ $1 == 'eval.real_kidney_2.no_pretrain.unet' ]; then
+elif [ $1 == 'eval.real.liver.fold2.no_pretrain.unet' ]; then
 
-    python -W ignore validation.py --model=unet --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_2.json --log_dir runs_kidney/real_kidney_2.no_pretrain.unet --save_dir out/kidney
+    python -W ignore validation.py --model=unet --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_2.json --log_dir runs_kidney/real.liver.fold2.no_pretrain.unet --save_dir out/kidney
 
-elif [ $1 == 'eval.real_kidney_2.pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'eval.real.liver.fold2.pretrain.swin_unetrv2_base' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_2.json --log_dir runs_kidney/real_kidney_2.pretrain.swin_unetrv2_base --save_dir out/kidney
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_2.json --log_dir runs_kidney/real.liver.fold2.pretrain.swin_unetrv2_base --save_dir out/kidney
 
-elif [ $1 == 'eval.real_kidney_2.no_pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'eval.real.liver.fold2.no_pretrain.swin_unetrv2_base' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_2.json --log_dir runs_kidney/real_kidney_2.no_pretrain.swin_unetrv2_base --save_dir out/kidney
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_2.json --log_dir runs_kidney/real.liver.fold2.no_pretrain.swin_unetrv2_base --save_dir out/kidney
 
-elif [ $1 == 'eval.real_kidney_2.no_pretrain.swin_unetrv2_small' ]; then
+elif [ $1 == 'eval.real.liver.fold2.no_pretrain.swin_unetrv2_small' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=small --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_2.json --log_dir runs_kidney/real_kidney_2.no_pretrain.swin_unetrv2_small --save_dir out/kidney
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=small --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_2.json --log_dir runs_kidney/real.liver.fold2.no_pretrain.swin_unetrv2_small --save_dir out/kidney
 
-elif [ $1 == 'eval.real_kidney_2.no_pretrain.swin_unetrv2_tiny' ]; then
+elif [ $1 == 'eval.real.liver.fold2.no_pretrain.swin_unetrv2_tiny' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=tiny --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_2.json --log_dir runs_kidney/real_kidney_2.no_pretrain.swin_unetrv2_tiny --save_dir out/kidney
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=tiny --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_2.json --log_dir runs_kidney/real.liver.fold2.no_pretrain.swin_unetrv2_tiny --save_dir out/kidney
 
-elif [ $1 == 'eval.real_kidney_3.no_pretrain.unet' ]; then
+elif [ $1 == 'eval.real.liver.fold3.no_pretrain.unet' ]; then
 
-    python -W ignore validation.py --model=unet --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_3.json --log_dir runs_kidney/real_kidney_3.no_pretrain.unet --save_dir out/kidney
+    python -W ignore validation.py --model=unet --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_3.json --log_dir runs_kidney/real.liver.fold3.no_pretrain.unet --save_dir out/kidney
 
-elif [ $1 == 'eval.real_kidney_3.pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'eval.real.liver.fold3.pretrain.swin_unetrv2_base' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_3.json --log_dir runs_kidney/real_kidney_3.pretrain.swin_unetrv2_base --save_dir out/kidney
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_3.json --log_dir runs_kidney/real.liver.fold3.pretrain.swin_unetrv2_base --save_dir out/kidney
 
-elif [ $1 == 'eval.real_kidney_3.no_pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'eval.real.liver.fold3.no_pretrain.swin_unetrv2_base' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_3.json --log_dir runs_kidney/real_kidney_3.no_pretrain.swin_unetrv2_base --save_dir out/kidney
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_3.json --log_dir runs_kidney/real.liver.fold3.no_pretrain.swin_unetrv2_base --save_dir out/kidney
 
-elif [ $1 == 'eval.real_kidney_3.no_pretrain.swin_unetrv2_small' ]; then
+elif [ $1 == 'eval.real.liver.fold3.no_pretrain.swin_unetrv2_small' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=small --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_3.json --log_dir runs_kidney/real_kidney_3.no_pretrain.swin_unetrv2_small --save_dir out/kidney
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=small --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_3.json --log_dir runs_kidney/real.liver.fold3.no_pretrain.swin_unetrv2_small --save_dir out/kidney
 
-elif [ $1 == 'eval.real_kidney_3.no_pretrain.swin_unetrv2_tiny' ]; then
+elif [ $1 == 'eval.real.liver.fold3.no_pretrain.swin_unetrv2_tiny' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=tiny --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_3.json --log_dir runs_kidney/real_kidney_3.no_pretrain.swin_unetrv2_tiny --save_dir out/kidney
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=tiny --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_3.json --log_dir runs_kidney/real.liver.fold3.no_pretrain.swin_unetrv2_tiny --save_dir out/kidney
 
-elif [ $1 == 'eval.real_kidney_4.no_pretrain.unet' ]; then
+elif [ $1 == 'eval.real.liver.fold4.no_pretrain.unet' ]; then
 
-    python -W ignore validation.py --model=unet --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_4.json --log_dir runs_kidney/real_kidney_4.no_pretrain.unet --save_dir out/kidney
+    python -W ignore validation.py --model=unet --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_4.json --log_dir runs_kidney/real.liver.fold4.no_pretrain.unet --save_dir out/kidney
 
-elif [ $1 == 'eval.real_kidney_4.pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'eval.real.liver.fold4.pretrain.swin_unetrv2_base' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_4.json --log_dir runs_kidney/real_kidney_4.pretrain.swin_unetrv2_base --save_dir out/kidney
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_4.json --log_dir runs_kidney/real.liver.fold4.pretrain.swin_unetrv2_base --save_dir out/kidney
 
-elif [ $1 == 'eval.real_kidney_4.no_pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'eval.real.liver.fold4.no_pretrain.swin_unetrv2_base' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_4.json --log_dir runs_kidney/real_kidney_4.no_pretrain.swin_unetrv2_base --save_dir out/kidney
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=base --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_4.json --log_dir runs_kidney/real.liver.fold4.no_pretrain.swin_unetrv2_base --save_dir out/kidney
 
-elif [ $1 == 'eval.real_kidney_4.no_pretrain.swin_unetrv2_small' ]; then
+elif [ $1 == 'eval.real.liver.fold4.no_pretrain.swin_unetrv2_small' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=small --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_4.json --log_dir runs_kidney/real_kidney_4.no_pretrain.swin_unetrv2_small --save_dir out/kidney
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=small --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_4.json --log_dir runs_kidney/real.liver.fold4.no_pretrain.swin_unetrv2_small --save_dir out/kidney
 
-elif [ $1 == 'eval.real_kidney_4.no_pretrain.swin_unetrv2_tiny' ]; then
+elif [ $1 == 'eval.real.liver.fold4.no_pretrain.swin_unetrv2_tiny' ]; then
 
-    python -W ignore validation.py --model=swin_unetrv2 --swin_type=tiny --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_4.json --log_dir runs_kidney/real_kidney_4.no_pretrain.swin_unetrv2_tiny --save_dir out/kidney   
+    python -W ignore validation.py --model=swin_unetrv2 --swin_type=tiny --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/5_fold/kidney/kidney_tumor_4.json --log_dir runs_kidney/real.liver.fold4.no_pretrain.swin_unetrv2_tiny --save_dir out/kidney   
 
 fi
