@@ -306,7 +306,7 @@ def generate_tumor(img, mask, texture,steps, kernel_size, organ_standard_val, or
 
 
     # random select a start point
-
+    
         # crop the organ
     cropped_organ_region = mask[min_x:max_x+1, min_y:max_y+1, min_z:max_z+1]
     cropped_img = img[min_x:max_x+1, min_y:max_y+1, min_z:max_z+1].copy()
@@ -394,6 +394,8 @@ def generate_tumor(img, mask, texture,steps, kernel_size, organ_standard_val, or
     mask_out[mask_out > 2] = 2
 
     return img, mask_out
+
+    
 
     
     
