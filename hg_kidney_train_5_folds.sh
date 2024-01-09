@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=pixel2cancer
+#SBATCH --job-name=pixel2cancer_kidney
 
 #SBATCH -N 1
 #SBATCH -n 12
@@ -37,103 +37,103 @@ datapath=/data/jliang12/zzhou82/datasets/PublicAbdominalData/
 
 #Kidney Synthesis
 
-if [ $1 == 'aug_kidney_0.no_pretrain.unet' ]; then
+if [ $1 == 'synt.kidney.fold0.no_pretrain.unet' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=unet --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_kidney/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/5_fold/kidney/kidney_tumor_0.json
 
-elif [ $1 == 'aug_kidney_0.pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'synt.kidney.fold0.pretrain.swin_unetrv2_base' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=base --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_kidney/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/5_fold/kidney/kidney_tumor_0.json --use_pretrained
 
-elif [ $1 == 'aug_kidney_0.no_pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'synt.kidney.fold0.no_pretrain.swin_unetrv2_base' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=base --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_kidney/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/5_fold/kidney/kidney_tumor_0.json
 
-elif [ $1 == 'aug_kidney_0.no_pretrain.swin_unetrv2_small' ]; then
+elif [ $1 == 'synt.kidney.fold0.no_pretrain.swin_unetrv2_small' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=small --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_kidney/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/5_fold/kidney/kidney_tumor_0.json
 
-elif [ $1 == 'aug_kidney_0.no_pretrain.swin_unetrv2_tiny' ]; then
+elif [ $1 == 'synt.kidney.fold0.no_pretrain.swin_unetrv2_tiny' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=tiny --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_kidney/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/5_fold/kidney/kidney_tumor_0.json
 
-elif [ $1 == 'aug_kidney_1.no_pretrain.unet' ]; then
+elif [ $1 == 'synt.kidney.fold1.no_pretrain.unet' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=unet --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_kidney/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/5_fold/kidney/kidney_tumor_1.json
 
-elif [ $1 == 'aug_kidney_1.pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'synt.kidney.fold1.pretrain.swin_unetrv2_base' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=base --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_kidney/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/5_fold/kidney/kidney_tumor_1.json --use_pretrained
 
-elif [ $1 == 'aug_kidney_1.no_pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'synt.kidney.fold1.no_pretrain.swin_unetrv2_base' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=base --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_kidney/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/5_fold/kidney/kidney_tumor_1.json
 
-elif [ $1 == 'aug_kidney_1.no_pretrain.swin_unetrv2_small' ]; then
+elif [ $1 == 'synt.kidney.fold1.no_pretrain.swin_unetrv2_small' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=small --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_kidney/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/5_fold/kidney/kidney_tumor_1.json
 
-elif [ $1 == 'aug_kidney_1.no_pretrain.swin_unetrv2_tiny' ]; then
+elif [ $1 == 'synt.kidney.fold1.no_pretrain.swin_unetrv2_tiny' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=tiny --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_kidney/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/5_fold/kidney/kidney_tumor_1.json
 
-elif [ $1 == 'aug_kidney_2.no_pretrain.unet' ]; then
+elif [ $1 == 'synt.kidney.fold2.no_pretrain.unet' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=unet --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_kidney/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/5_fold/kidney/kidney_tumor_2.json
 
-elif [ $1 == 'aug_kidney_2.pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'synt.kidney.fold2.pretrain.swin_unetrv2_base' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=base --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_kidney/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/5_fold/kidney/kidney_tumor_2.json --use_pretrained
 
-elif [ $1 == 'aug_kidney_2.no_pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'synt.kidney.fold2.no_pretrain.swin_unetrv2_base' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=base --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_kidney/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/5_fold/kidney/kidney_tumor_2.json
 
-elif [ $1 == 'aug_kidney_2.no_pretrain.swin_unetrv2_small' ]; then
+elif [ $1 == 'synt.kidney.fold2.no_pretrain.swin_unetrv2_small' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=small --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_kidney/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/5_fold/kidney/kidney_tumor_2.json
 
-elif [ $1 == 'aug_kidney_2.no_pretrain.swin_unetrv2_tiny' ]; then
+elif [ $1 == 'synt.kidney.fold2.no_pretrain.swin_unetrv2_tiny' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=tiny --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_kidney/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/5_fold/kidney/kidney_tumor_2.json
 
-elif [ $1 == 'aug_kidney_3.no_pretrain.unet' ]; then
+elif [ $1 == 'synt.kidney.fold3.no_pretrain.unet' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=unet --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_kidney/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/5_fold/kidney/kidney_tumor_3.json
 
-elif [ $1 == 'aug_kidney_3.pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'synt.kidney.fold3.pretrain.swin_unetrv2_base' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=base --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_kidney/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/5_fold/kidney/kidney_tumor_3.json --use_pretrained
 
-elif [ $1 == 'aug_kidney_3.no_pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'synt.kidney.fold3.no_pretrain.swin_unetrv2_base' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=base --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_kidney/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/5_fold/kidney/kidney_tumor_3.json
 
-elif [ $1 == 'aug_kidney_3.no_pretrain.swin_unetrv2_small' ]; then
+elif [ $1 == 'synt.kidney.fold3.no_pretrain.swin_unetrv2_small' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=small --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_kidney/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/5_fold/kidney/kidney_tumor_3.json
 
-elif [ $1 == 'aug_kidney_3.no_pretrain.swin_unetrv2_tiny' ]; then
+elif [ $1 == 'synt.kidney.fold3.no_pretrain.swin_unetrv2_tiny' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=tiny --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_kidney/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/5_fold/kidney/kidney_tumor_3.json
         
-elif [ $1 == 'aug_kidney_4.no_pretrain.unet' ]; then
+elif [ $1 == 'synt.kidney.fold4.no_pretrain.unet' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=unet --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_kidney/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/5_fold/kidney/kidney_tumor_4.json
 
-elif [ $1 == 'aug_kidney_4.pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'synt.kidney.fold4.pretrain.swin_unetrv2_base' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=base --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_kidney/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/5_fold/kidney/kidney_tumor_4.json --use_pretrained
 
-elif [ $1 == 'aug_kidney_4.no_pretrain.swin_unetrv2_base' ]; then
+elif [ $1 == 'synt.kidney.fold4.no_pretrain.swin_unetrv2_base' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=base --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_kidney/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/5_fold/kidney/kidney_tumor_4.json
 
-elif [ $1 == 'aug_kidney_4.no_pretrain.swin_unetrv2_small' ]; then
+elif [ $1 == 'synt.kidney.fold4.no_pretrain.swin_unetrv2_small' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=small --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_kidney/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/5_fold/kidney/kidney_tumor_4.json
 
-elif [ $1 == 'aug_kidney_4.no_pretrain.swin_unetrv2_tiny' ]; then
+elif [ $1 == 'synt.kidney.fold4.no_pretrain.swin_unetrv2_tiny' ]; then
 
     python -W ignore main.py --optim_lr=4e-4 --batch_size=4 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=tiny --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --ngpus_per_node=2 --dist-url=tcp://127.0.0.1:$dist --cache_num=200 --val_overlap=0.5 --syn --logdir="runs_kidney/$1" --train_dir $datapath --val_dir $datapath --organ=kidney --json_dir datafolds/5_fold/kidney/kidney_tumor_4.json
     
