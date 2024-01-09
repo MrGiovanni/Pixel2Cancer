@@ -10,7 +10,7 @@ import torch.nn.parallel
 import torch.distributed as dist
 import torch.multiprocessing as mp
 import torch.utils.data.distributed
-
+from monai.transforms.transform import MapTransform
 import sys
 from os import environ
 
@@ -24,8 +24,7 @@ from monai.transforms import AsDiscrete,Activations,Compose
 
 from monai import transforms, data
 from monai_trainer import AMDistributedSampler, run_training
-from datafolds.datafold_read import datafold_read
-from optimizers import WarmupCosineSchedule,LinearWarmupCosineAnnealingLR
+from optimizers.lr_scheduler import WarmupCosineSchedule,LinearWarmupCosineAnnealingLR
 from networks.unetr import UNETR
 from networks.swin3d_unetr import SwinUNETR
 from networks.swin3d_unetrv2 import SwinUNETR as SwinUNETR_v2
@@ -36,10 +35,10 @@ warnings.filterwarnings("ignore")
 from Tumor_Synthesis import TumorSysthesis
 
 import argparse
-parser = argparse.ArgumentParser(description='brats21 segmentation testing')
+parser = argparse.ArgumentParser(description='5fold cross val')
 
 parser.add_argument('--syn',action='store_true')
-# parser.add_argument('--fold', default=0, type=int)
+parser.add_argument('--fold', default=0, type=int)
 parser.add_argument('--checkpoint', default=None)
 parser.add_argument('--logdir', default=None)
 parser.add_argument('--save_checkpoint', action='store_true')
@@ -130,292 +129,207 @@ parser.add_argument('--cache_num', default=500, type=int)
 parser.add_argument('--use_pretrained', action='store_true')
 parser.add_argument('--ngpus_per_node', default=1, type=int)
 parser.add_argument('--organ', default='kidney', type=str)
+parser.add_argument('--fg_thresh', default=25, type=int)
 
-def optuna_objective(trial, args):
+class RandCropByPosNegLabeld_select(transforms.RandCropByPosNegLabeld):
+    def __init__(self, keys, label_key, spatial_size, 
+                 pos=1.0, neg=1.0, num_samples=1, 
+                 image_key=None, image_threshold=0.0, allow_missing_keys=True,
+                   fg_thresh=0):
+        super().__init__(keys=keys, label_key=label_key, spatial_size=spatial_size, 
+                 pos=pos, neg=neg, num_samples=num_samples, 
+                 image_key=image_key, image_threshold=image_threshold, allow_missing_keys=allow_missing_keys)
+        self.fg_thresh = fg_thresh
 
+    def R2voxel(self,R):
+        return (4/3*np.pi)*(R)**(3)
 
-    if args.optuna_study_name == 'feta21_randaugment':
-        args.seg_aug_mode=5
-        args.randaugment_n = trial.suggest_categorical("randaugment_n", [1,2,3,4,5,6])
-        args.randaugment_p = trial.suggest_categorical("randaugment_p", [0.1,0.3,0.5,0.7,0.9])
-
-    else:
-        args.seg_block = trial.suggest_categorical("seg_block", ["basic_pre", "basic"])
-        args.seg_norm_name = trial.suggest_categorical("seg_norm_name", ["groupnorm", "instancenorm"])
-        args.seg_relu = trial.suggest_categorical("seg_relu", ["relu", "leaky_relu"])
-        args.seg_use_se = trial.suggest_categorical("seg_use_se", [True, False])
-        args.reg_weight = trial.suggest_categorical("reg_weight", [0, 1e-5])
-
-
-
-    # create the formatted name of log directory
-    if args.logdir_init is not None:
-        sall = []
-        for s in trial.params.values():
-            if isinstance(s, float):
-                sall.append('{:.1e}'.format(s) if s < 0.001 else "{:.3f}".format(s))
-            else:
-                sall.append(str(s))
-        args.logdir = args.logdir_init + '/' + str(trial.number) + '_' + '_'.join(sall) #unique logdir name
-        trial.set_user_attr('logdir', args.logdir)
-
-
-    print("Optuna updated argument values:")
-    for k, v in vars(args).items():
-        print(k, '=>', v)
-    print('-----------------')
-
-    if not args.optuna_allfolds:
-        accuracy = main_worker(gpu=0, args=args)
-    else:
-        accuracy = 0
-        for i in range(5):
-            print('Running fold', i)
-            args.fold = i
-            accuracy += main_worker(gpu=0, args=args)
-        accuracy = accuracy / 5.0
-
-    # trial.report(accuracy, epoch)
-    # # Handle pruning based on the intermediate value.
-    # if trial.should_prune():
-    #     raise optuna.exceptions.TrialPruned()
-
-    return accuracy
-
-def optuna_run(args):
-
-    import optuna
-    from optuna.trial import TrialState
-
-
-    args.logdir_init = args.logdir
-
-    study_name = args.optuna_study_name
-    sampler = None
-
-    if args.optuna_sampler is not None:
-        if args.optuna_sampler=='tpe':
-            sampler = optuna.samplers.TPESampler()
-        elif args.optuna_sampler=='random':
-            sampler = optuna.samplers.RandomSampler()
-        elif args.optuna_sampler=='grid':
-
-            if args.optuna_study_name == 'feta21_randaugment':
-
-                search_space = {"randaugment_n":  [1, 2, 3, 4, 5, 6],
-                                "randaugment_p": [0.1, 0.3, 0.5, 0.7, 0.9]
-                                }
-
-            else:
-                search_space = {"seg_block": ["basic_pre", "basic"],
-                                "seg_norm_name": ["groupnorm", "instancenorm"],
-                                "seg_relu" : ["relu", "leaky_relu"],
-                                "seg_use_se" : [False, True],
-                                "reg_weight" :  [0, 1e-5],
-                }
-            sampler = optuna.samplers.GridSampler(search_space=search_space)
-
-    print('Using optuna sampler', sampler, study_name)
-
-
-    objective = partial(optuna_objective, args=args)
-    study = optuna.create_study(
-                                storage="sqlite:///optuna.db",
-                                sampler=sampler,
-                                study_name=study_name,
-                                direction="maximize",
-                                load_if_exists=True)
-    #
-    callbacks=[]
-    if args.logdir is not None:
-        from optuna.integration import TensorBoardPTCallback
-        callbacks.append(TensorBoardPTCallback())
-    study.optimize(objective, callbacks=callbacks, gc_after_trial=True)
-    # study.optimize(objective, gc_after_trial=True)
-
-    pruned_trials = study.get_trials(deepcopy=False, states=[TrialState.PRUNED])
-    complete_trials = study.get_trials(deepcopy=False, states=[TrialState.COMPLETE])
-
-    print("Study statistics: ")
-    print("  Number of finished trials: ", len(study.trials))
-    print("  Number of pruned trials: ", len(pruned_trials))
-    print("  Number of complete trials: ", len(complete_trials))
-
-    print("Best trial:")
-    trial = study.best_trial
-
-    print("  Value: ", trial.value)
-
-    print("  Params: ")
-    for key, value in trial.params.items():
-        print("    {}: {}".format(key, value))
-
-
-def _get_transform(args):
-    if args.organ == 'kidney':
-        if args.syn:
-            train_transform = transforms.Compose(
-            [
-                transforms.LoadImaged(keys=["image", "label"]),
-                transforms.AddChanneld(keys=["image", "label"]),
-                # transforms.Orientationd(keys=["image", "label"], axcodes="RAS"),
-                # transforms.Spacingd(keys=["image", "label"], pixdim=(1.0, 1.0, 1.0), mode=("bilinear", "nearest")),
-                TumorSysthesis(keys=["image", "label"], prob=0.9, args= args), # here we use online 
-                transforms.ScaleIntensityRanged(
-                    keys=["image"], a_min=-21, a_max=189,
-                    b_min=0.0, b_max=1.0, clip=True,
-                ),
-                transforms.SpatialPadd(keys=["image", "label"], mode=["minimum", "constant"], spatial_size=[96, 96, args.roi_z]),
-                    # transforms.CropForegroundd(keys=["image", "label"], source_key="image", k_divisible=roi_size),
-                    # transforms.RandSpatialCropd(keys=["image", "label"], roi_size=roi_size, random_size=False),
-                transforms.RandCropByPosNegLabeld(
-                    keys=["image", "label"],
-                    label_key="label",
-                    spatial_size=(96, 96, args.roi_z),
-                    pos=1,
-                    neg=1,
-                    num_samples=1,
-                    image_key="image",
-                    image_threshold=0,
-                ),
-                transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=0),
-                transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=1),
-                transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=2),
-                transforms.RandRotate90d(keys=["image", "label"], prob=0.2, max_k=3),
-                    # transforms.NormalizeIntensityd(keys="image", nonzero=True, channel_wise=True),
-                transforms.RandScaleIntensityd(keys="image", factors=0.1, prob=0.15),
-                transforms.RandShiftIntensityd(keys="image", offsets=0.1, prob=0.15),
-                transforms.ToTensord(keys=["image", "label"]),
-            ]
-            )
+    def __call__(self, data):
+        d = dict(data)
+        # print(d)
+        data_name = d['name']
+        d.pop('name')
+        # print(self.R2voxel(self.fg_thresh)) # 113097
+        if '10_Decathlon' in data_name or '05_KiTS' in data_name:
+            d_crop = super().__call__(d)
         else:
-            train_transform = transforms.Compose(
-            [
-                transforms.LoadImaged(keys=["image", "label"]),
-                transforms.AddChanneld(keys=["image", "label"]),
-                # transforms.Orientationd(keys=["image", "label"], axcodes="RAS"),
-                # transforms.Spacingd(keys=["image", "label"], pixdim=(1.0, 1.0, 1.0), mode=("bilinear", "nearest")),
-                transforms.ScaleIntensityRanged(
-                    keys=["image"], a_min=-21, a_max=189,
-                    b_min=0.0, b_max=1.0, clip=True,
-                ),
-                transforms.SpatialPadd(keys=["image", "label"], mode=["minimum", "constant"], spatial_size=[96, 96, args.roi_z]),
-                    # transforms.CropForegroundd(keys=["image", "label"], source_key="image", k_divisible=roi_size),
-                    # transforms.RandSpatialCropd(keys=["image", "label"], roi_size=roi_size, random_size=False),
-                transforms.RandCropByPosNegLabeld(
-                    keys=["image", "label"],
-                    label_key="label",
-                    spatial_size=(96, 96, args.roi_z),
-                    pos=1,
-                    neg=1,
-                    num_samples=1,
-                    image_key="image",
-                    image_threshold=0,
-                ),
-                transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=0),
-                transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=1),
-                transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=2),
-                transforms.RandRotate90d(keys=["image", "label"], prob=0.2, max_k=3),
-                    # transforms.NormalizeIntensityd(keys="image", nonzero=True, channel_wise=True),
-                transforms.RandScaleIntensityd(keys="image", factors=0.1, prob=0.15),
-                transforms.RandShiftIntensityd(keys="image", offsets=0.1, prob=0.15),
-                transforms.ToTensord(keys=["image", "label"]),
-            ]
-            )
+            flag=0
+            while 1:
+                flag+=1
+                d_crop = super().__call__(d)
+                pixel_num = (d_crop[0]['label']>0).sum()
+                # print(pixel_num)
+                if pixel_num > self.R2voxel(self.fg_thresh):
+                    break
+                if flag>5 and pixel_num > self.R2voxel(max(self.fg_thresh-5, 5)):
+                    break
+                if flag>10 and pixel_num > self.R2voxel(max(self.fg_thresh-10, 5)):
+                    break
+                if flag>15 and pixel_num > self.R2voxel(max(self.fg_thresh-15, 5)):
+                    break
+                if flag>20 and pixel_num > self.R2voxel(max(self.fg_thresh-20, 5)):
+                    break
+                if flag>25 and pixel_num > self.R2voxel(max(self.fg_thresh-25, 5)):
+                    break
+                # if flag>30:
+                #     break
+        d_crop[0]['name'] = data_name
+
+        return d_crop
+
+class LoadImage_train(MapTransform):
+    def __init__(self,organ_type):
+        self.reader1 = transforms.LoadImaged(keys=["image", "label"])
+        self.organ_type = organ_type
+
+    def __call__(self, data):
+        d = dict(data)
+        data_name = d['name']
+        # print(data_name)
+        if ('05_KiTS' in data_name) and self.organ_type == 'kidney':
+            d = self.reader1.__call__(d)
+            d['label'][d['label']==3] = 1
+        elif (not '05_KiTS' in data_name) and self.organ_type == 'kidney':
+            d = self.reader1.__call__(d)
+            d['label'][d['label']>0] = 1
+            
+        else :
+            d = self.reader1.__call__(d)
+
+        return d
+    
+class LoadImage_val(transforms.LoadImaged):
+    def __init__(self, keys, *args,**kwargs, ):
+        super().__init__(keys)
+
+    def __call__(self, data):
+        d = dict(data)
+        data_name = d['name']
+
+        d = super().__call__(d)
+        if '05_KiTS' in data_name:
+            d['label'][d['label']==3] = 1
+
+        return d
+    
+def _get_transform(args):
+    if args.syn:
+        train_transform = transforms.Compose(
+        [
+            # transforms.LoadImaged(keys=["image", "label"]),
+            LoadImage_train(args.organ),
+            transforms.AddChanneld(keys=["image", "label"]),
+            transforms.Orientationd(keys=["image", "label"], axcodes="RAS"),
+            transforms.Spacingd(keys=["image", "label"], pixdim=(1.0, 1.0, 1.0), mode=("bilinear", "nearest")),
+            TumorSysthesis(keys=["image", "label"], prob=0.9, args= args), # here we use online 
+            transforms.ScaleIntensityRanged(
+                keys=["image"], a_min=-175, a_max=250,
+                b_min=0.0, b_max=1.0, clip=True,
+            ),
+            transforms.SpatialPadd(keys=["image", "label"], mode=["minimum", "constant"], spatial_size=[96, 96, 96]),
+                # transforms.CropForegroundd(keys=["image", "label"], source_key="image", k_divisible=roi_size),
+                # transforms.RandSpatialCropd(keys=["image", "label"], roi_size=roi_size, random_size=False),
+            # transforms.RandCropByPosNegLabeld(
+            #     keys=["image", "label"],
+            #     label_key="label",
+            #     spatial_size=(96, 96, 96),
+            #     pos=1,
+            #     neg=1,
+            #     num_samples=1,
+            #     image_key="image",
+            #     image_threshold=0,
+            # ),
+            RandCropByPosNegLabeld_select(
+                keys=["image", "label", "name"],
+                label_key="label",
+                spatial_size=(96, 96, 96),
+                pos=1,
+                neg=1,
+                num_samples=1,
+                image_key="image",
+                image_threshold=0,
+                fg_thresh = args.fg_thresh,
+            ),
+            transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=0),
+            transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=1),
+            transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=2),
+            transforms.RandRotate90d(keys=["image", "label"], prob=0.2, max_k=3),
+    #             transforms.NormalizeIntensityd(keys="image", nonzero=True, channel_wise=True),
+            transforms.RandScaleIntensityd(keys="image", factors=0.1, prob=0.15),
+            transforms.RandShiftIntensityd(keys="image", offsets=0.1, prob=0.15),
+            transforms.ToTensord(keys=["image", "label"]),
+        ]
+        )
 
         val_transform = transforms.Compose(
             [
-                transforms.LoadImaged(keys=["image", "label"]),
+                LoadImage_val(keys=["image", "label"]),
                 # transforms.ConvertToMultiChannelBasedOnBratsClassesd(keys="label"),
                 # transforms.NormalizeIntensityd(keys="image", nonzero=True, channel_wise=True),
                 transforms.AddChanneld(keys=["image", "label"]),
-                # transforms.Orientationd(keys=["image", "label"], axcodes="RAS"),
-                # transforms.Spacingd(keys=["image", "label"], pixdim=(1.0, 1.0, 1.0), mode=("bilinear", "nearest")),
-                transforms.ScaleIntensityRanged(keys=["image"], a_min=-21, a_max=189, b_min=0.0, b_max=1.0, clip=True),
+                transforms.Orientationd(keys=["image", "label"], axcodes="RAS"),
+                transforms.Spacingd(keys=["image", "label"], pixdim=(1.0, 1.0, 1.0), mode=("bilinear", "nearest")),
+                transforms.ScaleIntensityRanged(keys=["image"], a_min=-175, a_max=250, b_min=0.0, b_max=1.0, clip=True),
                 transforms.SpatialPadd(keys=["image", "label"], mode=["minimum", "constant"], spatial_size=[96, 96, args.roi_z]),
                 transforms.ToTensord(keys=["image", "label"]),
             ]
         )
     else:
-        if args.syn:
-            train_transform = transforms.Compose(
-            [
-                transforms.LoadImaged(keys=["image", "label"]),
-                transforms.AddChanneld(keys=["image", "label"]),
-                transforms.Orientationd(keys=["image", "label"], axcodes="RAS"),
-                transforms.Spacingd(keys=["image", "label"], pixdim=(1.0, 1.0, 1.0), mode=("bilinear", "nearest")),
-                TumorSysthesis(keys=["image", "label"], prob=0.9, args= args), # here we use online 
-                transforms.ScaleIntensityRanged(
-                    keys=["image"], a_min=-21, a_max=189,
-                    b_min=0.0, b_max=1.0, clip=True,
-                ),
-                transforms.SpatialPadd(keys=["image", "label"], mode=["minimum", "constant"], spatial_size=[96, 96, args.roi_z]),
-                    # transforms.CropForegroundd(keys=["image", "label"], source_key="image", k_divisible=roi_size),
-                    # transforms.RandSpatialCropd(keys=["image", "label"], roi_size=roi_size, random_size=False),
-                transforms.RandCropByPosNegLabeld(
-                    keys=["image", "label"],
-                    label_key="label",
-                    spatial_size=(96, 96, args.roi_z),
-                    pos=1,
-                    neg=1,
-                    num_samples=1,
-                    image_key="image",
-                    image_threshold=0,
-                ),
-                transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=0),
-                transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=1),
-                transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=2),
-                transforms.RandRotate90d(keys=["image", "label"], prob=0.2, max_k=3),
-                    # transforms.NormalizeIntensityd(keys="image", nonzero=True, channel_wise=True),
-                transforms.RandScaleIntensityd(keys="image", factors=0.1, prob=0.15),
-                transforms.RandShiftIntensityd(keys="image", offsets=0.1, prob=0.15),
-                transforms.ToTensord(keys=["image", "label"]),
-            ]
-            )
-        else:
-            train_transform = transforms.Compose(
-            [
-                transforms.LoadImaged(keys=["image", "label"]),
-                transforms.AddChanneld(keys=["image", "label"]),
-                transforms.Orientationd(keys=["image", "label"], axcodes="RAS"),
-                transforms.Spacingd(keys=["image", "label"], pixdim=(1.0, 1.0, 1.0), mode=("bilinear", "nearest")),
-                transforms.ScaleIntensityRanged(
-                    keys=["image"], a_min=-21, a_max=189,
-                    b_min=0.0, b_max=1.0, clip=True,
-                ),
-                transforms.SpatialPadd(keys=["image", "label"], mode=["minimum", "constant"], spatial_size=[96, 96, args.roi_z]),
-                    # transforms.CropForegroundd(keys=["image", "label"], source_key="image", k_divisible=roi_size),
-                    # transforms.RandSpatialCropd(keys=["image", "label"], roi_size=roi_size, random_size=False),
-                transforms.RandCropByPosNegLabeld(
-                    keys=["image", "label"],
-                    label_key="label",
-                    spatial_size=(96, 96, args.roi_z),
-                    pos=1,
-                    neg=1,
-                    num_samples=1,
-                    image_key="image",
-                    image_threshold=0,
-                ),
-                transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=0),
-                transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=1),
-                transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=2),
-                transforms.RandRotate90d(keys=["image", "label"], prob=0.2, max_k=3),
-                    # transforms.NormalizeIntensityd(keys="image", nonzero=True, channel_wise=True),
-                transforms.RandScaleIntensityd(keys="image", factors=0.1, prob=0.15),
-                transforms.RandShiftIntensityd(keys="image", offsets=0.1, prob=0.15),
-                transforms.ToTensord(keys=["image", "label"]),
-            ]
-            )
+        train_transform = transforms.Compose(
+        [
+            # transforms.LoadImaged(keys=["image", "label"]),
+            LoadImage_train(args.organ),
+            transforms.AddChanneld(keys=["image", "label"]),
+            transforms.Orientationd(keys=["image", "label"], axcodes="RAS"),
+            transforms.Spacingd(keys=["image", "label"], pixdim=(1.0, 1.0, 1.0), mode=("bilinear", "nearest")),
+            transforms.ScaleIntensityRanged(
+                keys=["image"], a_min=-175, a_max=250,
+                b_min=0.0, b_max=1.0, clip=True,
+            ),
+            transforms.SpatialPadd(keys=["image", "label"], mode=["minimum", "constant"], spatial_size=[96, 96, 96]),
+                # transforms.CropForegroundd(keys=["image", "label"], source_key="image", k_divisible=roi_size),
+                # transforms.RandSpatialCropd(keys=["image", "label"], roi_size=roi_size, random_size=False),
+            # transforms.RandCropByPosNegLabeld(
+            #     keys=["image", "label"],
+            #     label_key="label",
+            #     spatial_size=(96, 96, 96),
+            #     pos=1,
+            #     neg=1,
+            #     num_samples=1,
+            #     image_key="image",
+            #     image_threshold=0,
+            # ),
+            RandCropByPosNegLabeld_select(
+                keys=["image", "label", "name"],
+                label_key="label",
+                spatial_size=(96, 96, 96),
+                pos=1,
+                neg=1,
+                num_samples=1,
+                image_key="image",
+                image_threshold=0,
+                fg_thresh = args.fg_thresh,
+            ),
+            transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=0),
+            transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=1),
+            transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=2),
+            transforms.RandRotate90d(keys=["image", "label"], prob=0.2, max_k=3),
+                # transforms.NormalizeIntensityd(keys="image", nonzero=True, channel_wise=True),
+            transforms.RandScaleIntensityd(keys="image", factors=0.1, prob=0.15),
+            transforms.RandShiftIntensityd(keys="image", offsets=0.1, prob=0.15),
+            transforms.ToTensord(keys=["image", "label"]),
+        ]
+        )
 
         val_transform = transforms.Compose(
             [
-                transforms.LoadImaged(keys=["image", "label"]),
+                LoadImage_val(keys=["image", "label"]),
                 # transforms.ConvertToMultiChannelBasedOnBratsClassesd(keys="label"),
                 # transforms.NormalizeIntensityd(keys="image", nonzero=True, channel_wise=True),
                 transforms.AddChanneld(keys=["image", "label"]),
                 transforms.Orientationd(keys=["image", "label"], axcodes="RAS"),
                 transforms.Spacingd(keys=["image", "label"], pixdim=(1.0, 1.0, 1.0), mode=("bilinear", "nearest")),
-                transforms.ScaleIntensityRanged(keys=["image"], a_min=-21, a_max=189, b_min=0.0, b_max=1.0, clip=True),
+                transforms.ScaleIntensityRanged(keys=["image"], a_min=-175, a_max=250, b_min=0.0, b_max=1.0, clip=True),
                 transforms.SpatialPadd(keys=["image", "label"], mode=["minimum", "constant"], spatial_size=[96, 96, args.roi_z]),
                 transforms.ToTensord(keys=["image", "label"]),
             ]
@@ -424,11 +338,8 @@ def _get_transform(args):
     return train_transform, val_transform
 
 def main():
-
-
     args = parser.parse_args()
     args.amp = not args.noamp
-    
     
     if args.randaugment_n > 0:
         args.seg_aug_mode=5
@@ -438,19 +349,17 @@ def main():
         print(k, '=>', v)
     print('-----------------')
 
-    if args.optuna:
-        optuna_run(args)
+
+    if args.distributed:
+        # args.ngpus_per_node = torch.cuda.device_count()
+        print('Found total gpus', args.ngpus_per_node)
+
+        args.world_size = args.ngpus_per_node * args.world_size
+        mp.spawn(main_worker, nprocs=args.ngpus_per_node, args=(args,))
+
     else:
-        if args.distributed:
-            # args.ngpus_per_node = torch.cuda.device_count()
-            print('Found total gpus', args.ngpus_per_node)
-
-            args.world_size = args.ngpus_per_node * args.world_size
-            mp.spawn(main_worker, nprocs=args.ngpus_per_node, args=(args,))
-
-        else:
-            # Simply call main_worker function
-            main_worker(gpu=0, args=args)
+        # Simply call main_worker function
+        main_worker(gpu=0, args=args)
 
 def main_worker(gpu, args):
 
@@ -471,8 +380,8 @@ def main_worker(gpu, args):
     if args.rank==0:
         print('Batch size is:', args.batch_size, 'epochs', args.max_epochs)
 
-    roi_size = [args.roi_x, args.roi_y, args.roi_x]
-    inf_size = [args.roi_x, args.roi_y, args.roi_x]
+    roi_size = [args.roi_x, args.roi_y, args.roi_z]
+    inf_size = [args.roi_x, args.roi_y, args.roi_z]
     num_blocks = list(map(int, args.seg_num_blocks.split(',')))
 
     
@@ -547,19 +456,23 @@ def main_worker(gpu, args):
     val_files = load_decathlon_datalist(datalist_json, True, "validation", base_dir=val_data_dir)
     
     new_datalist = []
+    
     for item in datalist:
         new_item = {}
+        new_item['name'] = item['image']
         new_item['image'] = item['image']
         new_item['label'] = item['label'].replace(data_dir+'datafolds', './datafolds')
         new_datalist.append(new_item)
-
+        print(new_item['image'], new_item['label'])
 
     new_val_files = []
     for item in val_files:
         new_item = {}
+        new_item['name'] = item['image']
         new_item['image'] = item['image']
         new_item['label'] = item['label'].replace(val_data_dir+'datafolds', './datafolds')
         new_val_files.append(new_item)
+        print(new_item['image'], new_item['label'])
 
     
     val_shape_dict = {}
@@ -695,4 +608,5 @@ def main_worker(gpu, args):
 
 if __name__ == '__main__':
     main()
+
 
