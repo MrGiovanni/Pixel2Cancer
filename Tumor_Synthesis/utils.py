@@ -38,6 +38,7 @@ def grow_tumor(current_state, density_organ_state, kernel_size, steps, all_state
     # process
 
     death_flag = False
+    # simulate tumor growth for each step
     for i in range(steps+1):
         current_state = update_cellular(current_state, density_organ_state, (kernel_size[0], kernel_size[1], kernel_size[2]), (
             organ_hu_lowerbound, organ_standard_val, outrange_standard_val, threshold), death_flag).clamp(max=(outrange_standard_val + 2))
@@ -72,7 +73,8 @@ def grow_tumor(current_state, density_organ_state, kernel_size, steps, all_state
                             current_state[idx_x + x_offset, idx_y + y_offset, idx_z + z_offset] = -1
                     except:
                         pass
-                
+            
+            # death spread
 
             current_state = torch.tensor(current_state, dtype=torch.int32).cuda(args.gpu)
             for i in range(int(steps/7 + 1)):
@@ -183,7 +185,8 @@ def expand(src, PointX, PointY, Radius, Strength):
     return processed_image
 
 def Quantify(processed_organ_region, organ_hu_lowerbound, organ_standard_val, outrange_standard_val):
-    # Quantify the density of the organ
+    
+    # Quantify the intensity of differnent part of the organ
     interval = (outrange_standard_val - organ_hu_lowerbound) / 3
     processed_organ_region[(processed_organ_region < (
         organ_hu_lowerbound+interval))] = organ_hu_lowerbound
@@ -200,7 +203,7 @@ def Quantify(processed_organ_region, organ_hu_lowerbound, organ_standard_val, ou
     processed_organ_region[processed_organ_region == outrange_standard_val] = 1
     
 
-
+    
     processed_organ_region[processed_organ_region == 1] = outrange_standard_val
 
     density_organ_map[(density_organ_map == outrange_standard_val) & (
@@ -256,11 +259,12 @@ def map_to_CT_value(img, tumor, texture, density_organ_map, threshold, outrange_
         img = img + texture*differnece*tumor_fat/threshold
         
 
-
+    # typically difference between tumor and normal tissue
     difference_1 = np.random.uniform(65, 145)
 
     map_img = img - texture*difference_1*tumor_1/threshold
     
+    # death cell mapping
     if death_flag == True:
         tumor_2 = tumor.copy()
         tumor_2[tumor_2 > -1] = 0
@@ -307,7 +311,7 @@ def generate_tumor(img, mask, texture,steps, kernel_size, organ_standard_val, or
 
     # random select a start point
     
-        # crop the organ
+    # crop the organ region
     cropped_organ_region = mask[min_x:max_x+1, min_y:max_y+1, min_z:max_z+1]
     cropped_img = img[min_x:max_x+1, min_y:max_y+1, min_z:max_z+1].copy()
 
@@ -327,20 +331,21 @@ def generate_tumor(img, mask, texture,steps, kernel_size, organ_standard_val, or
                         outrange_standard_val] = outrange_standard_val
 
 
-
+    # Quantify the density of the organ
     processed_organ_region, density_organ_map = Quantify(processed_organ_region, organ_hu_lowerbound, organ_standard_val, outrange_standard_val)
 
-
+    # initialize state maps
     current_state = torch.tensor(
         processed_organ_region, dtype=torch.int32).cuda(args.gpu)
     density_organ_state = torch.tensor(
         density_organ_map, dtype=torch.int32).cuda(args.gpu)
-    
+    # sample the initial tumor number
     try_time = 0
     try_max = np.random.randint(1, 10)
     core_point = []
     while try_time < try_max:
         try_time += 1
+        # select point in organ region
         matching_indices = np.argwhere(
             processed_organ_region == organ_standard_val)
         if matching_indices.size > 0:
@@ -394,6 +399,10 @@ def generate_tumor(img, mask, texture,steps, kernel_size, organ_standard_val, or
     mask_out[mask_out > 2] = 2
 
     return img, mask_out
+
+    
+
+    
 
     
 
