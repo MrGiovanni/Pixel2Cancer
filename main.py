@@ -216,7 +216,7 @@ def _get_transform(args):
     if args.syn:
         train_transform = transforms.Compose(
         [
-            # transforms.LoadImaged(keys=["image", "label"]),
+           
             LoadImage_train(args.organ),
             transforms.AddChanneld(keys=["image", "label"]),
             transforms.Orientationd(keys=["image", "label"], axcodes="RAS"),
@@ -227,18 +227,7 @@ def _get_transform(args):
                 b_min=0.0, b_max=1.0, clip=True,
             ),
             transforms.SpatialPadd(keys=["image", "label"], mode=["minimum", "constant"], spatial_size=[96, 96, 96]),
-                # transforms.CropForegroundd(keys=["image", "label"], source_key="image", k_divisible=roi_size),
-                # transforms.RandSpatialCropd(keys=["image", "label"], roi_size=roi_size, random_size=False),
-            # transforms.RandCropByPosNegLabeld(
-            #     keys=["image", "label"],
-            #     label_key="label",
-            #     spatial_size=(96, 96, 96),
-            #     pos=1,
-            #     neg=1,
-            #     num_samples=1,
-            #     image_key="image",
-            #     image_threshold=0,
-            # ),
+       
             RandCropByPosNegLabeld_select(
                 keys=["image", "label", "name"],
                 label_key="label",
@@ -254,7 +243,6 @@ def _get_transform(args):
             transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=1),
             transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=2),
             transforms.RandRotate90d(keys=["image", "label"], prob=0.2, max_k=3),
-    #             transforms.NormalizeIntensityd(keys="image", nonzero=True, channel_wise=True),
             transforms.RandScaleIntensityd(keys="image", factors=0.1, prob=0.15),
             transforms.RandShiftIntensityd(keys="image", offsets=0.1, prob=0.15),
             transforms.ToTensord(keys=["image", "label"]),
@@ -264,8 +252,7 @@ def _get_transform(args):
         val_transform = transforms.Compose(
             [
                 LoadImage_val(keys=["image", "label"]),
-                # transforms.ConvertToMultiChannelBasedOnBratsClassesd(keys="label"),
-                # transforms.NormalizeIntensityd(keys="image", nonzero=True, channel_wise=True),
+               
                 transforms.AddChanneld(keys=["image", "label"]),
                 transforms.Orientationd(keys=["image", "label"], axcodes="RAS"),
                 transforms.Spacingd(keys=["image", "label"], pixdim=(1.0, 1.0, 1.0), mode=("bilinear", "nearest")),
@@ -277,7 +264,7 @@ def _get_transform(args):
     else:
         train_transform = transforms.Compose(
         [
-            # transforms.LoadImaged(keys=["image", "label"]),
+        
             LoadImage_train(args.organ),
             transforms.AddChanneld(keys=["image", "label"]),
             transforms.Orientationd(keys=["image", "label"], axcodes="RAS"),
@@ -287,18 +274,7 @@ def _get_transform(args):
                 b_min=0.0, b_max=1.0, clip=True,
             ),
             transforms.SpatialPadd(keys=["image", "label"], mode=["minimum", "constant"], spatial_size=[96, 96, 96]),
-                # transforms.CropForegroundd(keys=["image", "label"], source_key="image", k_divisible=roi_size),
-                # transforms.RandSpatialCropd(keys=["image", "label"], roi_size=roi_size, random_size=False),
-            # transforms.RandCropByPosNegLabeld(
-            #     keys=["image", "label"],
-            #     label_key="label",
-            #     spatial_size=(96, 96, 96),
-            #     pos=1,
-            #     neg=1,
-            #     num_samples=1,
-            #     image_key="image",
-            #     image_threshold=0,
-            # ),
+               
             RandCropByPosNegLabeld_select(
                 keys=["image", "label", "name"],
                 label_key="label",
@@ -314,7 +290,6 @@ def _get_transform(args):
             transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=1),
             transforms.RandFlipd(keys=["image", "label"], prob=0.2, spatial_axis=2),
             transforms.RandRotate90d(keys=["image", "label"], prob=0.2, max_k=3),
-                # transforms.NormalizeIntensityd(keys="image", nonzero=True, channel_wise=True),
             transforms.RandScaleIntensityd(keys="image", factors=0.1, prob=0.15),
             transforms.RandShiftIntensityd(keys="image", offsets=0.1, prob=0.15),
             transforms.ToTensord(keys=["image", "label"]),
@@ -324,8 +299,7 @@ def _get_transform(args):
         val_transform = transforms.Compose(
             [
                 LoadImage_val(keys=["image", "label"]),
-                # transforms.ConvertToMultiChannelBasedOnBratsClassesd(keys="label"),
-                # transforms.NormalizeIntensityd(keys="image", nonzero=True, channel_wise=True),
+                
                 transforms.AddChanneld(keys=["image", "label"]),
                 transforms.Orientationd(keys=["image", "label"], axcodes="RAS"),
                 transforms.Spacingd(keys=["image", "label"], pixdim=(1.0, 1.0, 1.0), mode=("bilinear", "nearest")),
@@ -491,15 +465,7 @@ def main_worker(gpu, args):
     print('train_files files', len(new_datalist), 'validation files', len(new_val_files))
 
 
-    # train_ds = data.Dataset(data=new_datalist, transform=train_transform)
-    # cache dataset
-    # train_ds = data.CacheDataset(
-    #             data=datalist,
-    #             transform=train_transform,
-    #             cache_num=args.cache_num,
-    #             cache_rate=1.0,
-    #             num_workers=args.workers,
-    #         )
+   
     train_ds = data.SmartCacheDataset(
                 data=new_datalist,
                 transform=train_transform,
@@ -514,13 +480,7 @@ def main_worker(gpu, args):
 
 
     val_ds = data.Dataset(data=new_val_files, transform=val_transform)
-    # val_ds = data.CacheDataset(
-    #             data=new_val_files,
-    #             transform=val_transform,
-    #             cache_num=args.cache_num,
-    #             cache_rate=1.0,
-    #             num_workers=args.workers,
-    #         )
+   
     val_sampler = AMDistributedSampler(val_ds, shuffle=False) if args.distributed else None
     val_loader = data.DataLoader(val_ds, batch_size=1, shuffle=False, num_workers=args.workers, sampler=val_sampler, pin_memory=True)
 
@@ -608,5 +568,6 @@ def main_worker(gpu, args):
 
 if __name__ == '__main__':
     main()
+
 
 
