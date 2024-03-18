@@ -6,7 +6,7 @@
 Yuxiang Lai<sup>1,2</sup>, Xiaoxi Chen<sup>2</sup>, Angtian Wang<sup>2</sup>, [Alan L. Yuille](https://www.cs.jhu.edu/~ayuille/)<sup>2</sup>, and [Zongwei Zhou](https://www.zongweiz.com/)<sup>2,*</sup> <br/>
 <sup>1 </sup>Southeast University,  <br/>
 <sup>2 </sup>Johns Hopkins University  <br/>
-paper | [code](https://github.com/MrGiovanni/Pixel2Cancer/tree/main)
+[paper](https://arxiv.org/abs/2403.06459) | [code](https://github.com/MrGiovanni/Pixel2Cancer/tree/main)
 
 ## 0. Installation
 
