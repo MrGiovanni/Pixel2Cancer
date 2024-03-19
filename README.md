@@ -26,16 +26,16 @@ Yuxiang Lai<sup>1,2</sup>, Xiaoxi Chen<sup>2</sup>, Angtian Wang<sup>2</sup>, [A
 
 | Organ | Tumor | Model               | Pre-trained? | Download |          
 |-------  |-------|---------------------|--------------|----------|
-| liver | real  | unet                | no           | [link](#) |
-| liver | real  | swin_unetrv2_base  | yes          | [link](#) |
-| liver | real  | swin_unetrv2_base  | no           | [link](#) |
-| liver | real  | swin_unetrv2_small | no           | [link](#) |
-| liver | real  | swin_unetrv2_tiny  | no           | [link](#) |
-| liver | synt  | unet                | no           | [link](#) |
-| liver | synt  | swin_unetrv2_base  | yes          | [link](#) |
-| liver | synt  | swin_unetrv2_base  | no           | [link](#) |
-| liver | synt  | swin_unetrv2_small | no           | [link](#) |
-| liver | synt  | swin_unetrv2_tiny  | no           | [link](#) |
+| pancreas | real  | unet                | no           | [link](#) |
+| pancreas | real  | swin_unetrv2_base  | yes          | [link](#) |
+| pancreas | real  | swin_unetrv2_base  | no           | [link](#) |
+| pancreas | real  | swin_unetrv2_small | no           | [link](#) |
+| pancreas | real  | swin_unetrv2_tiny  | no           | [link](#) |
+| pancreas | synt  | unet                | no           | [link](#) |
+| pancreas | synt  | swin_unetrv2_base  | yes          | [link](#) |
+| pancreas | synt  | swin_unetrv2_base  | no           | [link](#) |
+| pancreas | synt  | swin_unetrv2_small | no           | [link](#) |
+| pancreas | synt  | swin_unetrv2_tiny  | no           | [link](#) |
 
 </div>
 
