@@ -19,6 +19,8 @@ wget https://github.com/Project-MONAI/MONAI-extra-test-data/releases/download/0.
 
 See [installation instructions](INSTALL.md) to create an environment and obtain requirements.
 
+
+
 ## 1. Train segmentation models using synthetic tumors
 
 ```bash
@@ -92,6 +94,36 @@ CUDA_VISIBLE_DEVICES=0 python -W ignore validation.py --model=swin_unetrv2 --swi
 # Swin-UNETR-Tiny (no.pretrain)
 CUDA_VISIBLE_DEVICES=0 python -W ignore validation.py --model=swin_unetrv2 --swin_type=tiny --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/lits.json --log_dir runs/real.no_pretrain.swin_unetrv2_tiny --save_dir out
 ```
+
+## 4. Other Setting
+#### Train on 9k data of AbdominalAtlas1.1
+
+AbdominalAtlas1.1 training data list: 
+
+```bash
+/datafolds/Bodymap/Atlas9k_liver
+
+/datafolds/Bodymap/Atlas9k_kidney
+
+/datafolds/Bodymap/Atlas9k_pancreas
+
+
+```
+
+#### Intern experiments
+
+Public training data list
+
+```bash
+/datafolds/5_fold/liver
+
+/datafolds/5_fold/pancreas
+
+/datafolds/5_fold/kidney
+```
+
+
+
 ## Acknowledgement
 
 This work was supported by the Lustgarten Foundation for Pancreatic Cancer Research and the McGovern Foundation. The segmentation backbone is based on [Swin UNETR](https://github.com/Project-MONAI/tutorials/blob/main/3d_segmentation/swin_unetr_btcv_segmentation_3d.ipynb); we appreciate the effort of the [MONAI Team](https://monai.io/) to provide and maintain open-source code to the community.
