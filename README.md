@@ -1,5 +1,5 @@
 # Pixel2Cancer
-
+![](Figure/fig_pixel2cancer)
 ## Paper
 
 <b>From Pixel to Cancer: Cellular Automata in Computed Tomography</b> <br/>
