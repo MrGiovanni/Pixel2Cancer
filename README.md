@@ -101,13 +101,24 @@ CUDA_VISIBLE_DEVICES=0 python -W ignore validation.py --model=swin_unetrv2 --swi
 AbdominalAtlas1.1 training data list: 
 
 ```bash
-/datafolds/Bodymap/Atlas9k_liver
-
-/datafolds/Bodymap/Atlas9k_kidney
-
-/datafolds/Bodymap/Atlas9k_pancreas
-
-
+# Liver 
+--json_dir /datafolds/Bodymap/Atlas9k_liver/Atlas9k_liver_fold0.json
+--json_dir /datafolds/Bodymap/Atlas9k_liver/Atlas9k_liver_fold1.json
+--json_dir /datafolds/Bodymap/Atlas9k_liver/Atlas9k_liver_fold2.json
+--json_dir /datafolds/Bodymap/Atlas9k_liver/Atlas9k_liver_fold3.json
+--json_dir /datafolds/Bodymap/Atlas9k_liver/Atlas9k_liver_fold4.json
+#Pancreas
+--json_dir /datafolds/Bodymap/Atlas9k_liver/Atlas9k_pancreas_fold0.json
+--json_dir /datafolds/Bodymap/Atlas9k_liver/Atlas9k_pancreas_fold1.json
+--json_dir /datafolds/Bodymap/Atlas9k_liver/Atlas9k_pancreas_fold2.json
+--json_dir /datafolds/Bodymap/Atlas9k_liver/Atlas9k_pancreas_fold3.json
+--json_dir /datafolds/Bodymap/Atlas9k_liver/Atlas9k_pancreas_fold4.json
+#Kidney
+--json_dir /datafolds/Bodymap/Atlas9k_liver/Atlas9k_kidney_fold0.json
+--json_dir /datafolds/Bodymap/Atlas9k_liver/Atlas9k_kidney_fold1.json
+--json_dir /datafolds/Bodymap/Atlas9k_liver/Atlas9k_kidney_fold2.json
+--json_dir /datafolds/Bodymap/Atlas9k_liver/Atlas9k_kidney_fold3.json
+--json_dir /datafolds/Bodymap/Atlas9k_liver/Atlas9k_kidney_fold4.json
 ```
 
 #### Intern experiments
