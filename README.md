@@ -8,6 +8,23 @@ Yuxiang Lai<sup>1,2</sup>, Xiaoxi Chen<sup>2</sup>, Angtian Wang<sup>2</sup>, [A
 <sup>2 </sup>Johns Hopkins University  <br/>
 [paper](https://arxiv.org/abs/2403.06459) | [code](https://github.com/MrGiovanni/Pixel2Cancer/tree/main)
 
+## Model
+
+  | Tumor | Model               | Pre-trained? | Download |
+  |-------|---------------------|--------------|----------|
+  | real  | unet                | no           | [link](#) |
+  | real  | swin_unetrv2_base  | yes          | [link](#) |
+  | real  | swin_unetrv2_base  | no           | [link](#) |
+  | real  | swin_unetrv2_small | no           | [link](#) |
+ Liver | real  | swin_unetrv2_tiny  | no           | [link](#) |
+  | synt  | unet                | no           | [link](#) |
+  | synt  | swin_unetrv2_base  | yes          | [link](#) |
+  | synt  | swin_unetrv2_base  | no           | [link](#) |
+  | synt  | swin_unetrv2_small | no           | [link](#) |
+  | synt  | swin_unetrv2_tiny  | no           | [link](#) |
+
+
+
 ## 0. Installation
 
 ```bash
