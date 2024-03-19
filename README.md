@@ -24,8 +24,6 @@ Yuxiang Lai<sup>1,2</sup>, Xiaoxi Chen<sup>2</sup>, Angtian Wang<sup>2</sup>, [A
 | liver | synt  | swin_unetrv2_small | no           | [link](#) |
 | liver | synt  | swin_unetrv2_tiny  | no           | [link](#) |
 
-| Organ | Tumor | Model               | Pre-trained? | Download |          
-|-------  |-------|---------------------|--------------|----------|
 | pancreas | real  | unet                | no           | [link](#) |
 | pancreas | real  | swin_unetrv2_base  | yes          | [link](#) |
 | pancreas | real  | swin_unetrv2_base  | no           | [link](#) |
