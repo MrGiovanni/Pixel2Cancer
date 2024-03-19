@@ -98,9 +98,8 @@ CUDA_VISIBLE_DEVICES=0 python -W ignore validation.py --model=swin_unetrv2 --swi
 ## 4. Other Setting
 #### Train on 9k data of AbdominalAtlas1.1
 
-AbdominalAtlas1.1 training data list: 
-
 ```bash
+# AbdominalAtlas1.1 training data list
 # Liver 
 --json_dir /datafolds/Bodymap/Atlas9k_liver/Atlas9k_liver_fold0.json
 --json_dir /datafolds/Bodymap/Atlas9k_liver/Atlas9k_liver_fold1.json
@@ -123,14 +122,26 @@ AbdominalAtlas1.1 training data list:
 
 #### Intern experiments
 
-Public training data list
-
 ```bash
-/datafolds/5_fold/liver
-
-/datafolds/5_fold/pancreas
-
-/datafolds/5_fold/kidney
+# Public training data list
+# Liver
+--json_dir /datafolds/5_fold/liver/liver_tumor_0.json
+--json_dir /datafolds/5_fold/liver/liver_tumor_1.json
+--json_dir /datafolds/5_fold/liver/liver_tumor_2.json
+--json_dir /datafolds/5_fold/liver/liver_tumor_3.json
+--json_dir /datafolds/5_fold/liver/liver_tumor_4.json
+# Pancreas
+--json_dir /datafolds/5_fold/pancreas/pancreas_tumor_0.json
+--json_dir /datafolds/5_fold/pancreas/pancreas_tumor_1.json
+--json_dir /datafolds/5_fold/pancreas/pancreas_tumor_2.json
+--json_dir /datafolds/5_fold/pancreas/pancreas_tumor_3.json
+--json_dir /datafolds/5_fold/pancreas/pancreas_tumor_4.json
+# Kidney
+--json_dir /datafolds/5_fold/kidney/kidney_tumor_0.json
+--json_dir /datafolds/5_fold/kidney/kidney_tumor_1.json
+--json_dir /datafolds/5_fold/kidney/kidney_tumor_2.json
+--json_dir /datafolds/5_fold/kidney/kidney_tumor_3.json
+--json_dir /datafolds/5_fold/kidney/kidney_tumor_4.json
 ```
 
 
