@@ -97,7 +97,7 @@ CUDA_VISIBLE_DEVICES=0 python -W ignore validation.py --model=swin_unetrv2 --swi
 
 ## 4. Data Setting
 #### Train on 9k data of AbdominalAtlas1.1
-
+The release of AbdomenAtlas 1.0 can be found at [https://huggingface.co/datasets/AbdomenAtlas/AbdomenAtlas_1.0_Mini](https://huggingface.co/datasets/AbdomenAtlas/AbdomenAtlas_1.0_Mini)
 ```bash
 # AbdominalAtlas1.1 training data list
 # Liver 
