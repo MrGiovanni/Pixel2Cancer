@@ -95,7 +95,7 @@ CUDA_VISIBLE_DEVICES=0 python -W ignore validation.py --model=swin_unetrv2 --swi
 CUDA_VISIBLE_DEVICES=0 python -W ignore validation.py --model=swin_unetrv2 --swin_type=tiny --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/lits.json --log_dir runs/real.no_pretrain.swin_unetrv2_tiny --save_dir out
 ```
 
-## 4. Other Setting
+## 4. Data Setting
 #### Train on 9k data of AbdominalAtlas1.1
 
 ```bash
@@ -120,7 +120,7 @@ CUDA_VISIBLE_DEVICES=0 python -W ignore validation.py --model=swin_unetrv2 --swi
 --json_dir /datafolds/Bodymap/Atlas9k_liver/Atlas9k_kidney_fold4.json
 ```
 
-#### Intern experiments
+#### Train on public data & Intern experiments
 
 ```bash
 # Public training data list
