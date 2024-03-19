@@ -1,5 +1,5 @@
 # Pixel2Cancer
-![Simulation of Tumor Growth](Figure/fig_pixel2cancer)
+![Simulation of Tumor Growth](Figure/fig_pixel2cancer.png)
 ## Paper
 
 <b>From Pixel to Cancer: Cellular Automata in Computed Tomography</b> <br/>
