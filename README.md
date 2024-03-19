@@ -9,8 +9,9 @@ Yuxiang Lai<sup>1,2</sup>, Xiaoxi Chen<sup>2</sup>, Angtian Wang<sup>2</sup>, [A
 [paper](https://arxiv.org/abs/2403.06459) | [code](https://github.com/MrGiovanni/Pixel2Cancer/tree/main)
 
 ## Model
+<div style="display:flex; justify-content:space-between;">
 
-| Organ | Tumor | Model               | Pre-trained? | Download |
+| Organ | Tumor | Model               | Pre-trained? | Download |          
 |-------  |-------|---------------------|--------------|----------|
 | liver | real  | unet                | no           | [link](#) |
 | liver | real  | swin_unetrv2_base  | yes          | [link](#) |
@@ -23,7 +24,20 @@ Yuxiang Lai<sup>1,2</sup>, Xiaoxi Chen<sup>2</sup>, Angtian Wang<sup>2</sup>, [A
 | liver | synt  | swin_unetrv2_small | no           | [link](#) |
 | liver | synt  | swin_unetrv2_tiny  | no           | [link](#) |
 
+| Organ | Tumor | Model               | Pre-trained? | Download |          
+|-------  |-------|---------------------|--------------|----------|
+| liver | real  | unet                | no           | [link](#) |
+| liver | real  | swin_unetrv2_base  | yes          | [link](#) |
+| liver | real  | swin_unetrv2_base  | no           | [link](#) |
+| liver | real  | swin_unetrv2_small | no           | [link](#) |
+| liver | real  | swin_unetrv2_tiny  | no           | [link](#) |
+| liver | synt  | unet                | no           | [link](#) |
+| liver | synt  | swin_unetrv2_base  | yes          | [link](#) |
+| liver | synt  | swin_unetrv2_base  | no           | [link](#) |
+| liver | synt  | swin_unetrv2_small | no           | [link](#) |
+| liver | synt  | swin_unetrv2_tiny  | no           | [link](#) |
 
+</div>
 
 ## 0. Installation
 
