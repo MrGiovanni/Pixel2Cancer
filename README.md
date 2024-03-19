@@ -34,6 +34,11 @@ Yuxiang Lai<sup>1,2</sup>, Xiaoxi Chen<sup>2</sup>, Angtian Wang<sup>2</sup>, [A
 
 </div>
 
+Download all checkpoints from Huggingface:
+```bash
+wget
+```
+
 ## 0. Installation
 
 ```bash
