@@ -13,30 +13,24 @@ Yuxiang Lai<sup>1,2</sup>, Xiaoxi Chen<sup>2</sup>, Angtian Wang<sup>2</sup>, [A
 
 | Organ | Tumor | Model               | Pre-trained? | Download |          
 |-------     |-------|---------------------|--------------|----------|
-| liver | real  | unet                | no           | [link](#) |
-| liver | real  | swin_unetrv2_base  | yes          | [link](#) |
-| liver | real  | swin_unetrv2_base  | no           | [link](#) |
-| liver | synt  | unet                | no           | [link](#) |
-| liver | synt  | swin_unetrv2_base  | yes          | [link](#) |
-| liver | synt  | swin_unetrv2_base  | no           | [link](#) |
-| pancreas | real  | unet                | no           | [link](#) |
-| pancreas | real  | swin_unetrv2_base  | yes          | [link](#) |
-| pancreas | real  | swin_unetrv2_base  | no           | [link](#) |
-| pancreas | synt  | unet                | no           | [link](#) |
-| pancreas | synt  | swin_unetrv2_base  | yes          | [link](#) |
-| pancreas | synt  | swin_unetrv2_base  | no           | [link](#) |
-| kidney | real  | unet                | no           | [link](#) |
-| kidney | real  | swin_unetrv2_base  | yes          | [link](#) |
-| kidney | real  | swin_unetrv2_base  | no           | [link](#) |
-| kidney | synt  | unet                | no           | [link](#) |
-| kidney | synt  | swin_unetrv2_base  | yes          | [link](#) |
-| kidney | synt  | swin_unetrv2_base  | no           | [link](#) |
+| liver | real  | unet                | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/liver/real/real.liver.no_pretrain.unet) |
+| liver | real  | swin_unetrv2_base  | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/liver/real/real.liver.no_pretrain.swin_unetrv2_base) |
+| liver | synt  | unet                | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/liver/synt/synt.liver.no_pretrain.unet) |
+| liver | synt  | swin_unetrv2_base  | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/liver/synt/synt.liver.no_pretrain.swin_unetrv2_base) |
+| pancreas | real  | unet                | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/pancreas/real/real.pancreas.no_pretrain.unet) |
+| pancreas | real  | swin_unetrv2_base  | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/pancreas/real/real.pancreas.no_pretrain.swin_unetrv2_base) |
+| pancreas | synt  | unet                | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/pancreas/synt/synt.pancreas.no_pretrain.unet) |
+| pancreas | synt  | swin_unetrv2_base  | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/pancreas/synt/synt.pancreas.no_pretrain.swin_unetrv2_base) |
+| kidney | real  | unet                | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/kidney/real/real.kidney.no_pretrain.unet) |
+| kidney | real  | swin_unetrv2_base  | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/kidney/real/real.kidney.no_pretrain.swin_unetrv2_base) |
+| kidney | synt  | unet                | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/kidney/synt/synt.kidney.no_pretrain.unet) |
+| kidney | synt  | swin_unetrv2_base  | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/kidney/synt/synt.kidney.no_pretrain.swin_unetrv2_base) |
 
 </div>
 
 Download all checkpoints from Huggingface:
 ```bash
-wget
+wget https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main
 ```
 
 ## 0. Installation
