@@ -28,10 +28,6 @@ Yuxiang Lai<sup>1,2</sup>, Xiaoxi Chen<sup>2</sup>, Angtian Wang<sup>2</sup>, [A
 
 </div>
 
-Download all checkpoints from Huggingface:
-```bash
-wget https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main
-```
 
 ## 0. Installation
 
