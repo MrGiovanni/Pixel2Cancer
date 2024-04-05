@@ -6,9 +6,10 @@ This repository provides the code and checkpoints for our novel tumor synthesis 
 ## Paper
 
 <b>From Pixel to Cancer: Cellular Automata in Computed Tomography</b> <br/>
-Yuxiang Lai<sup>1,2</sup>, Xiaoxi Chen<sup>2</sup>, Angtian Wang<sup>2</sup>, [Alan L. Yuille](https://www.cs.jhu.edu/~ayuille/)<sup>2</sup>, and [Zongwei Zhou](https://www.zongweiz.com/)<sup>2,*</sup> <br/>
-<sup>1 </sup>Southeast University,  <br/>
-<sup>2 </sup>Johns Hopkins University  <br/>
+[Yuxiang Lai](https://scholar.google.com/citations?hl=en&user=0hFskFkAAAAJ)<sup>1,2</sup>, Xiaoxi Chen<sup>3</sup>, [Angtian Wang](https://scholar.google.com/citations?user=YR7re-cAAAAJ&hl=en&oi=ao)<sup>1</sup>, [Alan L. Yuille](https://www.cs.jhu.edu/~ayuille/)<sup>1</sup>, and [Zongwei Zhou](https://www.zongweiz.com/)<sup>1,*</sup> <br/>
+<sup>1 </sup>Johns Hopkins University  <br/>
+<sup>2 </sup>Southeast University,  <br/>
+<sup>3 </sup>Shanghai Jiao Tong University  <br/>
 [paper](https://arxiv.org/abs/2403.06459) | [code](https://github.com/MrGiovanni/Pixel2Cancer/tree/main)
 
 ## Model
@@ -29,6 +30,7 @@ Yuxiang Lai<sup>1,2</sup>, Xiaoxi Chen<sup>2</sup>, Angtian Wang<sup>2</sup>, [A
 | kidney | synt  | unet                | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/kidney/synt/synt.kidney.no_pretrain.unet) |
 | kidney | synt  | swin_unetrv2_base  | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/kidney/synt/synt.kidney.no_pretrain.swin_unetrv2_base) |
 
+
 </div>
 
 
@@ -36,8 +38,8 @@ Yuxiang Lai<sup>1,2</sup>, Xiaoxi Chen<sup>2</sup>, Angtian Wang<sup>2</sup>, [A
 
 ```bash
 git clone https://github.com/MrGiovanni/Pixel2Cancer.git
-# download pre-trained models
 cd Pixel2Cancer/
+# download pre-trained models
 wget https://github.com/Project-MONAI/MONAI-extra-test-data/releases/download/0.8.1/model_swinvit.pt
 ```
 
