@@ -34,7 +34,7 @@ This repository provides the code and checkpoints for our novel tumor synthesis 
 </div>
 
 ## Datasets
-Your can download pre-processed data from these links and start training directly.
+You can download pre-processed data from these links.
 | dataset | link |
 |---------|------|
 | LITS | [Link 1](https://www.dropbox.com/scl/fi/ulok1xpk5e6nzicfipqxd/04_LiTS.tar.gz?rlkey=amo7x516if5m85x13q2iddgpj&dl=0) |
