@@ -30,7 +30,7 @@ This repository provides the code and checkpoints for our novel tumor synthesis 
 | kidney | synt  | unet                | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/kidney/synt/synt.kidney.no_pretrain.unet) |
 | kidney | synt  | swin_unetrv2_base  | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/kidney/synt/synt.kidney.no_pretrain.swin_unetrv2_base) |
 
-You can download other materials from these links.
+**You can download other materials from these links:**
 
 All other checkpoints: [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main)
 
