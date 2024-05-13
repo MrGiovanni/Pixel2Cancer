@@ -1,4 +1,12 @@
-# Pixel2Cancer
+<h1 align="center">Pixel2Cancer</h1>
+<h3 align="center" style="font-size: 20px; margin-bottom: 4px">Cellular Automata in Computed Tomography</h3>
+<p align="center">
+    <a href='https://www.cs.jhu.edu/~alanlab/Pubs24/lai2024pixel.pdf'><img src='https://img.shields.io/badge/Paper-PDF-purple'></a> 
+    <br/>
+    <a href="https://github.com/MrGiovanni/Pixel2Cancer"><img src="https://img.shields.io/github/stars/MrGiovanni/Pixel2Cancer?style=social" /></a>
+    <a href="https://twitter.com/bodymaps317"><img src="https://img.shields.io/twitter/follow/BodyMaps" alt="Follow on Twitter" /></a>
+</p>
+
 This repository provides the code and checkpoints for our novel tumor synthesis approach, Pixel2Cancer, which can simulate tumor development within organs with realistic texture, shape, and interactions with other tissues.
 
 
@@ -6,11 +14,12 @@ This repository provides the code and checkpoints for our novel tumor synthesis 
 ## Paper
 
 <b>From Pixel to Cancer: Cellular Automata in Computed Tomography</b> <br/>
-[Yuxiang Lai](https://scholar.google.com/citations?hl=en&user=0hFskFkAAAAJ)<sup>1,2</sup>, Xiaoxi Chen<sup>3</sup>, [Angtian Wang](https://scholar.google.com/citations?user=YR7re-cAAAAJ&hl=en&oi=ao)<sup>1</sup>, [Alan L. Yuille](https://www.cs.jhu.edu/~ayuille/)<sup>1</sup>, and [Zongwei Zhou](https://www.zongweiz.com/)<sup>1,*</sup> <br/>
+[Yuxiang Lai](https://scholar.google.com/citations?hl=en&user=0hFskFkAAAAJ)<sup>1,2</sup>, [Xiaoxi Chen](https://scholar.google.com/citations?hl=en&user=FQ53_nAAAAAJ)<sup>3</sup>, [Angtian Wang](https://scholar.google.com/citations?user=YR7re-cAAAAJ&hl=en&oi=ao)<sup>1</sup>, [Alan L. Yuille](https://www.cs.jhu.edu/~ayuille/)<sup>1</sup>, and [Zongwei Zhou](https://www.zongweiz.com/)<sup>1,*</sup> <br/>
 <sup>1 </sup>Johns Hopkins University  <br/>
 <sup>2 </sup>Southeast University,  <br/>
 <sup>3 </sup>Shanghai Jiao Tong University  <br/>
-[paper](https://arxiv.org/abs/2403.06459) | [code](https://github.com/MrGiovanni/Pixel2Cancer/tree/main)
+International Conference on Medical Image Computing and Computer Assisted Intervention (MICCAI 2024; Early Accept) <br/>
+[paper](https://www.cs.jhu.edu/~alanlab/Pubs24/lai2024pixel.pdf) | [code](https://github.com/MrGiovanni/Pixel2Cancer/tree/main)
 
 ## Model
 <div style="display:flex; justify-content:space-between;">
