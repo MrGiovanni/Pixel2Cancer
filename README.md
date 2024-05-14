@@ -17,7 +17,7 @@ This repository provides the code and checkpoints for our novel tumor synthesis 
 [Yuxiang Lai](https://scholar.google.com/citations?hl=en&user=0hFskFkAAAAJ)<sup>1,2</sup>, [Xiaoxi Chen](https://scholar.google.com/citations?hl=en&user=FQ53_nAAAAAJ)<sup>3</sup>, [Angtian Wang](https://scholar.google.com/citations?user=YR7re-cAAAAJ&hl=en&oi=ao)<sup>1</sup>, [Alan L. Yuille](https://www.cs.jhu.edu/~ayuille/)<sup>1</sup>, and [Zongwei Zhou](https://www.zongweiz.com/)<sup>1,*</sup> <br/>
 <sup>1 </sup>Johns Hopkins University  <br/>
 <sup>2 </sup>Southeast University,  <br/>
-<sup>3 </sup>Shanghai Jiao Tong University  <br/>
+<sup>3 </sup>University of Illinois Urbana-Champaign <br/>
 International Conference on Medical Image Computing and Computer Assisted Intervention (MICCAI 2024; Early Accept) <br/>
 [paper](https://www.cs.jhu.edu/~alanlab/Pubs24/lai2024pixel.pdf) | [code](https://github.com/MrGiovanni/Pixel2Cancer/tree/main)
 
