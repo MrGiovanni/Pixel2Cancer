@@ -1,5 +1,4 @@
-<h1 align="center">Pixel2Cancer</h1>
-<h3 align="center" style="font-size: 18px; margin-bottom: 4px">Cellular Automata in Computed Tomography</h3>
+<h1 align="center">Pixel2Cancer: Cellular Automata in Computed Tomography</h1>
 
 <div align="center">
 
