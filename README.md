@@ -1,11 +1,16 @@
 <h1 align="center">Pixel2Cancer</h1>
-<h3 align="center" style="font-size: 20px; margin-bottom: 4px">Cellular Automata in Computed Tomography</h3>
-<p align="center">
-    <a href='https://www.cs.jhu.edu/~alanlab/Pubs24/lai2024pixel.pdf'><img src='https://img.shields.io/badge/Paper-PDF-purple'></a> 
-    <br/>
-    <a href="https://github.com/MrGiovanni/Pixel2Cancer"><img src="https://img.shields.io/github/stars/MrGiovanni/Pixel2Cancer?style=social" /></a>
-    <a href="https://twitter.com/bodymaps317"><img src="https://img.shields.io/twitter/follow/BodyMaps" alt="Follow on Twitter" /></a>
-</p>
+<h3 align="center" style="font-size: 18px; margin-bottom: 4px">Cellular Automata in Computed Tomography</h3>
+
+<div align="center">
+
+![visitors](https://visitor-badge.laobi.icu/badge?page_id=MrGiovanni/Pixel2Cancer)
+[![GitHub Repo stars](https://img.shields.io/github/stars/MrGiovanni/Pixel2Cancer?style=social)](https://github.com/MrGiovanni/Pixel2Cancer/stargazers)
+<a href="https://twitter.com/bodymaps317">
+        <img src="https://img.shields.io/twitter/follow/BodyMaps?style=social" alt="Follow on Twitter" />
+</a><br/>
+**Subscribe us: https://groups.google.com/u/2/g/bodymaps**  
+
+</div>
 
 This repository provides the code and checkpoints for our novel tumor synthesis approach, Pixel2Cancer, which can simulate tumor development within organs with realistic texture, shape, and interactions with other tissues.
 
