@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![visitors](https://visitor-badge.laobi.icu/badge?page_id=MrGiovanni/Pixel2Cancer)
+![visitors](https://visitor-badge.laobi.icu/badge?page_id=MrGiovanni.Pixel2Cancer&left_color=%2363C7E6&right_color=%23CEE75F)
 [![GitHub Repo stars](https://img.shields.io/github/stars/MrGiovanni/Pixel2Cancer?style=social)](https://github.com/MrGiovanni/Pixel2Cancer/stargazers)
 <a href="https://twitter.com/bodymaps317">
         <img src="https://img.shields.io/twitter/follow/BodyMaps?style=social" alt="Follow on Twitter" />
