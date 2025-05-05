@@ -27,30 +27,54 @@ International Conference on Medical Image Computing and Computer Assisted Interv
 
 **We have summarized publications related to tumor synthesis in [Awesome Synthetic Tumors](https://github.com/MrGiovanni/SyntheticTumors/blob/main/AWESOME.md) [![Awesome](https://awesome.re/badge.svg)](https://awesome.re).**
 
-## Model
-<div style="display:flex; justify-content:space-between;">
+### Model 
 
-| Organ | Tumor | Model               | Pre-trained? | Download |          
-|-------     |-------|---------------------|--------------|----------|
-| liver | real  | unet                | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/liver/real/real.liver.no_pretrain.unet) |
-| liver | real  | swin_unetrv2_base  | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/liver/real/real.liver.no_pretrain.swin_unetrv2_base) |
-| liver | synt  | unet                | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/liver/synt/synt.liver.no_pretrain.unet) |
-| liver | synt  | swin_unetrv2_base  | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/liver/synt/synt.liver.no_pretrain.swin_unetrv2_base) |
-| pancreas | real  | unet                | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/pancreas/real/real.pancreas.no_pretrain.unet) |
+**You can download the trained model files from the table below**
+
+| Organ    | Tumor | Model              | Pre-trained? | Download                                                                                       |
+|----------|-------|--------------------|--------------|------------------------------------------------------------------------------------------------|
+| liver    | real  | unet               | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/liver/real/real.liver.no_pretrain.unet) |
+| liver    | real  | swin_unetrv2_base  | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/liver/real/real.liver.no_pretrain.swin_unetrv2_base) |
+| liver    | synt  | unet               | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/liver/synt/synt.liver.no_pretrain.unet) |
+| liver    | synt  | swin_unetrv2_base  | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/liver/synt/synt.liver.no_pretrain.swin_unetrv2_base) |
+| pancreas | real  | unet               | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/pancreas/real/real.pancreas.no_pretrain.unet) |
 | pancreas | real  | swin_unetrv2_base  | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/pancreas/real/real.pancreas.no_pretrain.swin_unetrv2_base) |
-| pancreas | synt  | unet                | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/pancreas/synt/synt.pancreas.no_pretrain.unet) |
+| pancreas | synt  | unet               | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/pancreas/synt/synt.pancreas.no_pretrain.unet) |
 | pancreas | synt  | swin_unetrv2_base  | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/pancreas/synt/synt.pancreas.no_pretrain.swin_unetrv2_base) |
-| kidney | real  | unet                | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/kidney/real/real.kidney.no_pretrain.unet) |
-| kidney | real  | swin_unetrv2_base  | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/kidney/real/real.kidney.no_pretrain.swin_unetrv2_base) |
-| kidney | synt  | unet                | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/kidney/synt/synt.kidney.no_pretrain.unet) |
-| kidney | synt  | swin_unetrv2_base  | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/kidney/synt/synt.kidney.no_pretrain.swin_unetrv2_base) |
+| kidney   | real  | unet               | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/kidney/real/real.kidney.no_pretrain.unet) |
+| kidney   | real  | swin_unetrv2_base  | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/kidney/real/real.kidney.no_pretrain.swin_unetrv2_base) |
+| kidney   | synt  | unet               | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/kidney/synt/synt.kidney.no_pretrain.unet) |
+| kidney   | synt  | swin_unetrv2_base  | no           | [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main/kidney/synt/synt.kidney.no_pretrain.swin_unetrv2_base) |
+
+
+
+**Where to put those model files?**
+
+It is suggested that you put those into a folder named ```runs/your_model_name```, which will be the same path to save the trained model after training. For example, ```runs/synt.no_pretrain.unet/model.pt``` for the non-pretrained U-Net model trained with synthetic tumors.
 
 **You can download other materials from these links:**
 
 All other checkpoints: [link](https://huggingface.co/MrGiovanni/Pixel2Cancer/tree/main)
 
-Data: Liver ([link](https://www.dropbox.com/scl/fi/ulok1xpk5e6nzicfipqxd/04_LiTS.tar.gz?rlkey=amo7x516if5m85x13q2iddgpj&dl=0)), Kidney ([link](https://www.dropbox.com/scl/fi/i7gzoocjnxyrqiavwuwp1/05_KiTS.tar.gz?rlkey=02mxa8f9sabcpe1858ww9580o&dl=0)), Pancreas ([link](https://www.dropbox.com/scl/fi/p35mz72vnvc01epdhr95r/Task07_Pancreas.tar.gz?rlkey=9z6grnqt6dpmh5yzz299g3wqx&dl=0))
+### Data Download
 
+#### (1). 🚍 Public datasets:
+Below are the public dataset download links for different organs used in medical image analysis tasks:
+
+| 🧠 Organ    | 🔗 Download Link | 📖 Dataset Name |
+|------------|------------------|------------|
+| **Liver**    | [Download LiTS Dataset](https://www.dropbox.com/scl/fi/ulok1xpk5e6nzicfipqxd/04_LiTS.tar.gz?rlkey=amo7x516if5m85x13q2iddgpj&dl=0)     | 04_LiTS |
+| **Kidney**   | [Download KiTS Dataset](https://www.dropbox.com/scl/fi/i7gzoocjnxyrqiavwuwp1/05_KiTS.tar.gz?rlkey=02mxa8f9sabcpe1858ww9580o&dl=0)     | 05_KiTS |
+| **Pancreas** | [Download Pancreas Dataset](https://www.dropbox.com/scl/fi/p35mz72vnvc01epdhr95r/Task07_Pancreas.tar.gz?rlkey=9z6grnqt6dpmh5yzz299g3wqx&dl=0) | Task07_Pancreas |
+
+#### (2). 🚗 Our private 9k data of AbdominalAtlas1.1:
+
+The release of AbdomenAtlas 1.0 can be found at [This Link](https://huggingface.co/datasets/AbdomenAtlas/AbdomenAtlas_1.0_Mini).
+
+
+#### (3). Where to put those data files:
+
+It is suggested that you put your download dataset folder under the folder ```your_data_path```. For example, put the Liver dataset 04_LiTS under the path ```Pixel2Cancer/your_data_path/04_LiTS```.
 
 
 
@@ -59,18 +83,20 @@ Data: Liver ([link](https://www.dropbox.com/scl/fi/ulok1xpk5e6nzicfipqxd/04_LiTS
 ```bash
 git clone https://github.com/MrGiovanni/Pixel2Cancer.git
 cd Pixel2Cancer/
+
 # download pre-trained models
 wget https://github.com/Project-MONAI/MONAI-extra-test-data/releases/download/0.8.1/model_swinvit.pt
 ```
 
-See [installation instructions](INSTALL.md) to create an environment and obtain requirements.
+**🚨 See [detailed installation instructions](INSTALL.md)** to create an environment and obtain requirements.
 
 
 
 ## 1. Train segmentation models using synthetic tumors
 
+
 ```bash
-datapath=/mnt/zzhou82/PublicAbdominalData/
+datapath= your_data_path
 
 # UNET (no.pretrain)
 CUDA_VISIBLE_DEVICES=0,1,2,3 python -W ignore main.py --optim_lr=4e-4 --batch_size=2 --lrschedule=warmup_cosine --optim_name=adamw --model_name=unet --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --dist-url=tcp://127.0.0.1:12235 --cache_num=200 --val_overlap=0.5 --syn --logdir="runs/synt.no_pretrain.unet" --train_dir $datapath --val_dir $datapath --json_dir datafolds/healthy.json
@@ -88,9 +114,22 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 python -W ignore main.py --optim_lr=4e-4 --batch_si
 CUDA_VISIBLE_DEVICES=0,1,2,3 python -W ignore main.py --optim_lr=4e-4 --batch_size=2 --lrschedule=warmup_cosine --optim_name=adamw --model_name=swin_unetrv2 --swin_type=tiny --val_every=200 --max_epochs=2000 --save_checkpoint --workers=0 --noamp --distributed --dist-url=tcp://127.0.0.1:12234 --cache_num=200 --val_overlap=0.5 --syn --logdir="runs/synt.no_pretrain.swin_unetrv2_tiny" --train_dir $datapath --val_dir $datapath --json_dir datafolds/healthy.json
 ```
 
+### ⚠️ You may have to modify:
+```
+--logdir: the path to save trained model pickle
+--json_dir: the path for .json file to load the dataset
+```
+
+
+### 🚨 **[ IMPORTANT! ]** About .json file location:
+
+The .json file here is the configuration file for loading the data. For example, I want to train with mixed pancrea dataset that has both synt and original tumors, therefore, configured as: ```--json_dir datafolds/mix_pancreas.json```. And the corrsponding dataset path will be: ```your_data_path\10_Decathlon\Task07_Pancreas```, the same as defined in the .json file.
+
+**💡💡💡 Please check your .json file before training**
+
 ## 2. Train segmentation models using real tumors (for comparison)
 ```bash
-datapath=/mnt/zzhou82/PublicAbdominalData/
+datapath= your_data_path
 
 # UNET (no.pretrain)
 CUDA_VISIBLE_DEVICES=0,1,2,3 python -W ignore -W ignore main.py --optim_lr=4e-4 --batch_size=2 --lrschedule=warmup_cosine --optim_name=adamw --model_name=unet --val_every=200 --val_overlap=0.5 --max_epochs=2000 --save_checkpoint --workers=2 --noamp --distributed --dist-url=tcp://127.0.0.1:12235 --cache_num=200 --logdir="runs/real.no_pretrain.unet" --train_dir $datapath --val_dir $datapath --json_dir datafolds/lits.json
@@ -111,7 +150,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 python -W ignore -W ignore main.py --optim_lr=4e-4 
 
 #### AI model trained by synthetic tumors
 ```bash
-datapath=/mnt/zzhou82/PublicAbdominalData/
+datapath= your_data_path
 
 # UNET (no.pretrain)
 CUDA_VISIBLE_DEVICES=0 python -W ignore validation.py --model=unet --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/lits.json --log_dir runs/synt.no_pretrain.unet --save_dir out
@@ -127,7 +166,7 @@ CUDA_VISIBLE_DEVICES=0 python -W ignore validation.py --model=swin_unetrv2 --swi
 
 #### AI model trained by real tumors
 ```bash
-datapath=/mnt/zzhou82/PublicAbdominalData/
+datapath= your_data_path
 
 # UNET (no.pretrain)
 CUDA_VISIBLE_DEVICES=0 python -W ignore validation.py --model=unet --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/lits.json --log_dir runs/real.no_pretrain.unet --save_dir out
@@ -141,9 +180,15 @@ CUDA_VISIBLE_DEVICES=0 python -W ignore validation.py --model=swin_unetrv2 --swi
 CUDA_VISIBLE_DEVICES=0 python -W ignore validation.py --model=swin_unetrv2 --swin_type=tiny --val_overlap=0.75 --val_dir $datapath --json_dir datafolds/lits.json --log_dir runs/real.no_pretrain.swin_unetrv2_tiny --save_dir out
 ```
 
+### Outputs
+
+All the prediction outpus can be found at ```--save_dir out``` folder. There will be the prediction form of ```.nii.gz``` files as well as ```metrics.csv``` for recording metric performance.
+
+
 ## Data Setting
-#### Train on 9k data of AbdominalAtlas1.1:
-The release of AbdomenAtlas 1.0 can be found at [https://huggingface.co/datasets/AbdomenAtlas/AbdomenAtlas_1.0_Mini](https://huggingface.co/datasets/AbdomenAtlas/AbdomenAtlas_1.0_Mini)
+Below are some .json file settings for training and validation:
+#### Train on private data:
+
 ```bash
 # AbdominalAtlas1.1 training data list
 # Liver 
